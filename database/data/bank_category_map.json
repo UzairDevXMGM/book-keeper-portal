@@ -1,0 +1,162 @@
+[
+ {
+  "bank_category": "Gas",
+  "coa_code": "62900",
+  "notes": "Fuel"
+ },
+ {
+  "bank_category": "Gasoline",
+  "coa_code": "62900",
+  "notes": "Fuel"
+ },
+ {
+  "bank_category": "Fuel",
+  "coa_code": "62900",
+  "notes": "Fuel"
+ },
+ {
+  "bank_category": "Automotive",
+  "coa_code": "62900",
+  "notes": "Vehicle repairs, parts, tolls"
+ },
+ {
+  "bank_category": "Restaurants",
+  "coa_code": "63110",
+  "notes": "Meals - 50% deductible"
+ },
+ {
+  "bank_category": "Food & Drink",
+  "coa_code": "63110",
+  "notes": "Meals - 50% deductible"
+ },
+ {
+  "bank_category": "Dining",
+  "coa_code": "63110",
+  "notes": "Meals - 50% deductible"
+ },
+ {
+  "bank_category": "Entertainment",
+  "coa_code": "63120",
+  "notes": "Entertainment - non-deductible"
+ },
+ {
+  "bank_category": "Travel",
+  "coa_code": "63100",
+  "notes": "Travel"
+ },
+ {
+  "bank_category": "Travel/ Entertainment",
+  "coa_code": "63100",
+  "notes": "Travel"
+ },
+ {
+  "bank_category": "Airfare",
+  "coa_code": "63100",
+  "notes": "Travel"
+ },
+ {
+  "bank_category": "Lodging",
+  "coa_code": "63100",
+  "notes": "Travel"
+ },
+ {
+  "bank_category": "Bills & Utilities",
+  "coa_code": "62300",
+  "notes": "Utilities / telecom"
+ },
+ {
+  "bank_category": "Utilities",
+  "coa_code": "62300",
+  "notes": "Utilities / telecom"
+ },
+ {
+  "bank_category": "Government Services",
+  "coa_code": "62700",
+  "notes": "Licenses, registrations, permits"
+ },
+ {
+  "bank_category": "Fees & Adjustments",
+  "coa_code": "63400",
+  "notes": "Card / bank fees"
+ },
+ {
+  "bank_category": "Fees",
+  "coa_code": "63400",
+  "notes": "Card / bank fees"
+ },
+ {
+  "bank_category": "Interest",
+  "coa_code": "71100",
+  "notes": "Card interest"
+ },
+ {
+  "bank_category": "Professional Services",
+  "coa_code": "61600",
+  "notes": "Professional fees"
+ },
+ {
+  "bank_category": "Advertising",
+  "coa_code": "63000",
+  "notes": "Advertising"
+ },
+ {
+  "bank_category": "Insurance",
+  "coa_code": "61700",
+  "notes": "Insurance"
+ },
+ {
+  "bank_category": "Education",
+  "coa_code": "63700",
+  "notes": "Training"
+ },
+ {
+  "bank_category": "Home Improvement",
+  "coa_code": "62500",
+  "notes": "Repairs & maintenance supplies"
+ },
+ {
+  "bank_category": "Office Supplies",
+  "coa_code": "62600",
+  "notes": "Office supplies"
+ },
+ {
+  "bank_category": "Shipping",
+  "coa_code": "63200",
+  "notes": "Shipping"
+ },
+ {
+  "bank_category": "Personal",
+  "coa_code": "32000",
+  "notes": "Personal - treated as owner draw. Verify."
+ },
+ {
+  "bank_category": "Awards and Rebate Credits",
+  "coa_code": "63400",
+  "notes": "Card cash-back - treated as a reduction of card fees."
+ },
+ {
+  "bank_category": "Health & Wellness",
+  "coa_code": "32000",
+  "notes": "Personal - treated as owner draw. Verify."
+ },
+ {
+  "bank_category": "Medical Services",
+  "coa_code": "32000",
+  "notes": "Personal - treated as owner draw. Verify."
+ },
+ {
+  "bank_category": "Supermarkets",
+  "coa_code": "62600",
+  "notes": "Breakroom / supplies. Personal groceries -> 32000."
+ },
+ {
+  "bank_category": "Groceries",
+  "coa_code": "62600",
+  "notes": "Breakroom / supplies. Personal groceries -> 32000."
+ },
+ {
+  "bank_category": "Department Stores",
+  "coa_code": "32000",
+  "notes": "Personal - treated as owner draw. Verify."
+ }
+]

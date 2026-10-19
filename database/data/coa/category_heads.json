@@ -1,0 +1,506 @@
+[
+    {
+        "from": 1000,
+        "to": 1099,
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Currency, bank balances, tills, vaults and highly liquid instruments maturing in 90 days or less."
+    },
+    {
+        "from": 1100,
+        "to": 1199,
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Amounts owed by customers, processors, related parties and others from normal operations."
+    },
+    {
+        "from": 1200,
+        "to": 1299,
+        "class": "Current Asset",
+        "head": "Notes, Loans & Interest Receivable",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Promissory notes, consumer/pawn/title loans and accrued interest or finance charges due within 12 months."
+    },
+    {
+        "from": 1300,
+        "to": 1399,
+        "class": "Current Asset",
+        "head": "Inventory",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Goods held for sale, in production, or as materials/supplies, plus inventory reserves."
+    },
+    {
+        "from": 1400,
+        "to": 1499,
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Costs paid in advance, deposits, short-term investments and tax receivables."
+    },
+    {
+        "from": 1500,
+        "to": 1599,
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Tangible long-lived assets used in operations, at cost."
+    },
+    {
+        "from": 1600,
+        "to": 1699,
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Cumulative depreciation recorded against PP&E; reduces carrying value."
+    },
+    {
+        "from": 1700,
+        "to": 1799,
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Non-physical assets such as goodwill, licenses, software and trademarks, net of amortization."
+    },
+    {
+        "from": 1800,
+        "to": 1899,
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Long-term investments, long-term receivables, deferred tax assets and deposits."
+    },
+    {
+        "from": 1900,
+        "to": 1999,
+        "class": "Non-current Asset",
+        "head": "Industry-Specific Non-current Assets",
+        "statement": "Balance Sheet",
+        "normal_balance": "debit",
+        "description": "Natural resources (oil & gas properties), trust investments (funeral/cemetery), real estate held, rigs, pipelines and similar."
+    },
+    {
+        "from": 2000,
+        "to": 2099,
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Amounts owed to suppliers, royalty owners, settlement payables and credit cards."
+    },
+    {
+        "from": 2100,
+        "to": 2199,
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Expenses incurred but not yet paid or invoiced."
+    },
+    {
+        "from": 2200,
+        "to": 2299,
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Wages payable and employee/employer withholdings and payroll taxes due."
+    },
+    {
+        "from": 2300,
+        "to": 2399,
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Sales/use, excise, fuel, tobacco, severance, property, franchise and income taxes payable."
+    },
+    {
+        "from": 2400,
+        "to": 2499,
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Cash received before goods/services are delivered: deposits, layaway, gift cards, pre-need, billings in excess."
+    },
+    {
+        "from": 2500,
+        "to": 2599,
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Lines of credit, short-term notes, floor plans and current maturities of long-term debt."
+    },
+    {
+        "from": 2600,
+        "to": 2699,
+        "class": "Current Liability",
+        "head": "Other Current Liabilities",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Related-party payables, clearing/suspense and other obligations due within 12 months."
+    },
+    {
+        "from": 2700,
+        "to": 2799,
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Mortgages, bank and SBA loans, bonds and other borrowings due after 12 months."
+    },
+    {
+        "from": 2800,
+        "to": 2899,
+        "class": "Non-current Liability",
+        "head": "Lease Liabilities (Non-current)",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Operating and finance lease obligations due after 12 months (ASC 842 / IFRS 16)."
+    },
+    {
+        "from": 2900,
+        "to": 2999,
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Deferred taxes, asset retirement obligations, trust corpus and other long-term obligations."
+    },
+    {
+        "from": 3000,
+        "to": 3099,
+        "class": "Equity",
+        "head": "Capital Stock & Paid-in Capital",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Corporate stock issued, additional paid-in capital and treasury stock."
+    },
+    {
+        "from": 3100,
+        "to": 3199,
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Capital contributions and draws for sole proprietors, partnerships and LLCs."
+    },
+    {
+        "from": 3200,
+        "to": 3299,
+        "class": "Equity",
+        "head": "Retained Earnings",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "Accumulated profits less dividends/distributions."
+    },
+    {
+        "from": 3300,
+        "to": 3899,
+        "class": "Equity",
+        "head": "Other Comprehensive Income & Reserves",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "AOCI, translation adjustments and statutory reserves."
+    },
+    {
+        "from": 3900,
+        "to": 3999,
+        "class": "Equity",
+        "head": "Opening Balance & Other Equity",
+        "statement": "Balance Sheet",
+        "normal_balance": "credit",
+        "description": "System/conversion equity accounts used when setting up books."
+    },
+    {
+        "from": 4000,
+        "to": 4099,
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "statement": "Income Statement",
+        "normal_balance": "credit",
+        "description": "Revenue from sale of goods across channels."
+    },
+    {
+        "from": 4100,
+        "to": 4199,
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "statement": "Income Statement",
+        "normal_balance": "credit",
+        "description": "Revenue from services, labor, rentals, commissions, subscriptions and contracts."
+    },
+    {
+        "from": 4200,
+        "to": 4899,
+        "class": "Revenue",
+        "head": "Industry-Specific Operating Revenue",
+        "statement": "Income Statement",
+        "normal_balance": "credit",
+        "description": "Revenue streams unique to the industry (pawn charges, fuel sales, interment rights, oil sales, contract revenue, rents)."
+    },
+    {
+        "from": 4900,
+        "to": 4999,
+        "class": "Revenue",
+        "head": "Revenue Deductions (Contra-Revenue)",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Returns, allowances, discounts, rebates and markdowns that reduce gross revenue."
+    },
+    {
+        "from": 5000,
+        "to": 5099,
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Cost of merchandise sold, purchases and landed-cost components."
+    },
+    {
+        "from": 5100,
+        "to": 5199,
+        "class": "Cost of Sales",
+        "head": "Cost of Services",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Direct costs of delivering services, including subcontractors."
+    },
+    {
+        "from": 5200,
+        "to": 5499,
+        "class": "Cost of Sales",
+        "head": "Industry-Specific Direct Costs",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Direct costs unique to the industry (cost of forfeited pawn goods sold, LOE, fuel cost, job costs, flip property costs)."
+    },
+    {
+        "from": 5500,
+        "to": 5599,
+        "class": "Cost of Sales",
+        "head": "Direct Labor",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Wages and burden for workers directly producing goods or services."
+    },
+    {
+        "from": 5600,
+        "to": 5699,
+        "class": "Cost of Sales",
+        "head": "Direct Materials",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Materials consumed directly in production or jobs."
+    },
+    {
+        "from": 5700,
+        "to": 5799,
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Indirect production costs: factory utilities, depreciation, supervision, supplies."
+    },
+    {
+        "from": 5800,
+        "to": 5899,
+        "class": "Cost of Sales",
+        "head": "Packaging, Fulfillment & Other Direct Costs",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Packaging and order fulfillment costs included in cost of sales."
+    },
+    {
+        "from": 5900,
+        "to": 5999,
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Shrinkage, obsolescence, count adjustments, spoilage and cost variances."
+    },
+    {
+        "from": 6000,
+        "to": 6099,
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Non-direct compensation and employer payroll taxes."
+    },
+    {
+        "from": 6100,
+        "to": 6199,
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Health, retirement, workers' comp, training and other benefits."
+    },
+    {
+        "from": 6200,
+        "to": 6299,
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Rent, CAM, property taxes and building upkeep."
+    },
+    {
+        "from": 6300,
+        "to": 6399,
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Power, gas, water, waste, phone and internet."
+    },
+    {
+        "from": 6400,
+        "to": 6499,
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Promotion, advertising, website and customer acquisition costs."
+    },
+    {
+        "from": 6500,
+        "to": 6599,
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Office supplies, postage, dues, meals and miscellaneous admin costs."
+    },
+    {
+        "from": 6600,
+        "to": 6699,
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Accounting, legal, consulting and other outside services."
+    },
+    {
+        "from": 6700,
+        "to": 6799,
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Business insurance premiums (non-employee)."
+    },
+    {
+        "from": 6800,
+        "to": 6899,
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Fleet operation, travel and outbound delivery costs."
+    },
+    {
+        "from": 6900,
+        "to": 6999,
+        "class": "Operating Expense",
+        "head": "Technology & Software",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "IT supplies, software, POS and cloud costs."
+    },
+    {
+        "from": 7000,
+        "to": 7099,
+        "class": "Operating Expense",
+        "head": "Repairs & Maintenance",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Upkeep of equipment and small tools expensed."
+    },
+    {
+        "from": 7100,
+        "to": 7199,
+        "class": "Operating Expense",
+        "head": "Depreciation, Amortization & Depletion",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Systematic allocation of long-lived asset costs."
+    },
+    {
+        "from": 7200,
+        "to": 7299,
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Non-income taxes, licenses, permits and regulatory fees."
+    },
+    {
+        "from": 7300,
+        "to": 7399,
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Bank charges, card processing, chargebacks and armored car."
+    },
+    {
+        "from": 7400,
+        "to": 7499,
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Credit losses, theft, casualty, fines and warranty costs."
+    },
+    {
+        "from": 7500,
+        "to": 7999,
+        "class": "Operating Expense",
+        "head": "Industry-Specific Operating Expenses",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Operating expenses unique to the industry (compliance, licensing, trust admin, exploration, field costs)."
+    },
+    {
+        "from": 8000,
+        "to": 8499,
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "statement": "Income Statement",
+        "normal_balance": "credit",
+        "description": "Interest, dividends, gains and other income outside core operations."
+    },
+    {
+        "from": 8500,
+        "to": 8999,
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Interest expense, losses and other non-operating costs."
+    },
+    {
+        "from": 9000,
+        "to": 9999,
+        "class": "Income Tax",
+        "head": "Income Tax Expense",
+        "statement": "Income Statement",
+        "normal_balance": "debit",
+        "description": "Current and deferred federal, state and foreign income taxes."
+    }
+]

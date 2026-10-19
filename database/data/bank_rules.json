@@ -1,0 +1,386 @@
+[
+ {
+  "rule_no": 1,
+  "keyword": "PAYMENT THANK YOU",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Card payment as it appears on the card statement. Clears against the bank side."
+ },
+ {
+  "rule_no": 2,
+  "keyword": "AUTOPAY",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Card autopay received."
+ },
+ {
+  "rule_no": 3,
+  "keyword": "ONLINE PAYMENT",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Card payment received."
+ },
+ {
+  "rule_no": 4,
+  "keyword": "PAYMENT RECEIVED",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Card payment received."
+ },
+ {
+  "rule_no": 5,
+  "keyword": "PAYMENT - THANK",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Card payment (Chase / Discover wording)."
+ },
+ {
+  "rule_no": 6,
+  "keyword": "DIRECTPAY",
+  "direction": "in",
+  "applies_to": "card",
+  "coa_code": "10900",
+  "notes": "Discover DirectPay card payment."
+ },
+ {
+  "rule_no": 7,
+  "keyword": "AMEX EPAYMENT",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of an Amex payment."
+ },
+ {
+  "rule_no": 8,
+  "keyword": "CHASE CREDIT CRD",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a Chase card payment."
+ },
+ {
+  "rule_no": 9,
+  "keyword": "CRCARDPMT",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a Capital One card payment."
+ },
+ {
+  "rule_no": 10,
+  "keyword": "CITI CARD",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a Citi card payment."
+ },
+ {
+  "rule_no": 11,
+  "keyword": "DISCOVER E-PAYMENT",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a Discover card payment."
+ },
+ {
+  "rule_no": 12,
+  "keyword": "CARDMEMBER SERV",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a US Bank / Elan card payment."
+ },
+ {
+  "rule_no": 13,
+  "keyword": "ONLINE TRANSFER",
+  "direction": "both",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Transfer between your own accounts."
+ },
+ {
+  "rule_no": 14,
+  "keyword": "INTERNAL TRANSFER",
+  "direction": "both",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Transfer between your own accounts."
+ },
+ {
+  "rule_no": 15,
+  "keyword": "ONLINE BANKING TRANSFER",
+  "direction": "both",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Transfer between your own accounts."
+ },
+ {
+  "rule_no": 16,
+  "keyword": "XFER",
+  "direction": "both",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Transfer between your own accounts."
+ },
+ {
+  "rule_no": 17,
+  "keyword": "GUSTO NET",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61000",
+  "notes": "Net pay debit from Gusto."
+ },
+ {
+  "rule_no": 18,
+  "keyword": "GUSTO TAX",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61100",
+  "notes": "Payroll tax impound (cash-basis: includes employee withholding - reclass per payroll register if accrual)."
+ },
+ {
+  "rule_no": 19,
+  "keyword": "GUSTO FEE",
+  "direction": "out",
+  "applies_to": "both",
+  "coa_code": "61600",
+  "notes": "Payroll service fee."
+ },
+ {
+  "rule_no": 20,
+  "keyword": "ADP WAGE PAY",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61000",
+  "notes": "Net pay debit from ADP."
+ },
+ {
+  "rule_no": 21,
+  "keyword": "ADP TAX",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61100",
+  "notes": "Payroll tax impound (see Gusto note)."
+ },
+ {
+  "rule_no": 22,
+  "keyword": "ADP PAYROLL FEES",
+  "direction": "out",
+  "applies_to": "both",
+  "coa_code": "61600",
+  "notes": "Payroll service fee."
+ },
+ {
+  "rule_no": 23,
+  "keyword": "PAYCHEX TPS",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61100",
+  "notes": "Paychex tax impound."
+ },
+ {
+  "rule_no": 24,
+  "keyword": "PAYCHEX-RCX",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "61000",
+  "notes": "Paychex net pay."
+ },
+ {
+  "rule_no": 25,
+  "keyword": "SQUARE INC",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "Square deposit = sales (fees, money out, match the Square vendor -> 54000)."
+ },
+ {
+  "rule_no": 26,
+  "keyword": "STRIPE",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "Stripe payout = sales."
+ },
+ {
+  "rule_no": 27,
+  "keyword": "PAYPAL",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "PayPal transfer in = sales (verify; could be a refund or personal funds)."
+ },
+ {
+  "rule_no": 28,
+  "keyword": "SHOPIFY",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "Shopify payout = sales."
+ },
+ {
+  "rule_no": 29,
+  "keyword": "BANKCARD",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "Merchant card deposit (e.g. MERCHANT BNKCD DEPOSIT)."
+ },
+ {
+  "rule_no": 30,
+  "keyword": "CLOVER",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "43000",
+  "notes": "Clover payout = sales."
+ },
+ {
+  "rule_no": 31,
+  "keyword": "INTEREST CHARGE",
+  "direction": "out",
+  "applies_to": "both",
+  "coa_code": "71100",
+  "notes": "Interest charged on card or line of credit."
+ },
+ {
+  "rule_no": 32,
+  "keyword": "PURCHASE INTEREST",
+  "direction": "out",
+  "applies_to": "card",
+  "coa_code": "71100",
+  "notes": "Card interest."
+ },
+ {
+  "rule_no": 33,
+  "keyword": "INTEREST",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "81000",
+  "notes": "Interest earned on deposits."
+ },
+ {
+  "rule_no": 34,
+  "keyword": "OVERDRAFT",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 35,
+  "keyword": "NSF",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 36,
+  "keyword": "SERVICE FEE",
+  "direction": "out",
+  "applies_to": "both",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 37,
+  "keyword": "MAINTENANCE FEE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 38,
+  "keyword": "WIRE TRANS FEE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 39,
+  "keyword": "FOREIGN TRANSACTION FEE",
+  "direction": "out",
+  "applies_to": "card",
+  "coa_code": "63400",
+  "notes": "Card fee."
+ },
+ {
+  "rule_no": 40,
+  "keyword": "LATE FEE",
+  "direction": "out",
+  "applies_to": "both",
+  "coa_code": "63400",
+  "notes": "Late fee (penalties are not tax-deductible if paid to a government)."
+ },
+ {
+  "rule_no": 41,
+  "keyword": "ANNUAL FEE",
+  "direction": "out",
+  "applies_to": "card",
+  "coa_code": "63400",
+  "notes": "Card annual fee."
+ },
+ {
+  "rule_no": 42,
+  "keyword": "ATM FEE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank fee."
+ },
+ {
+  "rule_no": 43,
+  "keyword": "CHECKS CHARGE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Official / cashier check fee."
+ },
+ {
+  "rule_no": 44,
+  "keyword": "ACCTVERIFY",
+  "direction": "both",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Account-verification micro-deposits and debits (net to ~zero)."
+ },
+ {
+  "rule_no": 45,
+  "keyword": "OWNER DRAW",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "32000",
+  "notes": "Distribution to owner (equity, not expense)."
+ },
+ {
+  "rule_no": 46,
+  "keyword": "OWNER CONTRIBUTION",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "31000",
+  "notes": "Owner capital contribution."
+ },
+ {
+  "rule_no": 47,
+  "keyword": "LOAN PAYMENT",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "27000",
+  "notes": "Loan payment - split interest to 71000 with a Category Override line or journal."
+ },
+ {
+  "rule_no": 48,
+  "keyword": "LOAN PROCEEDS",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "27000",
+  "notes": "Loan funds received."
+ }
+]

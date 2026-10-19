@@ -1,0 +1,762 @@
+[
+    {
+        "name": "Pawn Shop",
+        "sector": "Consumer Finance / Retail",
+        "considerations": "Pawn loans are collateralized consumer loans; forfeited collateral becomes inventory at loan principal (or lower of cost/NRV). Track tickets, hold periods and reporting to law enforcement. In Texas pawnshops are licensed by the OCCC; firearms require an FFL; cash purchases may trigger BSA/AML reporting (Form 8300, CTR)."
+    },
+    {
+        "name": "Construction (General & Specialty Contractors)",
+        "sector": "Construction",
+        "considerations": "Revenue recognized over time (ASC 606, cost-to-cost percent complete) or completed-contract for small contractors (tax). Maintain job cost by job/phase/cost code, WIP schedule, retainage, change orders. Certified payroll for prevailing wage jobs; bonding capacity depends on clean financials."
+    },
+    {
+        "name": "Cemetery",
+        "sector": "Deathcare",
+        "considerations": "Perpetual (endowment) care trust corpus is restricted; earnings fund maintenance. Pre-need property revenue recognized when constructed and delivered; merchandise when delivered. Many states (incl. Texas) require trust deposits for care funds and merchandise."
+    },
+    {
+        "name": "Funeral Home",
+        "sector": "Deathcare",
+        "considerations": "FTC Funeral Rule requires itemized General Price List. Pre-need contracts funded by trust or insurance; revenue deferred until service delivered. Cash advance items (flowers, obituaries, clergy) are pass-through. Texas pre-need sellers regulated by the Department of Banking; funeral directors by the Texas Funeral Service Commission."
+    },
+    {
+        "name": "Oil & Gas - Downstream (Refining & Marketing)",
+        "sector": "Energy",
+        "considerations": "Inventory often LIFO; crack spread margins. RFS compliance via RINs. Federal and state fuel excise taxes."
+    },
+    {
+        "name": "Oil & Gas - Midstream (Pipelines, Processing, Storage)",
+        "sector": "Energy",
+        "considerations": "Fee-based or percent-of-proceeds contracts. Regulated by FERC (interstate) and PHMSA (safety). Track throughput volumes and line-fill."
+    },
+    {
+        "name": "Oil & Gas - Upstream (Exploration & Production)",
+        "sector": "Energy",
+        "considerations": "Choose successful efforts (ASC 932) or full cost method. Track by lease/well (AFE). DD&A uses units-of-production on proved reserves. Joint interest billing (JIB) under COPAS. Texas wells regulated by the Railroad Commission; severance taxes on oil and gas."
+    },
+    {
+        "name": "Oilfield Services",
+        "sector": "Energy",
+        "considerations": "Revenue on field tickets; track by job and rig. High equipment intensity and HSE costs."
+    },
+    {
+        "name": "Furniture Manufacturing & Wholesale",
+        "sector": "Manufacturing",
+        "considerations": "Material-intensive; track lumber yield and fabric usage. Market showrooms (High Point, Las Vegas) are major selling costs."
+    },
+    {
+        "name": "Manufacturing",
+        "sector": "Manufacturing",
+        "considerations": "Uses job-order or process costing with standard costs; track material, labor and overhead variances. Capitalize overhead into inventory. Consider R&D credit (Sec. 41) and UNICAP."
+    },
+    {
+        "name": "Fix & Flip Real Estate",
+        "sector": "Real Estate",
+        "considerations": "Flip properties are inventory, not rental assets - no depreciation. Capitalize acquisition, rehab, holding and financing costs into each property; relieve to cost of sales at closing. Profits are generally ordinary income (dealer status) and may be subject to self-employment tax."
+    },
+    {
+        "name": "Real Estate - Brokerage & Property Management",
+        "sector": "Real Estate",
+        "considerations": "Trust/escrow funds belong to clients - never commingle; reconcile trust accounts monthly (three-way). Texas brokers licensed by TREC. Agent splits are usually cost of revenue."
+    },
+    {
+        "name": "Real Estate - Development & Homebuilding",
+        "sector": "Real Estate",
+        "considerations": "Land, development and construction costs are inventory (not fixed assets). Capitalize interest during development (ASC 835-20). Allocate common costs to lots/units by relative sales value."
+    },
+    {
+        "name": "Real Estate - Rental & Investment Property",
+        "sector": "Real Estate",
+        "considerations": "Track each property as a class/location. Land not depreciated; residential buildings 27.5 yrs, commercial 39 yrs (US). Security deposits are liabilities, often held in trust. Consider cost segregation, 1031 exchanges and passive activity rules."
+    },
+    {
+        "name": "Convenience Store (No Fuel)",
+        "sector": "Retail",
+        "considerations": "High-volume, low-ticket store. Lottery, money orders and bill pay are agent services - funds collected are liabilities, only commissions are revenue. Beer & wine permit (TABC in Texas). Track shrink by category."
+    },
+    {
+        "name": "Convenience Store with Gas Station",
+        "sector": "Retail",
+        "considerations": "Includes all convenience store accounts plus fuel. Track fuel gallons, margin per gallon, and book-to-physical variance by grade. UST registration, monitoring and financial responsibility (TCEQ in Texas). Dealer vs. commission-agent fuel models differ in revenue recognition."
+    },
+    {
+        "name": "Furniture Retail",
+        "sector": "Retail",
+        "considerations": "Large special-order deposits, floor model markdowns and delivery operations. Promotional financing fees are a significant cost."
+    },
+    {
+        "name": "Jewelry Retail",
+        "sector": "Retail",
+        "considerations": "High-value inventory with memo/consignment arrangements; goods on memo-in are NOT owned and stay off the balance sheet (track in memo log). Jewelers' block insurance, AML program required for dealers in precious metals/stones (31 CFR 1027)."
+    },
+    {
+        "name": "Retail (General Merchandise)",
+        "sector": "Retail",
+        "considerations": "Uses perpetual inventory (or retail inventory method). Key metrics: gross margin, shrink, sell-through. Gift cards and returns create liabilities; recognize breakage per ASC 606."
+    },
+    {
+        "name": "Smoke & Vape Shop - Retail",
+        "sector": "Retail",
+        "considerations": "Strict age verification (21+ federally). Tobacco/vapor retail permits required (Texas Comptroller). Manufacturer buydowns and scan-data programs reduce cost. Federal PACT Act governs remote vape sales."
+    },
+    {
+        "name": "Jewelry Wholesale & Manufacturing",
+        "sector": "Wholesale",
+        "considerations": "Memo consignment is common; gold often held via metal accounts or leases. Consider hedging gold price exposure."
+    },
+    {
+        "name": "Tobacco & Smoke Products - Wholesale",
+        "sector": "Wholesale",
+        "considerations": "Wholesalers affix state cigarette tax stamps and remit OTP taxes; strict permit and bonding requirements; PACT Act monthly reports."
+    },
+    {
+        "name": "Wholesale / Distribution",
+        "sector": "Wholesale",
+        "considerations": "Margins thin; landed cost accuracy, rebates and freight are critical. Track customer deductions and vendor chargebacks. Consider warehouse labor capitalization in inventory (UNICAP Sec. 263A if over threshold)."
+    },
+    {
+        "name": "Agriculture - Crop Farm",
+        "sector": "Agriculture",
+        "considerations": "Growing crops inventory; USDA program payments."
+    },
+    {
+        "name": "Dairy Farm",
+        "sector": "Agriculture",
+        "considerations": "Milk check deductions."
+    },
+    {
+        "name": "Hemp / CBD Business",
+        "sector": "Agriculture",
+        "considerations": "Regulated by state/USDA; check local legality."
+    },
+    {
+        "name": "Livestock / Ranch",
+        "sector": "Agriculture",
+        "considerations": "Raised vs purchased livestock."
+    },
+    {
+        "name": "Nursery / Greenhouse",
+        "sector": "Agriculture",
+        "considerations": "Plant inventory."
+    },
+    {
+        "name": "Auto Body / Collision",
+        "sector": "Automotive",
+        "considerations": "Insurance DRP programs."
+    },
+    {
+        "name": "Auto Dealership - New Vehicles",
+        "sector": "Automotive",
+        "considerations": "Floor plan financing; F&I income; manufacturer incentives and holdback."
+    },
+    {
+        "name": "Auto Parts Retail",
+        "sector": "Automotive",
+        "considerations": "Core charges and returns."
+    },
+    {
+        "name": "Auto Repair Shop",
+        "sector": "Automotive",
+        "considerations": "Parts and labor tracked by repair order; technician efficiency."
+    },
+    {
+        "name": "Boat / RV Dealer",
+        "sector": "Automotive",
+        "considerations": "Floor plan and F&I."
+    },
+    {
+        "name": "Car Wash",
+        "sector": "Automotive",
+        "considerations": "Membership plans common."
+    },
+    {
+        "name": "Towing & Wrecker Service",
+        "sector": "Automotive",
+        "considerations": "Impound and storage fees regulated."
+    },
+    {
+        "name": "Used Car Dealer / Buy Here Pay Here",
+        "sector": "Automotive",
+        "considerations": "BHPH carries installment receivables and repossessions."
+    },
+    {
+        "name": "Plumbing / HVAC / Electrical Contractor",
+        "sector": "Construction",
+        "considerations": "Service agreements and flat-rate pricing."
+    },
+    {
+        "name": "Pool Construction & Service",
+        "sector": "Construction",
+        "considerations": "Seasonal."
+    },
+    {
+        "name": "Roofing Contractor",
+        "sector": "Construction",
+        "considerations": "Insurance claim work."
+    },
+    {
+        "name": "Child Care / Daycare",
+        "sector": "Education",
+        "considerations": "Subsidy and food program reimbursements."
+    },
+    {
+        "name": "Private School (K-12)",
+        "sector": "Education",
+        "considerations": "Tuition deferred over school year."
+    },
+    {
+        "name": "Tutoring / Training Center",
+        "sector": "Education",
+        "considerations": "Package-based."
+    },
+    {
+        "name": "Fuel Distributor / Jobber",
+        "sector": "Energy",
+        "considerations": "Licensed distributor remits motor fuel taxes."
+    },
+    {
+        "name": "Mining / Quarry",
+        "sector": "Energy",
+        "considerations": "Depletion; reclamation obligations."
+    },
+    {
+        "name": "Propane Distribution",
+        "sector": "Energy",
+        "considerations": "Tank rentals."
+    },
+    {
+        "name": "Solar Installer / Renewable Energy",
+        "sector": "Energy",
+        "considerations": "ITC pass-through; interconnection."
+    },
+    {
+        "name": "Bank / Credit Union",
+        "sector": "Financial Services",
+        "considerations": "Net interest margin; ACL under CECL."
+    },
+    {
+        "name": "Check Cashing / Money Transmitter",
+        "sector": "Financial Services",
+        "considerations": "Licensed MSB; FinCEN registration and AML program."
+    },
+    {
+        "name": "Cryptocurrency / Digital Asset Business",
+        "sector": "Financial Services",
+        "considerations": "Crypto assets at fair value (ASU 2023-08)."
+    },
+    {
+        "name": "Insurance Agency",
+        "sector": "Financial Services",
+        "considerations": "Commissions and premium trust accounts."
+    },
+    {
+        "name": "Investment Adviser / Wealth Management",
+        "sector": "Financial Services",
+        "considerations": "AUM-based fees."
+    },
+    {
+        "name": "Mortgage Broker / Lender",
+        "sector": "Financial Services",
+        "considerations": "Loans held for sale."
+    },
+    {
+        "name": "Payday / Consumer Lending",
+        "sector": "Financial Services",
+        "considerations": "State-licensed (Texas CSO/CAB)."
+    },
+    {
+        "name": "Chiropractic / Physical Therapy",
+        "sector": "Healthcare",
+        "considerations": "Personal injury liens common."
+    },
+    {
+        "name": "Dental Practice",
+        "sector": "Healthcare",
+        "considerations": "Lab fees and membership plans."
+    },
+    {
+        "name": "Home Health / Hospice",
+        "sector": "Healthcare",
+        "considerations": "Medicare episodic payments."
+    },
+    {
+        "name": "Hospital",
+        "sector": "Healthcare",
+        "considerations": "Net patient revenue; cost report settlements."
+    },
+    {
+        "name": "Medical / Clinical Laboratory",
+        "sector": "Healthcare",
+        "considerations": "Reagents and CLIA compliance."
+    },
+    {
+        "name": "Medical Practice / Clinic",
+        "sector": "Healthcare",
+        "considerations": "Gross charges vs contractual adjustments; payer mix."
+    },
+    {
+        "name": "Mental Health / Counseling",
+        "sector": "Healthcare",
+        "considerations": "Session-based billing."
+    },
+    {
+        "name": "Nursing Home / Assisted Living",
+        "sector": "Healthcare",
+        "considerations": "Resident trust funds held in custody."
+    },
+    {
+        "name": "Optometry / Optical",
+        "sector": "Healthcare",
+        "considerations": "Frames and lens inventory."
+    },
+    {
+        "name": "Pharmacy",
+        "sector": "Healthcare",
+        "considerations": "PBM reimbursement and DIR fees."
+    },
+    {
+        "name": "Veterinary Clinic",
+        "sector": "Healthcare",
+        "considerations": "Pharmacy and boarding revenue."
+    },
+    {
+        "name": "Amusement / Family Entertainment Center",
+        "sector": "Hospitality",
+        "considerations": "Game card liabilities."
+    },
+    {
+        "name": "Bakery",
+        "sector": "Hospitality",
+        "considerations": "Track ingredient costs and waste."
+    },
+    {
+        "name": "Bar / Nightclub",
+        "sector": "Hospitality",
+        "considerations": "Pour cost and comps control; cover charges; mixed beverage taxes (Texas)."
+    },
+    {
+        "name": "Casino / Gaming",
+        "sector": "Hospitality",
+        "considerations": "Net gaming revenue; gaming taxes."
+    },
+    {
+        "name": "Catering",
+        "sector": "Hospitality",
+        "considerations": "Event deposits and staffing."
+    },
+    {
+        "name": "Coffee Shop / Cafe",
+        "sector": "Hospitality",
+        "considerations": "Beverage-heavy margins; loyalty apps."
+    },
+    {
+        "name": "Event Venue / Event Planning",
+        "sector": "Hospitality",
+        "considerations": "Booking deposits."
+    },
+    {
+        "name": "Food Truck",
+        "sector": "Hospitality",
+        "considerations": "Commissary and mobile permits."
+    },
+    {
+        "name": "Golf Course / Country Club",
+        "sector": "Hospitality",
+        "considerations": "Initiation fees and dues."
+    },
+    {
+        "name": "Hotel / Motel",
+        "sector": "Hospitality",
+        "considerations": "RevPAR, ADR and occupancy; hotel occupancy taxes (state and local)."
+    },
+    {
+        "name": "Marina",
+        "sector": "Hospitality",
+        "considerations": "Slip rentals."
+    },
+    {
+        "name": "Restaurant - Full Service",
+        "sector": "Hospitality",
+        "considerations": "Prime cost (food + labor) is the key metric; tip reporting and FICA tip credit."
+    },
+    {
+        "name": "Restaurant - Quick Service / Franchise",
+        "sector": "Hospitality",
+        "considerations": "Franchise royalties and ad fund contributions are percent of sales."
+    },
+    {
+        "name": "Short-term Rental / Bed & Breakfast",
+        "sector": "Hospitality",
+        "considerations": "Platform fees and occupancy tax."
+    },
+    {
+        "name": "Apparel / Textile Manufacturing",
+        "sector": "Manufacturing",
+        "considerations": "Cut-make-trim."
+    },
+    {
+        "name": "Brewery / Brewpub",
+        "sector": "Manufacturing",
+        "considerations": "TTB excise."
+    },
+    {
+        "name": "Chemical Manufacturing",
+        "sector": "Manufacturing",
+        "considerations": "EPA/TSCA compliance."
+    },
+    {
+        "name": "Distillery",
+        "sector": "Manufacturing",
+        "considerations": "Bonded warehouse aging."
+    },
+    {
+        "name": "Food Manufacturing",
+        "sector": "Manufacturing",
+        "considerations": "FDA/USDA compliance, lot traceability."
+    },
+    {
+        "name": "Metal Fabrication / Machine Shop",
+        "sector": "Manufacturing",
+        "considerations": "Job shop costing."
+    },
+    {
+        "name": "Pharmaceutical / Biotech R&D",
+        "sector": "Manufacturing",
+        "considerations": "Expense R&D; IPR&D."
+    },
+    {
+        "name": "Plastics Manufacturing",
+        "sector": "Manufacturing",
+        "considerations": "Resin price volatility."
+    },
+    {
+        "name": "Printing / Sign Shop",
+        "sector": "Manufacturing",
+        "considerations": "Job costing."
+    },
+    {
+        "name": "Winery",
+        "sector": "Manufacturing",
+        "considerations": "TTB excise and bonded premises."
+    },
+    {
+        "name": "Film / Video Production",
+        "sector": "Media",
+        "considerations": "Capitalized production costs (ASC 926)."
+    },
+    {
+        "name": "Music / Recording Studio",
+        "sector": "Media",
+        "considerations": "Royalties."
+    },
+    {
+        "name": "Publishing / Media",
+        "sector": "Media",
+        "considerations": "Royalties and subscriptions."
+    },
+    {
+        "name": "Church / Religious Organization",
+        "sector": "Nonprofit",
+        "considerations": "Designated funds tracking."
+    },
+    {
+        "name": "Homeowners Association (HOA)",
+        "sector": "Nonprofit",
+        "considerations": "Reserve funds for major repairs."
+    },
+    {
+        "name": "Nonprofit / Charity",
+        "sector": "Nonprofit",
+        "considerations": "Net assets with/without donor restrictions (ASC 958); Form 990."
+    },
+    {
+        "name": "Fitness Center / Gym",
+        "sector": "Personal Services",
+        "considerations": "Deferred membership revenue."
+    },
+    {
+        "name": "Laundromat / Dry Cleaner",
+        "sector": "Personal Services",
+        "considerations": "Coin collections."
+    },
+    {
+        "name": "Pet Grooming / Boarding",
+        "sector": "Personal Services",
+        "considerations": "Kennel licensing."
+    },
+    {
+        "name": "Photography Studio",
+        "sector": "Personal Services",
+        "considerations": "Session and print sales."
+    },
+    {
+        "name": "Salon / Barbershop / Nail Salon",
+        "sector": "Personal Services",
+        "considerations": "Booth rent vs commission models."
+    },
+    {
+        "name": "Spa / Massage",
+        "sector": "Personal Services",
+        "considerations": "Package liabilities."
+    },
+    {
+        "name": "Tailoring & Alterations",
+        "sector": "Personal Services",
+        "considerations": "Small service shop."
+    },
+    {
+        "name": "Accounting / Tax Firm",
+        "sector": "Professional Services",
+        "considerations": "Seasonal WIP."
+    },
+    {
+        "name": "Architecture & Engineering",
+        "sector": "Professional Services",
+        "considerations": "Project-based, percent complete."
+    },
+    {
+        "name": "Government Contractor",
+        "sector": "Professional Services",
+        "considerations": "FAR cost accounting; indirect rate pools."
+    },
+    {
+        "name": "Law Firm",
+        "sector": "Professional Services",
+        "considerations": "IOLTA trust accounts; WIP and unbilled time."
+    },
+    {
+        "name": "Management Consulting",
+        "sector": "Professional Services",
+        "considerations": "Reimbursable expenses billed."
+    },
+    {
+        "name": "Marketing / Advertising Agency",
+        "sector": "Professional Services",
+        "considerations": "Media pass-through vs agency revenue."
+    },
+    {
+        "name": "Security Guard Services",
+        "sector": "Professional Services",
+        "considerations": "Licensed by state (Texas DPS Private Security)."
+    },
+    {
+        "name": "Staffing Agency",
+        "sector": "Professional Services",
+        "considerations": "Gross payroll is cost of revenue."
+    },
+    {
+        "name": "Home Inspection",
+        "sector": "Real Estate",
+        "considerations": "Per-inspection."
+    },
+    {
+        "name": "Mobile / Manufactured Home Dealer",
+        "sector": "Real Estate",
+        "considerations": "Floor plan financing."
+    },
+    {
+        "name": "Parking Lot / Garage",
+        "sector": "Real Estate",
+        "considerations": "Monthly permits."
+    },
+    {
+        "name": "Real Estate Appraisal / Title Company",
+        "sector": "Real Estate",
+        "considerations": "Escrow trust accounts."
+    },
+    {
+        "name": "Self-Storage",
+        "sector": "Real Estate",
+        "considerations": "Lien sales."
+    },
+    {
+        "name": "Antique Store / Antique Mall",
+        "sector": "Retail",
+        "considerations": "Dealer booth rent."
+    },
+    {
+        "name": "Appliance Sales & Repair",
+        "sector": "Retail",
+        "considerations": "Warranty service from manufacturers."
+    },
+    {
+        "name": "Bookstore",
+        "sector": "Retail",
+        "considerations": "Returnable inventory."
+    },
+    {
+        "name": "Cannabis Dispensary (State-legal)",
+        "sector": "Retail",
+        "considerations": "IRC 280E limits deductions to COGS (subject to federal rescheduling status); state seed-to-sale tracking."
+    },
+    {
+        "name": "Cell Phone Store / Repair",
+        "sector": "Retail",
+        "considerations": "Carrier activation commissions."
+    },
+    {
+        "name": "Clothing Boutique",
+        "sector": "Retail",
+        "considerations": "Seasonal markdowns."
+    },
+    {
+        "name": "E-commerce / Online Seller",
+        "sector": "Retail",
+        "considerations": "Marketplace fees and fulfillment; economic nexus sales tax."
+    },
+    {
+        "name": "Electronics Retail",
+        "sector": "Retail",
+        "considerations": "Warranty plan commissions."
+    },
+    {
+        "name": "Florist",
+        "sector": "Retail",
+        "considerations": "Wire service orders."
+    },
+    {
+        "name": "Grocery / Supermarket",
+        "sector": "Retail",
+        "considerations": "Perishables shrink and vendor allowances drive margin; SNAP/WIC tender tracking."
+    },
+    {
+        "name": "Hardware / Home Improvement Store",
+        "sector": "Retail",
+        "considerations": "Contractor accounts."
+    },
+    {
+        "name": "Liquor Store",
+        "sector": "Retail",
+        "considerations": "Package store permit required; strict inventory controls and excise compliance."
+    },
+    {
+        "name": "Mattress Store",
+        "sector": "Retail",
+        "considerations": "Financing and delivery."
+    },
+    {
+        "name": "Pet Store",
+        "sector": "Retail",
+        "considerations": "Live animal inventory."
+    },
+    {
+        "name": "Rent-to-Own",
+        "sector": "Retail",
+        "considerations": "Rental merchandise depreciated."
+    },
+    {
+        "name": "Shoe Store",
+        "sector": "Retail",
+        "considerations": "Size-run inventory."
+    },
+    {
+        "name": "Sporting Goods & Firearms (FFL Dealer)",
+        "sector": "Retail",
+        "considerations": "FFL, NICS checks; federal excise (FAET) applies to manufacturers/importers."
+    },
+    {
+        "name": "Thrift / Consignment / Resale Store",
+        "sector": "Retail",
+        "considerations": "Consignor payables; donated inventory."
+    },
+    {
+        "name": "Wedding & Bridal Shop",
+        "sector": "Retail",
+        "considerations": "Special order deposits."
+    },
+    {
+        "name": "Equipment Rental",
+        "sector": "Services",
+        "considerations": "Fleet utilization."
+    },
+    {
+        "name": "Franchisor",
+        "sector": "Services",
+        "considerations": "Initial franchise fees recognized over term (ASC 606)."
+    },
+    {
+        "name": "Janitorial / Cleaning Services",
+        "sector": "Services",
+        "considerations": "Contract-based."
+    },
+    {
+        "name": "Landscaping / Lawn Care",
+        "sector": "Services",
+        "considerations": "Seasonal contracts."
+    },
+    {
+        "name": "Travel Agency / Tour Operator",
+        "sector": "Services",
+        "considerations": "Agent vs principal."
+    },
+    {
+        "name": "Waste Management / Hauling",
+        "sector": "Services",
+        "considerations": "Landfill tipping fees."
+    },
+    {
+        "name": "IT Services / MSP",
+        "sector": "Technology",
+        "considerations": "Recurring managed revenue."
+    },
+    {
+        "name": "SaaS / Software Company",
+        "sector": "Technology",
+        "considerations": "ASC 606 subscription revenue; capitalized software (ASC 350-40/985-20)."
+    },
+    {
+        "name": "Software Development / Custom Apps",
+        "sector": "Technology",
+        "considerations": "Fixed-bid and T&M."
+    },
+    {
+        "name": "Telecommunications / ISP",
+        "sector": "Technology",
+        "considerations": "Network assets and USF fees."
+    },
+    {
+        "name": "Airline / Air Charter",
+        "sector": "Transportation",
+        "considerations": "Air traffic liability for unflown tickets; heavy maintenance."
+    },
+    {
+        "name": "Courier / Last-mile Delivery",
+        "sector": "Transportation",
+        "considerations": "Contractor-heavy."
+    },
+    {
+        "name": "Freight Broker / 3PL / Warehousing",
+        "sector": "Transportation",
+        "considerations": "Gross vs net revenue depends on principal/agent analysis."
+    },
+    {
+        "name": "Moving & Storage",
+        "sector": "Transportation",
+        "considerations": "Tariff-based."
+    },
+    {
+        "name": "Trucking / Freight Carrier",
+        "sector": "Transportation",
+        "considerations": "Revenue per mile, IFTA fuel tax, driver settlements."
+    },
+    {
+        "name": "Coin & Bullion Dealer",
+        "sector": "Wholesale",
+        "considerations": "Spot-price exposure; AML for precious metals dealers."
+    },
+    {
+        "name": "Import / Export Trading",
+        "sector": "Wholesale",
+        "considerations": "Letters of credit, duties, FX."
+    },
+    {
+        "name": "Lumber Yard / Building Supply",
+        "sector": "Wholesale",
+        "considerations": "Contractor credit."
+    },
+    {
+        "name": "Scrap Metal Recycler",
+        "sector": "Wholesale",
+        "considerations": "Metal price exposure; theft reporting laws."
+    }
+]

@@ -1,0 +1,2990 @@
+[
+    {
+        "code": "1000",
+        "name": "Petty Cash",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Small on-hand cash fund for minor expenses; replenished by check or transfer."
+    },
+    {
+        "code": "1010",
+        "name": "Cash Registers / Till Funds",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Starting change funds kept in POS drawers."
+    },
+    {
+        "code": "1020",
+        "name": "Cash in Safe / Vault",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cash stored on premises in safe or vault, including deposit prep."
+    },
+    {
+        "code": "1030",
+        "name": "Operating Checking Account",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Primary bank account for receipts and disbursements."
+    },
+    {
+        "code": "1040",
+        "name": "Payroll Checking Account",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Dedicated account funding payroll disbursements."
+    },
+    {
+        "code": "1050",
+        "name": "Savings / Money Market Account",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Interest-bearing deposit accounts."
+    },
+    {
+        "code": "1060",
+        "name": "Undeposited Funds / Deposits in Transit",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Receipts recorded but not yet deposited or credited by bank."
+    },
+    {
+        "code": "1070",
+        "name": "Credit Card Settlements in Transit",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Card batches settled by processor but not yet in bank."
+    },
+    {
+        "code": "1080",
+        "name": "Cash Equivalents (T-bills, CDs < 90 days)",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Highly liquid investments with original maturity of 3 months or less."
+    },
+    {
+        "code": "1090",
+        "name": "Foreign Currency Bank Account",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Bank balances held in non-functional currency; revalued each period."
+    },
+    {
+        "code": "1095",
+        "name": "Restricted Cash / Escrow",
+        "class": "Current Asset",
+        "head": "Cash & Cash Equivalents",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cash restricted by contract, lender or regulation (escrow, trust, collateral)."
+    },
+    {
+        "code": "1100",
+        "name": "Accounts Receivable - Trade",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Amounts invoiced to customers on credit terms."
+    },
+    {
+        "code": "1110",
+        "name": "Accounts Receivable - Credit Card Processors",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Card sales owed by processor after batch close."
+    },
+    {
+        "code": "1120",
+        "name": "Accounts Receivable - Related Parties",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Amounts due from affiliates, owners or entities under common control."
+    },
+    {
+        "code": "1130",
+        "name": "Employee Advances & Receivables",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Payroll advances and amounts owed by employees."
+    },
+    {
+        "code": "1140",
+        "name": "Retainage Receivable",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Portion of billings withheld by customers until project completion."
+    },
+    {
+        "code": "1150",
+        "name": "Unbilled Receivables / Contract Assets",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Revenue earned but not yet invoiced."
+    },
+    {
+        "code": "1160",
+        "name": "Other Receivables",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Miscellaneous non-trade receivables."
+    },
+    {
+        "code": "1170",
+        "name": "Vendor Rebates & Allowances Receivable",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Rebates, co-op and allowances earned from suppliers."
+    },
+    {
+        "code": "1180",
+        "name": "Insurance Claims Receivable",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Recoveries due from insurers for covered losses."
+    },
+    {
+        "code": "1190",
+        "name": "Allowance for Doubtful Accounts",
+        "class": "Current Asset",
+        "head": "Accounts Receivable",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Estimated uncollectible receivables (CECL / expected loss)."
+    },
+    {
+        "code": "1200",
+        "name": "Notes Receivable - Current",
+        "class": "Current Asset",
+        "head": "Notes, Loans & Interest Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Written promissory notes due within 12 months."
+    },
+    {
+        "code": "1210",
+        "name": "Loans Receivable - Customers",
+        "class": "Current Asset",
+        "head": "Notes, Loans & Interest Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Consumer or commercial loans made to customers."
+    },
+    {
+        "code": "1220",
+        "name": "Interest & Finance Charges Receivable",
+        "class": "Current Asset",
+        "head": "Notes, Loans & Interest Receivable",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Earned but uncollected interest and finance charges."
+    },
+    {
+        "code": "1290",
+        "name": "Allowance for Loan Losses",
+        "class": "Current Asset",
+        "head": "Notes, Loans & Interest Receivable",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Estimated credit losses on loans and notes receivable."
+    },
+    {
+        "code": "1300",
+        "name": "Inventory - Merchandise for Resale",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Goods purchased for resale without further processing."
+    },
+    {
+        "code": "1310",
+        "name": "Inventory - Raw Materials",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Materials awaiting use in production."
+    },
+    {
+        "code": "1320",
+        "name": "Inventory - Work in Process",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Partially completed goods including materials, labor and overhead."
+    },
+    {
+        "code": "1330",
+        "name": "Inventory - Finished Goods",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Completed manufactured goods awaiting sale."
+    },
+    {
+        "code": "1340",
+        "name": "Inventory - Supplies & Packaging",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Packaging, labels and production supplies."
+    },
+    {
+        "code": "1350",
+        "name": "Inventory in Transit",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Goods shipped by supplier where title has passed (FOB shipping point)."
+    },
+    {
+        "code": "1360",
+        "name": "Consigned-Out Inventory",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Company-owned goods held by consignees for sale."
+    },
+    {
+        "code": "1390",
+        "name": "Inventory Reserve - Obsolescence / LCNRV",
+        "class": "Current Asset",
+        "head": "Inventory",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Write-down reserve to lower of cost or net realizable value."
+    },
+    {
+        "code": "1400",
+        "name": "Prepaid Insurance",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Unexpired portion of insurance premiums."
+    },
+    {
+        "code": "1410",
+        "name": "Prepaid Rent",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Rent paid in advance of the period it covers."
+    },
+    {
+        "code": "1420",
+        "name": "Prepaid Taxes & Licenses",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Taxes and license fees paid in advance."
+    },
+    {
+        "code": "1430",
+        "name": "Prepaid Expenses - Other",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Other costs paid in advance (maintenance contracts, retainers)."
+    },
+    {
+        "code": "1440",
+        "name": "Security & Utility Deposits",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Refundable deposits with landlords, utilities and vendors."
+    },
+    {
+        "code": "1450",
+        "name": "Prepaid Software & Subscriptions",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Annual SaaS and subscriptions paid upfront."
+    },
+    {
+        "code": "1460",
+        "name": "Short-term Investments / Marketable Securities",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Trading or available-for-sale securities held less than a year."
+    },
+    {
+        "code": "1470",
+        "name": "Income Tax Receivable / Refund Due",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Overpaid income taxes expected to be refunded."
+    },
+    {
+        "code": "1480",
+        "name": "Sales Tax / Input VAT Receivable",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Recoverable VAT/GST or sales tax refunds due."
+    },
+    {
+        "code": "1490",
+        "name": "Other Current Assets",
+        "class": "Current Asset",
+        "head": "Prepaid Expenses & Other Current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Current assets not classified elsewhere."
+    },
+    {
+        "code": "1500",
+        "name": "Land",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Land owned for operations; not depreciated."
+    },
+    {
+        "code": "1510",
+        "name": "Buildings",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Owned buildings used in operations."
+    },
+    {
+        "code": "1520",
+        "name": "Building Improvements",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Capital improvements to owned buildings."
+    },
+    {
+        "code": "1530",
+        "name": "Leasehold Improvements",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Improvements to leased premises; depreciated over shorter of life or lease term."
+    },
+    {
+        "code": "1540",
+        "name": "Machinery & Equipment",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Production, shop and operating machinery."
+    },
+    {
+        "code": "1550",
+        "name": "Furniture & Fixtures",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Desks, shelving, display cases, fixtures."
+    },
+    {
+        "code": "1560",
+        "name": "Computer Equipment & Hardware",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Servers, computers, networking equipment."
+    },
+    {
+        "code": "1570",
+        "name": "Vehicles & Trucks",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Company-owned cars, trucks, trailers."
+    },
+    {
+        "code": "1580",
+        "name": "Store / POS Equipment",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Registers, scanners, scales, coolers, signage."
+    },
+    {
+        "code": "1585",
+        "name": "Right-of-Use Assets - Operating Leases",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Lessee ROU asset for operating leases (ASC 842)."
+    },
+    {
+        "code": "1590",
+        "name": "Construction in Progress",
+        "class": "Non-current Asset",
+        "head": "Property, Plant & Equipment",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Costs of assets under construction; not depreciated until placed in service."
+    },
+    {
+        "code": "1600",
+        "name": "Accumulated Depreciation - Buildings",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on buildings."
+    },
+    {
+        "code": "1610",
+        "name": "Accumulated Depreciation - Building Improvements",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on building improvements."
+    },
+    {
+        "code": "1620",
+        "name": "Accumulated Depreciation - Leasehold Improvements",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative amortization of leasehold improvements."
+    },
+    {
+        "code": "1630",
+        "name": "Accumulated Depreciation - Machinery & Equipment",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on machinery & equipment."
+    },
+    {
+        "code": "1640",
+        "name": "Accumulated Depreciation - Furniture & Fixtures",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on furniture & fixtures."
+    },
+    {
+        "code": "1650",
+        "name": "Accumulated Depreciation - Computer Equipment",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on computer equipment."
+    },
+    {
+        "code": "1660",
+        "name": "Accumulated Depreciation - Vehicles",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on vehicles."
+    },
+    {
+        "code": "1670",
+        "name": "Accumulated Depreciation - Store / POS Equipment",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative depreciation on store equipment."
+    },
+    {
+        "code": "1680",
+        "name": "Accumulated Amortization - Right-of-Use Assets",
+        "class": "Non-current Asset",
+        "head": "Accumulated Depreciation (Contra-Asset)",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cumulative amortization of ROU assets."
+    },
+    {
+        "code": "1700",
+        "name": "Goodwill",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Excess of acquisition price over fair value of net assets acquired; tested for impairment."
+    },
+    {
+        "code": "1710",
+        "name": "Trademarks & Trade Names",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Acquired or registered brand names and marks."
+    },
+    {
+        "code": "1720",
+        "name": "Patents",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Legal rights to inventions, amortized over useful life."
+    },
+    {
+        "code": "1730",
+        "name": "Customer Lists & Relationships",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Acquired customer relationships."
+    },
+    {
+        "code": "1740",
+        "name": "Capitalized Software",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Purchased or internally developed software meeting capitalization criteria."
+    },
+    {
+        "code": "1750",
+        "name": "Licenses & Permits (Capitalized)",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Multi-year operating licenses acquired at cost."
+    },
+    {
+        "code": "1760",
+        "name": "Franchise Rights",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Initial franchise fees paid to a franchisor."
+    },
+    {
+        "code": "1770",
+        "name": "Non-compete Agreements",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Payments for covenants not to compete."
+    },
+    {
+        "code": "1790",
+        "name": "Accumulated Amortization - Intangibles",
+        "class": "Non-current Asset",
+        "head": "Intangible Assets",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Cumulative amortization of finite-lived intangibles."
+    },
+    {
+        "code": "1800",
+        "name": "Long-term Investments",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Equity and debt investments held beyond 12 months."
+    },
+    {
+        "code": "1810",
+        "name": "Investment in Subsidiaries / Joint Ventures",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Equity-method or cost-method investments."
+    },
+    {
+        "code": "1820",
+        "name": "Notes Receivable - Long-term",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Notes receivable due after 12 months."
+    },
+    {
+        "code": "1830",
+        "name": "Due from Shareholders / Officers",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Long-term loans to owners or officers."
+    },
+    {
+        "code": "1840",
+        "name": "Deferred Tax Asset",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Future tax benefits from temporary differences and carryforwards."
+    },
+    {
+        "code": "1850",
+        "name": "Long-term Deposits",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Deposits not recoverable within 12 months."
+    },
+    {
+        "code": "1860",
+        "name": "Cash Surrender Value - Life Insurance",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cash value of company-owned life insurance."
+    },
+    {
+        "code": "1870",
+        "name": "Right-of-Use Assets - Finance Leases",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Lessee ROU asset for finance leases."
+    },
+    {
+        "code": "1890",
+        "name": "Other Non-current Assets",
+        "class": "Non-current Asset",
+        "head": "Investments & Other Non-current Assets",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Non-current assets not classified elsewhere."
+    },
+    {
+        "code": "2000",
+        "name": "Accounts Payable - Trade",
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Amounts owed to suppliers for goods and services."
+    },
+    {
+        "code": "2010",
+        "name": "Accounts Payable - Related Parties",
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Amounts owed to affiliates or owners for trade items."
+    },
+    {
+        "code": "2020",
+        "name": "Credit Cards Payable",
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Balances on company credit cards."
+    },
+    {
+        "code": "2030",
+        "name": "Accrued Purchases (Received Not Invoiced)",
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Goods received where vendor invoice not yet recorded."
+    },
+    {
+        "code": "2040",
+        "name": "Unclaimed Property (Escheat) Payable",
+        "class": "Current Liability",
+        "head": "Accounts Payable",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Uncashed checks, credits and balances due to the state."
+    },
+    {
+        "code": "2100",
+        "name": "Accrued Expenses",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "General expenses incurred but unpaid."
+    },
+    {
+        "code": "2110",
+        "name": "Accrued Interest Payable",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Interest incurred on debt but unpaid."
+    },
+    {
+        "code": "2120",
+        "name": "Accrued Utilities",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Utility usage not yet billed."
+    },
+    {
+        "code": "2130",
+        "name": "Accrued Bonuses",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Bonuses earned but unpaid."
+    },
+    {
+        "code": "2140",
+        "name": "Accrued Vacation / PTO",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Earned but unused paid time off."
+    },
+    {
+        "code": "2150",
+        "name": "Accrued Warranty Liability",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Estimated cost of future warranty claims."
+    },
+    {
+        "code": "2160",
+        "name": "Accrued Professional Fees",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Audit, legal and consulting fees incurred."
+    },
+    {
+        "code": "2170",
+        "name": "Dividends / Distributions Payable",
+        "class": "Current Liability",
+        "head": "Accrued Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Declared but unpaid dividends or distributions."
+    },
+    {
+        "code": "2200",
+        "name": "Accrued Wages & Salaries",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Wages earned but not yet paid."
+    },
+    {
+        "code": "2210",
+        "name": "Federal Income Tax Withheld",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Employee federal withholding payable."
+    },
+    {
+        "code": "2220",
+        "name": "FICA (Social Security & Medicare) Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Employee and employer FICA due."
+    },
+    {
+        "code": "2230",
+        "name": "State Income Tax Withheld",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Employee state withholding payable."
+    },
+    {
+        "code": "2240",
+        "name": "FUTA Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Federal unemployment tax due."
+    },
+    {
+        "code": "2250",
+        "name": "SUTA Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "State unemployment tax due."
+    },
+    {
+        "code": "2260",
+        "name": "Employee Benefit Deductions Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Health, 401(k), HSA and other withholdings."
+    },
+    {
+        "code": "2270",
+        "name": "Garnishments & Child Support Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Court-ordered withholdings to be remitted."
+    },
+    {
+        "code": "2280",
+        "name": "Workers' Compensation Payable",
+        "class": "Current Liability",
+        "head": "Payroll Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Premiums or assessments due."
+    },
+    {
+        "code": "2300",
+        "name": "Sales Tax Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Sales tax collected from customers."
+    },
+    {
+        "code": "2310",
+        "name": "Use Tax Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Tax on untaxed purchases used in business."
+    },
+    {
+        "code": "2320",
+        "name": "Excise Taxes Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Federal/state excise taxes on regulated goods."
+    },
+    {
+        "code": "2330",
+        "name": "Property Tax Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Real and personal property taxes assessed."
+    },
+    {
+        "code": "2340",
+        "name": "Franchise / Margin Tax Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "State franchise taxes (e.g., Texas franchise/margin tax)."
+    },
+    {
+        "code": "2350",
+        "name": "VAT / GST Output Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Output VAT/GST collected (non-US)."
+    },
+    {
+        "code": "2360",
+        "name": "Income Taxes Payable",
+        "class": "Current Liability",
+        "head": "Sales, Excise & Other Tax Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Current income tax liabilities."
+    },
+    {
+        "code": "2400",
+        "name": "Customer Deposits",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Advance payments received from customers."
+    },
+    {
+        "code": "2410",
+        "name": "Deferred / Unearned Revenue",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Payments received for future goods or services."
+    },
+    {
+        "code": "2420",
+        "name": "Gift Card & Store Credit Liability",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Outstanding gift cards and store credits."
+    },
+    {
+        "code": "2430",
+        "name": "Layaway Deposits",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Customer payments on layaway merchandise."
+    },
+    {
+        "code": "2440",
+        "name": "Loyalty Program Liability",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Points or rewards earned but not redeemed."
+    },
+    {
+        "code": "2450",
+        "name": "Customer Refunds Payable / Credit Balances",
+        "class": "Current Liability",
+        "head": "Customer Deposits & Deferred Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Overpayments and refunds owed to customers."
+    },
+    {
+        "code": "2500",
+        "name": "Line of Credit",
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Revolving bank borrowings."
+    },
+    {
+        "code": "2510",
+        "name": "Short-term Notes Payable",
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Notes due within 12 months."
+    },
+    {
+        "code": "2520",
+        "name": "Current Portion of Long-term Debt",
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Principal due within 12 months on term debt."
+    },
+    {
+        "code": "2530",
+        "name": "Current Portion of Lease Liabilities",
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Lease payments due within 12 months."
+    },
+    {
+        "code": "2540",
+        "name": "Floor Plan Payable",
+        "class": "Current Liability",
+        "head": "Short-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Inventory financing secured by specific units."
+    },
+    {
+        "code": "2600",
+        "name": "Due to Shareholders / Officers - Current",
+        "class": "Current Liability",
+        "head": "Other Current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Short-term amounts owed to owners."
+    },
+    {
+        "code": "2610",
+        "name": "Other Current Liabilities",
+        "class": "Current Liability",
+        "head": "Other Current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Current obligations not classified elsewhere."
+    },
+    {
+        "code": "2620",
+        "name": "Suspense / Clearing Account",
+        "class": "Current Liability",
+        "head": "Other Current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Temporary holding for unidentified items; clear monthly."
+    },
+    {
+        "code": "2700",
+        "name": "Notes Payable - Bank (Long-term)",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Term loans due after 12 months."
+    },
+    {
+        "code": "2710",
+        "name": "Mortgage Payable",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Loans secured by real property."
+    },
+    {
+        "code": "2720",
+        "name": "Equipment Loans Payable",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Loans secured by equipment."
+    },
+    {
+        "code": "2730",
+        "name": "SBA Loans Payable",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Small Business Administration guaranteed loans."
+    },
+    {
+        "code": "2740",
+        "name": "Vehicle Loans Payable",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Loans secured by vehicles."
+    },
+    {
+        "code": "2750",
+        "name": "Loans from Shareholders - Long-term",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Owner loans due after 12 months."
+    },
+    {
+        "code": "2760",
+        "name": "Bonds Payable",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Issued bonds and debentures."
+    },
+    {
+        "code": "2770",
+        "name": "Unamortized Debt Issuance Costs",
+        "class": "Non-current Liability",
+        "head": "Long-term Debt",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Loan costs presented as reduction of debt."
+    },
+    {
+        "code": "2800",
+        "name": "Operating Lease Liability - Non-current",
+        "class": "Non-current Liability",
+        "head": "Lease Liabilities (Non-current)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Long-term portion of operating lease liabilities."
+    },
+    {
+        "code": "2810",
+        "name": "Finance Lease Liability - Non-current",
+        "class": "Non-current Liability",
+        "head": "Lease Liabilities (Non-current)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Long-term portion of finance lease liabilities."
+    },
+    {
+        "code": "2900",
+        "name": "Deferred Tax Liability",
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Future taxes from temporary differences."
+    },
+    {
+        "code": "2910",
+        "name": "Asset Retirement Obligations",
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Present value of legally required asset retirement costs."
+    },
+    {
+        "code": "2920",
+        "name": "Deferred Rent / Other Deferred Credits",
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Legacy deferred rent and other deferred credits."
+    },
+    {
+        "code": "2930",
+        "name": "Long-term Warranty Liability",
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Warranty obligations beyond 12 months."
+    },
+    {
+        "code": "2990",
+        "name": "Other Non-current Liabilities",
+        "class": "Non-current Liability",
+        "head": "Other Non-current Liabilities",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Long-term obligations not classified elsewhere."
+    },
+    {
+        "code": "3000",
+        "name": "Common Stock",
+        "class": "Equity",
+        "head": "Capital Stock & Paid-in Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Par or stated value of common shares issued."
+    },
+    {
+        "code": "3010",
+        "name": "Preferred Stock",
+        "class": "Equity",
+        "head": "Capital Stock & Paid-in Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Par value of preferred shares issued."
+    },
+    {
+        "code": "3020",
+        "name": "Additional Paid-in Capital",
+        "class": "Equity",
+        "head": "Capital Stock & Paid-in Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Amounts paid for stock in excess of par."
+    },
+    {
+        "code": "3030",
+        "name": "Treasury Stock",
+        "class": "Equity",
+        "head": "Capital Stock & Paid-in Capital",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Cost of company shares repurchased."
+    },
+    {
+        "code": "3100",
+        "name": "Owner's Capital",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Sole proprietor's investment."
+    },
+    {
+        "code": "3110",
+        "name": "Owner's Draws",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Owner withdrawals; closed to capital at year end."
+    },
+    {
+        "code": "3120",
+        "name": "Partners' Capital",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Partner capital accounts."
+    },
+    {
+        "code": "3130",
+        "name": "Partners' Distributions",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Partner distributions."
+    },
+    {
+        "code": "3140",
+        "name": "Members' Capital (LLC)",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "LLC member contributions."
+    },
+    {
+        "code": "3150",
+        "name": "Members' Distributions",
+        "class": "Equity",
+        "head": "Owner / Partner / Member Capital",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "LLC member distributions."
+    },
+    {
+        "code": "3200",
+        "name": "Retained Earnings",
+        "class": "Equity",
+        "head": "Retained Earnings",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Cumulative net income retained in the business."
+    },
+    {
+        "code": "3210",
+        "name": "Current Year Earnings",
+        "class": "Equity",
+        "head": "Retained Earnings",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "System account for current-period net income."
+    },
+    {
+        "code": "3220",
+        "name": "Dividends Declared",
+        "class": "Equity",
+        "head": "Retained Earnings",
+        "normal_balance": "debit",
+        "contra": true,
+        "description": "Dividends declared to shareholders."
+    },
+    {
+        "code": "3300",
+        "name": "Accumulated Other Comprehensive Income",
+        "class": "Equity",
+        "head": "Other Comprehensive Income & Reserves",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Unrealized gains/losses excluded from net income."
+    },
+    {
+        "code": "3310",
+        "name": "Foreign Currency Translation Adjustment",
+        "class": "Equity",
+        "head": "Other Comprehensive Income & Reserves",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Translation gains/losses on foreign operations."
+    },
+    {
+        "code": "3900",
+        "name": "Opening Balance Equity",
+        "class": "Equity",
+        "head": "Opening Balance & Other Equity",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Temporary equity used in software setup; reclassify to proper equity."
+    },
+    {
+        "code": "4000",
+        "name": "Sales - Merchandise",
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Gross sales of goods."
+    },
+    {
+        "code": "4010",
+        "name": "Sales - Retail",
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Sales to end consumers."
+    },
+    {
+        "code": "4020",
+        "name": "Sales - Wholesale",
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Sales to resellers and businesses."
+    },
+    {
+        "code": "4030",
+        "name": "Sales - Online / E-commerce",
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Web, marketplace and app sales."
+    },
+    {
+        "code": "4040",
+        "name": "Sales - Export",
+        "class": "Revenue",
+        "head": "Sales Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Sales shipped to foreign customers."
+    },
+    {
+        "code": "4100",
+        "name": "Service Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Revenue from services performed."
+    },
+    {
+        "code": "4110",
+        "name": "Labor & Installation Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Billed labor and installation charges."
+    },
+    {
+        "code": "4120",
+        "name": "Repair Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Repair and service work billed."
+    },
+    {
+        "code": "4130",
+        "name": "Rental / Lease Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Equipment or property rental income from operations."
+    },
+    {
+        "code": "4140",
+        "name": "Commission Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Commissions earned as agent."
+    },
+    {
+        "code": "4150",
+        "name": "Subscription & Membership Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Recurring subscription or membership fees."
+    },
+    {
+        "code": "4160",
+        "name": "Contract Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Revenue on long-term contracts."
+    },
+    {
+        "code": "4170",
+        "name": "Delivery & Shipping Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Delivery and shipping charges billed to customers."
+    },
+    {
+        "code": "4180",
+        "name": "Fee Revenue (Late, Service, Convenience)",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Fees billed to customers."
+    },
+    {
+        "code": "4190",
+        "name": "Royalty & Licensing Revenue",
+        "class": "Revenue",
+        "head": "Service, Fee & Contract Revenue",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Royalties and license income."
+    },
+    {
+        "code": "4900",
+        "name": "Sales Returns & Allowances",
+        "class": "Revenue",
+        "head": "Revenue Deductions (Contra-Revenue)",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Merchandise returned or price allowances granted."
+    },
+    {
+        "code": "4910",
+        "name": "Sales Discounts",
+        "class": "Revenue",
+        "head": "Revenue Deductions (Contra-Revenue)",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Early-payment and promotional discounts."
+    },
+    {
+        "code": "4920",
+        "name": "Customer Rebates & Promotions",
+        "class": "Revenue",
+        "head": "Revenue Deductions (Contra-Revenue)",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Rebates and promotional allowances paid to customers."
+    },
+    {
+        "code": "4930",
+        "name": "Coupons & Markdowns",
+        "class": "Revenue",
+        "head": "Revenue Deductions (Contra-Revenue)",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Coupons redeemed and price markdowns."
+    },
+    {
+        "code": "5000",
+        "name": "Cost of Goods Sold - Merchandise",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cost of merchandise sold."
+    },
+    {
+        "code": "5010",
+        "name": "Purchases",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Inventory purchases (periodic system)."
+    },
+    {
+        "code": "5020",
+        "name": "Purchase Returns & Allowances",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Goods returned to vendors and price allowances."
+    },
+    {
+        "code": "5030",
+        "name": "Purchase Discounts",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Early-payment discounts from vendors."
+    },
+    {
+        "code": "5040",
+        "name": "Freight-In",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Inbound freight on inventory purchases."
+    },
+    {
+        "code": "5050",
+        "name": "Customs Duties & Import Fees",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Duties, tariffs and brokerage on imports."
+    },
+    {
+        "code": "5060",
+        "name": "Vendor Rebates (Cost Reduction)",
+        "class": "Cost of Sales",
+        "head": "Cost of Goods Sold - Merchandise",
+        "normal_balance": "credit",
+        "contra": true,
+        "description": "Supplier rebates reducing cost of sales."
+    },
+    {
+        "code": "5100",
+        "name": "Cost of Services",
+        "class": "Cost of Sales",
+        "head": "Cost of Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Direct cost of services delivered."
+    },
+    {
+        "code": "5110",
+        "name": "Subcontractor Costs",
+        "class": "Cost of Sales",
+        "head": "Cost of Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Third-party subcontractors on customer work."
+    },
+    {
+        "code": "5500",
+        "name": "Direct Labor",
+        "class": "Cost of Sales",
+        "head": "Direct Labor",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Wages of production/service workers."
+    },
+    {
+        "code": "5510",
+        "name": "Direct Labor - Payroll Taxes & Benefits",
+        "class": "Cost of Sales",
+        "head": "Direct Labor",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Burden on direct labor."
+    },
+    {
+        "code": "5600",
+        "name": "Direct Materials",
+        "class": "Cost of Sales",
+        "head": "Direct Materials",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Materials consumed in production or jobs."
+    },
+    {
+        "code": "5700",
+        "name": "Factory Overhead",
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Indirect production costs."
+    },
+    {
+        "code": "5710",
+        "name": "Factory Utilities",
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Utilities for production facilities."
+    },
+    {
+        "code": "5720",
+        "name": "Factory Depreciation",
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Depreciation on production assets."
+    },
+    {
+        "code": "5730",
+        "name": "Factory Supplies",
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Consumables used in production."
+    },
+    {
+        "code": "5740",
+        "name": "Production Equipment Repairs",
+        "class": "Cost of Sales",
+        "head": "Manufacturing / Production Overhead",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Repairs on production equipment."
+    },
+    {
+        "code": "5800",
+        "name": "Packaging Costs",
+        "class": "Cost of Sales",
+        "head": "Packaging, Fulfillment & Other Direct Costs",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Packaging used in products sold."
+    },
+    {
+        "code": "5810",
+        "name": "Shipping & Fulfillment Costs",
+        "class": "Cost of Sales",
+        "head": "Packaging, Fulfillment & Other Direct Costs",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Pick, pack and ship costs included in cost of sales."
+    },
+    {
+        "code": "5900",
+        "name": "Inventory Shrinkage",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Loss from theft, damage and errors found in counts."
+    },
+    {
+        "code": "5910",
+        "name": "Inventory Write-downs / Obsolescence",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Write-downs to net realizable value."
+    },
+    {
+        "code": "5920",
+        "name": "Inventory Count Adjustments",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Physical vs. book inventory adjustments."
+    },
+    {
+        "code": "5930",
+        "name": "Purchase Price Variance",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Actual vs. standard purchase cost."
+    },
+    {
+        "code": "5940",
+        "name": "Manufacturing Variances",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Labor, overhead and efficiency variances."
+    },
+    {
+        "code": "5950",
+        "name": "Spoilage, Scrap & Waste",
+        "class": "Cost of Sales",
+        "head": "Inventory Adjustments & Variances",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Spoiled, scrapped or expired goods."
+    },
+    {
+        "code": "6000",
+        "name": "Officers' Salaries",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Compensation of corporate officers."
+    },
+    {
+        "code": "6010",
+        "name": "Salaries & Wages - Administrative",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Office and administrative staff pay."
+    },
+    {
+        "code": "6020",
+        "name": "Wages - Sales Staff",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Sales personnel wages."
+    },
+    {
+        "code": "6030",
+        "name": "Wages - Store / Operations Staff",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Store, warehouse and operations wages."
+    },
+    {
+        "code": "6040",
+        "name": "Overtime Wages",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Overtime premium pay."
+    },
+    {
+        "code": "6050",
+        "name": "Commissions - Employees",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Sales commissions paid to employees."
+    },
+    {
+        "code": "6060",
+        "name": "Bonuses",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Discretionary and incentive bonuses."
+    },
+    {
+        "code": "6070",
+        "name": "Contract Labor (1099)",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Payments to independent contractors."
+    },
+    {
+        "code": "6080",
+        "name": "Payroll Taxes - Employer FICA",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employer Social Security and Medicare."
+    },
+    {
+        "code": "6090",
+        "name": "Payroll Taxes - FUTA & SUTA",
+        "class": "Operating Expense",
+        "head": "Salaries, Wages & Payroll Taxes",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employer unemployment taxes."
+    },
+    {
+        "code": "6100",
+        "name": "Health Insurance",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employer share of medical premiums."
+    },
+    {
+        "code": "6110",
+        "name": "Dental & Vision Insurance",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employer dental/vision premiums."
+    },
+    {
+        "code": "6120",
+        "name": "Retirement Plan Contributions",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "401(k)/SIMPLE/SEP employer contributions."
+    },
+    {
+        "code": "6130",
+        "name": "Workers' Compensation Insurance",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Workers' comp premiums."
+    },
+    {
+        "code": "6140",
+        "name": "Life & Disability Insurance",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Group life and disability premiums."
+    },
+    {
+        "code": "6150",
+        "name": "Employee Training & Education",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Training, certifications and tuition."
+    },
+    {
+        "code": "6160",
+        "name": "Uniforms",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employee uniforms and laundering."
+    },
+    {
+        "code": "6170",
+        "name": "Employee Meals & Wellness",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Staff meals, wellness and morale."
+    },
+    {
+        "code": "6180",
+        "name": "Recruiting & Hiring",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Job postings, recruiters, onboarding."
+    },
+    {
+        "code": "6190",
+        "name": "Payroll Processing Fees",
+        "class": "Operating Expense",
+        "head": "Employee Benefits",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Payroll service provider fees."
+    },
+    {
+        "code": "6200",
+        "name": "Rent Expense - Building",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Rent for store, office, plant."
+    },
+    {
+        "code": "6210",
+        "name": "Common Area Maintenance (CAM)",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "CAM charges under leases."
+    },
+    {
+        "code": "6220",
+        "name": "Real Property Taxes",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Property taxes on owned/leased real estate."
+    },
+    {
+        "code": "6230",
+        "name": "Building Repairs & Maintenance",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Non-capital building repairs."
+    },
+    {
+        "code": "6240",
+        "name": "Janitorial & Cleaning",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cleaning services and supplies."
+    },
+    {
+        "code": "6250",
+        "name": "Security & Alarm Monitoring",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Guards, alarms, cameras."
+    },
+    {
+        "code": "6260",
+        "name": "Pest Control",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Pest control services."
+    },
+    {
+        "code": "6270",
+        "name": "Landscaping & Grounds",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Landscaping and snow removal."
+    },
+    {
+        "code": "6280",
+        "name": "Equipment Rental",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Short-term equipment rentals."
+    },
+    {
+        "code": "6290",
+        "name": "Storage & Warehouse Rent",
+        "class": "Operating Expense",
+        "head": "Occupancy",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Off-site storage."
+    },
+    {
+        "code": "6300",
+        "name": "Electricity",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Electric utility charges."
+    },
+    {
+        "code": "6310",
+        "name": "Natural Gas / Heating",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Gas and heating fuel."
+    },
+    {
+        "code": "6320",
+        "name": "Water & Sewer",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Water and sewer charges."
+    },
+    {
+        "code": "6330",
+        "name": "Trash & Waste Removal",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Waste and recycling services."
+    },
+    {
+        "code": "6340",
+        "name": "Telephone",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Landline and VoIP service."
+    },
+    {
+        "code": "6350",
+        "name": "Internet Service",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Internet connectivity."
+    },
+    {
+        "code": "6360",
+        "name": "Mobile Phones",
+        "class": "Operating Expense",
+        "head": "Utilities & Communications",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cell phone plans and devices."
+    },
+    {
+        "code": "6400",
+        "name": "Advertising - General",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "General advertising."
+    },
+    {
+        "code": "6410",
+        "name": "Digital Marketing & Social Media",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Search, social and online ads."
+    },
+    {
+        "code": "6420",
+        "name": "Print, Radio & TV Advertising",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Traditional media advertising."
+    },
+    {
+        "code": "6430",
+        "name": "Promotions & Events",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "In-store promotions and events."
+    },
+    {
+        "code": "6440",
+        "name": "Signage",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Non-capital signage."
+    },
+    {
+        "code": "6450",
+        "name": "Website Hosting & Development",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Website costs not capitalized."
+    },
+    {
+        "code": "6460",
+        "name": "Sponsorships",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Community and event sponsorships."
+    },
+    {
+        "code": "6470",
+        "name": "Customer Loyalty Program Costs",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Costs of rewards programs."
+    },
+    {
+        "code": "6480",
+        "name": "Trade Shows & Exhibitions",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Booth, travel and materials."
+    },
+    {
+        "code": "6490",
+        "name": "Samples & Giveaways",
+        "class": "Operating Expense",
+        "head": "Advertising & Marketing",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Free samples and promotional items."
+    },
+    {
+        "code": "6500",
+        "name": "Office Supplies",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Consumable office supplies."
+    },
+    {
+        "code": "6510",
+        "name": "Postage & Shipping - Office",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Postage and courier for admin."
+    },
+    {
+        "code": "6520",
+        "name": "Printing & Copying",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Printing, forms and copying."
+    },
+    {
+        "code": "6530",
+        "name": "Dues & Memberships",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Trade associations and chambers."
+    },
+    {
+        "code": "6540",
+        "name": "Software Subscriptions (SaaS)",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Monthly/annual SaaS fees."
+    },
+    {
+        "code": "6550",
+        "name": "Meals - Business (50% Deductible)",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Business meals with clients/staff."
+    },
+    {
+        "code": "6560",
+        "name": "Entertainment (Non-deductible)",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Entertainment costs (US: generally non-deductible)."
+    },
+    {
+        "code": "6570",
+        "name": "Charitable Contributions",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Donations to qualified charities."
+    },
+    {
+        "code": "6580",
+        "name": "Miscellaneous Expense",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Minor items not classified elsewhere."
+    },
+    {
+        "code": "6590",
+        "name": "Cash Over / Short",
+        "class": "Operating Expense",
+        "head": "Office & General Administrative",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Register and cash count differences."
+    },
+    {
+        "code": "6600",
+        "name": "Accounting & Bookkeeping Fees",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Bookkeeping and accounting services."
+    },
+    {
+        "code": "6610",
+        "name": "Legal Fees",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Attorney fees."
+    },
+    {
+        "code": "6620",
+        "name": "Consulting Fees",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Business and management consulting."
+    },
+    {
+        "code": "6630",
+        "name": "Audit & Tax Preparation Fees",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "External audit and tax compliance."
+    },
+    {
+        "code": "6640",
+        "name": "IT Managed Services",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Outsourced IT support."
+    },
+    {
+        "code": "6650",
+        "name": "Collection Agency Fees",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Fees for collecting receivables."
+    },
+    {
+        "code": "6660",
+        "name": "Background Checks & Drug Testing",
+        "class": "Operating Expense",
+        "head": "Professional & Outside Services",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employee screening costs."
+    },
+    {
+        "code": "6700",
+        "name": "General Liability Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "CGL premiums."
+    },
+    {
+        "code": "6710",
+        "name": "Property Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Building and contents coverage."
+    },
+    {
+        "code": "6720",
+        "name": "Business Interruption Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Loss of income coverage."
+    },
+    {
+        "code": "6730",
+        "name": "Commercial Auto Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Vehicle insurance."
+    },
+    {
+        "code": "6740",
+        "name": "Professional Liability / E&O Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Errors and omissions coverage."
+    },
+    {
+        "code": "6750",
+        "name": "Cyber Liability Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Data breach coverage."
+    },
+    {
+        "code": "6760",
+        "name": "Product Liability Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Coverage for product-related claims."
+    },
+    {
+        "code": "6770",
+        "name": "Crime / Fidelity Bond",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Employee dishonesty and crime coverage."
+    },
+    {
+        "code": "6780",
+        "name": "Umbrella / Excess Liability Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Excess liability coverage."
+    },
+    {
+        "code": "6790",
+        "name": "Directors & Officers Insurance",
+        "class": "Operating Expense",
+        "head": "Insurance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "D&O coverage."
+    },
+    {
+        "code": "6800",
+        "name": "Vehicle Fuel",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Fuel for company vehicles."
+    },
+    {
+        "code": "6810",
+        "name": "Vehicle Repairs & Maintenance",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Service and repairs on vehicles."
+    },
+    {
+        "code": "6820",
+        "name": "Vehicle Registration & Licenses",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Plates, registration, permits."
+    },
+    {
+        "code": "6830",
+        "name": "Mileage Reimbursement",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Personal vehicle mileage paid to staff."
+    },
+    {
+        "code": "6840",
+        "name": "Travel - Airfare",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Business air travel."
+    },
+    {
+        "code": "6850",
+        "name": "Travel - Lodging",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Hotels for business travel."
+    },
+    {
+        "code": "6860",
+        "name": "Travel - Meals & Per Diem",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Meals while traveling."
+    },
+    {
+        "code": "6870",
+        "name": "Parking & Tolls",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Parking and toll charges."
+    },
+    {
+        "code": "6880",
+        "name": "Delivery Expense / Freight-Out",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Outbound freight to customers."
+    },
+    {
+        "code": "6890",
+        "name": "Courier & Messenger",
+        "class": "Operating Expense",
+        "head": "Vehicle, Travel & Delivery",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Local courier services."
+    },
+    {
+        "code": "6900",
+        "name": "Computer & IT Supplies",
+        "class": "Operating Expense",
+        "head": "Technology & Software",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Non-capital hardware and accessories."
+    },
+    {
+        "code": "6910",
+        "name": "Software Licenses (Perpetual, Expensed)",
+        "class": "Operating Expense",
+        "head": "Technology & Software",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Small software purchases expensed."
+    },
+    {
+        "code": "6920",
+        "name": "POS System Fees",
+        "class": "Operating Expense",
+        "head": "Technology & Software",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Point-of-sale software and support."
+    },
+    {
+        "code": "6930",
+        "name": "Cloud Hosting & Data Storage",
+        "class": "Operating Expense",
+        "head": "Technology & Software",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cloud infrastructure and backups."
+    },
+    {
+        "code": "7000",
+        "name": "Repairs & Maintenance - Equipment",
+        "class": "Operating Expense",
+        "head": "Repairs & Maintenance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Non-capital equipment repairs."
+    },
+    {
+        "code": "7010",
+        "name": "Maintenance Contracts",
+        "class": "Operating Expense",
+        "head": "Repairs & Maintenance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Service agreements on equipment."
+    },
+    {
+        "code": "7020",
+        "name": "Small Tools & Equipment (Expensed)",
+        "class": "Operating Expense",
+        "head": "Repairs & Maintenance",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Items below capitalization threshold."
+    },
+    {
+        "code": "7100",
+        "name": "Depreciation Expense",
+        "class": "Operating Expense",
+        "head": "Depreciation, Amortization & Depletion",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Depreciation of PP&E."
+    },
+    {
+        "code": "7110",
+        "name": "Amortization Expense",
+        "class": "Operating Expense",
+        "head": "Depreciation, Amortization & Depletion",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Amortization of intangibles."
+    },
+    {
+        "code": "7120",
+        "name": "Depletion Expense",
+        "class": "Operating Expense",
+        "head": "Depreciation, Amortization & Depletion",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Depletion of natural resources."
+    },
+    {
+        "code": "7200",
+        "name": "Business Licenses & Permits",
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Annual operating licenses and permits."
+    },
+    {
+        "code": "7210",
+        "name": "Franchise / Margin Tax Expense",
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "State franchise/margin tax."
+    },
+    {
+        "code": "7220",
+        "name": "Personal Property Tax",
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Taxes on business personal property/inventory."
+    },
+    {
+        "code": "7230",
+        "name": "Other Taxes",
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Taxes not classified elsewhere."
+    },
+    {
+        "code": "7240",
+        "name": "Regulatory & Filing Fees",
+        "class": "Operating Expense",
+        "head": "Taxes, Licenses & Regulatory",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Government filings and annual reports."
+    },
+    {
+        "code": "7300",
+        "name": "Bank Service Charges",
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Account fees and wire charges."
+    },
+    {
+        "code": "7310",
+        "name": "Merchant / Credit Card Processing Fees",
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Card processing fees."
+    },
+    {
+        "code": "7320",
+        "name": "Check Verification & ACH Fees",
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Check guarantee and ACH costs."
+    },
+    {
+        "code": "7330",
+        "name": "Chargebacks",
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Disputed card transactions lost."
+    },
+    {
+        "code": "7340",
+        "name": "Armored Car Service",
+        "class": "Operating Expense",
+        "head": "Bank, Merchant & Cash Handling Fees",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cash pickup and delivery."
+    },
+    {
+        "code": "7400",
+        "name": "Bad Debt Expense",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Write-offs and provision for credit losses."
+    },
+    {
+        "code": "7410",
+        "name": "Theft & Robbery Losses",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Uninsured theft or robbery losses."
+    },
+    {
+        "code": "7420",
+        "name": "Casualty Losses",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Uninsured fire, flood, storm losses."
+    },
+    {
+        "code": "7430",
+        "name": "Fines & Penalties",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Government fines (generally non-deductible)."
+    },
+    {
+        "code": "7440",
+        "name": "Returned Checks (NSF)",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Uncollected bounced checks."
+    },
+    {
+        "code": "7450",
+        "name": "Warranty Expense",
+        "class": "Operating Expense",
+        "head": "Bad Debts, Losses & Warranty",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Cost of warranty repairs/replacements."
+    },
+    {
+        "code": "8000",
+        "name": "Interest Income",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Interest on deposits and notes."
+    },
+    {
+        "code": "8010",
+        "name": "Dividend Income",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Dividends on investments."
+    },
+    {
+        "code": "8020",
+        "name": "Gain on Sale of Assets",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Gain on disposal of fixed assets."
+    },
+    {
+        "code": "8030",
+        "name": "Rental Income - Non-operating",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Incidental rental income."
+    },
+    {
+        "code": "8040",
+        "name": "Foreign Exchange Gain",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Realized/unrealized currency gains."
+    },
+    {
+        "code": "8050",
+        "name": "Insurance Proceeds & Recoveries",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Proceeds exceeding carrying value of lost assets."
+    },
+    {
+        "code": "8060",
+        "name": "Unrealized Gain on Investments",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Fair value gains on securities."
+    },
+    {
+        "code": "8070",
+        "name": "Grant Income / Government Assistance",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Government grants and assistance."
+    },
+    {
+        "code": "8080",
+        "name": "Miscellaneous Income",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Other non-operating income."
+    },
+    {
+        "code": "8090",
+        "name": "Finance Charge Income - Customer Accounts",
+        "class": "Other Income",
+        "head": "Other Income (Non-operating)",
+        "normal_balance": "credit",
+        "contra": false,
+        "description": "Late/finance charges on customer balances."
+    },
+    {
+        "code": "8500",
+        "name": "Interest Expense",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Interest on loans and credit lines."
+    },
+    {
+        "code": "8510",
+        "name": "Loan Fees & Debt Cost Amortization",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Amortization of loan costs."
+    },
+    {
+        "code": "8520",
+        "name": "Loss on Sale of Assets",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Loss on disposal of fixed assets."
+    },
+    {
+        "code": "8530",
+        "name": "Foreign Exchange Loss",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Realized/unrealized currency losses."
+    },
+    {
+        "code": "8540",
+        "name": "Unrealized Loss on Investments",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Fair value losses on securities."
+    },
+    {
+        "code": "8550",
+        "name": "Impairment Loss",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Write-down of impaired long-lived assets or goodwill."
+    },
+    {
+        "code": "8560",
+        "name": "Loss on Extinguishment of Debt",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Loss on early debt payoff."
+    },
+    {
+        "code": "8570",
+        "name": "Restructuring Costs",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Severance and exit costs."
+    },
+    {
+        "code": "8590",
+        "name": "Other Non-operating Expense",
+        "class": "Other Expense",
+        "head": "Other Expense (Non-operating)",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Other non-operating costs."
+    },
+    {
+        "code": "9000",
+        "name": "Federal Income Tax - Current",
+        "class": "Income Tax",
+        "head": "Income Tax Expense",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Current federal income tax."
+    },
+    {
+        "code": "9010",
+        "name": "State Income Tax - Current",
+        "class": "Income Tax",
+        "head": "Income Tax Expense",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Current state income tax."
+    },
+    {
+        "code": "9020",
+        "name": "Deferred Income Tax Expense (Benefit)",
+        "class": "Income Tax",
+        "head": "Income Tax Expense",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Change in deferred tax balances."
+    },
+    {
+        "code": "9030",
+        "name": "Foreign Income Tax",
+        "class": "Income Tax",
+        "head": "Income Tax Expense",
+        "normal_balance": "debit",
+        "contra": false,
+        "description": "Taxes paid to foreign jurisdictions."
+    }
+]

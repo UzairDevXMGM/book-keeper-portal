@@ -1,0 +1,149 @@
+[
+ {
+  "source": "bank_rule",
+  "keyword": "WIRE TRANSFER FEE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Bank of America wording of the wire fee."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "WIRE FEE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Chase: DOMESTIC / INCOMING / INTERNATIONAL WIRE FEE."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "FEE REVERSAL",
+  "direction": "in",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "A refunded bank fee reduces bank fees."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "CHECK ORDER",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "63400",
+  "notes": "Cheque book order charged by the bank."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "MONTHLY FEE",
+  "direction": "out",
+  "applies_to": "any",
+  "coa_code": "63400",
+  "notes": "Account maintenance fee."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "PAYMENT TO CHASE CARD",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of a Chase card payment (online banking wording)."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "AMERICAN EXPRESS",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of an Amex payment (ACH wording)."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "APPLECARD GSBANK",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "notes": "Bank side of an Apple Card payment."
+ },
+ {
+  "source": "bank_rule",
+  "keyword": "CAPITAL ONE",
+  "direction": "out",
+  "applies_to": "bank",
+  "coa_code": "10900",
+  "confidence": 60,
+  "notes": "Usually a card payment, but Capital One also lends (auto loans), so it waits for review with the transfer pre-selected."
+ },
+ {
+  "source": "vendor",
+  "name": "Zoom",
+  "keyword": "ZOOM.COM",
+  "coa_code": "62400",
+  "notes": "Card descriptor ZOOM.COM 888-799-9666."
+ },
+ {
+  "source": "vendor",
+  "name": "Google Fi",
+  "keyword": "GOOGLE *FI",
+  "boundary": true,
+  "coa_code": "62300",
+  "notes": "Google Fi phone service."
+ },
+ {
+  "source": "vendor",
+  "name": "Google One",
+  "keyword": "GOOGLE *GOOGLE ONE",
+  "coa_code": "62400",
+  "notes": "Google storage subscription."
+ },
+ {
+  "source": "vendor",
+  "name": "Google Nest",
+  "keyword": "GOOGLE *NEST",
+  "coa_code": "62400",
+  "notes": "Nest Aware subscription."
+ },
+ {
+  "source": "vendor",
+  "name": "Tello Mobile",
+  "keyword": "TELLO",
+  "boundary": true,
+  "coa_code": "62300",
+  "notes": "Prepaid phone service."
+ },
+ {
+  "source": "vendor",
+  "name": "Hostinger",
+  "keyword": "HOSTINGER",
+  "coa_code": "62400",
+  "notes": "Web hosting."
+ },
+ {
+  "source": "vendor",
+  "name": "Six Flags",
+  "keyword": "SIXFLAGS",
+  "coa_code": "63120",
+  "notes": "Descriptor written without a space (SIXFLAGS FT SAN ANTOT)."
+ },
+ {
+  "source": "vendor",
+  "name": "GM Financial",
+  "keyword": "GM FINANCIAL",
+  "coa_code": "27000",
+  "notes": "Auto loan payment: needs a principal / interest split, so it waits for review."
+ },
+ {"source": "vendor", "name": "Walmart Supercenter", "keyword": "WM SUPERC", "type": "meals",
+  "notes": "Shortened Walmart Supercenter descriptor (Wells Fargo). Client rule: Walmart purchases are meals."},
+ {"source": "vendor", "name": "Car wash (Auto Spa)", "keyword": "AUTO SPA", "type": "vehicle-repairs",
+  "notes": "Car and truck washes named \"Auto Spa\" (not personal care)."},
+ {"source": "vendor", "name": "Car wash", "keyword": "CAR WASH", "type": "vehicle-repairs", "notes": "Vehicle washing."},
+ {"source": "vendor", "name": "Truck wash", "keyword": "TRUCK WASH", "type": "vehicle-repairs", "notes": "Truck washing."},
+ {"source": "vendor", "name": "Blue Beacon Truck Wash", "keyword": "BLUE BEACON", "type": "vehicle-repairs", "notes": "Truck wash chain."},
+ {"source": "vendor", "name": "Truck stop / travel center", "keyword": "TRAVEL CENTER", "type": "fuel", "notes": "TA, Petro and other travel centers (mostly diesel)."},
+ {"source": "vendor", "name": "Truck stop / travel plaza", "keyword": "TRAVEL PLAZA", "type": "fuel", "notes": "Travel plazas (mostly diesel)."},
+ {"source": "vendor", "name": "PrePass", "keyword": "PREPASS", "type": "parking-tolls", "notes": "Weigh-station bypass and toll service for trucks."},
+ {"source": "bank_rule", "name": "Synchrony card payment", "keyword": "SYNCHRONY BANK", "direction": "out", "applies_to": "bank", "type": "card-payment",
+  "notes": "Bank side of a Synchrony store-card payment."},
+ {"source": "vendor", "name": "Affirm", "keyword": "AFFIRM", "boundary": true, "type": "loan-payment", "notes": "Buy-now-pay-later loan payments."},
+ {"source": "vendor", "name": "Westlake Financial", "keyword": "WESTLAKE", "type": "loan-payment", "notes": "Auto loan payments (Westlake Portfolio)."},
+ {"source": "vendor", "name": "Municipal Utility District (water)", "keyword": "MUD", "boundary": true, "type": "water",
+  "notes": "Texas MUDs bill water and sewer (FORT BEND MUD 25)."}
+]
