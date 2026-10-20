@@ -276,11 +276,27 @@
                                     @if ($company->pm_last_four)
                                         <i class="bi bi-credit-card me-1"></i>{{ ucfirst($company->pm_type) }} •••• {{ $company->pm_last_four }}
                                     @else
-                                        <span class="text-secondary fw-normal">Managed in Stripe</span>
+                                        <span class="text-secondary fw-normal">No card yet</span>
                                     @endif
                                 </div>
+                                @if ($stripeKey)
+                                    <button type="button" class="btn btn-sm btn-link p-0" data-bs-toggle="modal" data-bs-target="#cardModal">
+                                        <i class="bi bi-pencil me-1"></i>{{ $company->pm_last_four ? 'Change card' : 'Add a card' }}
+                                    </button>
+                                @endif
                             </div>
                         </div>
+
+                        @if ($subscription?->onGracePeriod())
+                            <div class="alert alert-warning d-flex flex-wrap align-items-center gap-2">
+                                <i class="bi bi-calendar-x"></i>
+                                <span class="me-auto">Your plan is cancelled and stays open until <b>{{ $subscription->ends_at->format('M j, Y') }}</b>. You will not be charged again.</span>
+                                <form method="POST" action="{{ route('billing.resume') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-primary">Keep my plan</button>
+                                </form>
+                            </div>
+                        @endif
                         <h3 class="h6 mt-2">Add-on reports</h3>
                         @if ($addons->isNotEmpty())
                             <ul class="list-group mb-3">
@@ -302,15 +318,85 @@
                         @else
                             <p class="small text-secondary">No add-on reports yet.</p>
                         @endif
-                        <p class="small text-secondary">Invoices, card changes and cancelling the plan are handled securely by Stripe.</p>
-                        <div class="d-flex flex-wrap gap-2">
-                            @if ($company->hasStripeId())
-                                <a href="{{ route('billing.portal') }}" class="btn btn-outline-secondary"><i class="bi bi-box-arrow-up-right me-1"></i>Manage billing &amp; invoices</a>
-                            @endif
+                        <h3 class="h6 mt-4">Invoices</h3>
+                        @if ($invoicesFailed)
+                            <p class="small text-secondary">Your invoices could not be loaded right now. Please refresh in a moment.</p>
+                        @elseif ($invoices->isEmpty())
+                            <p class="small text-secondary">No invoices yet.</p>
+                        @else
+                            <div class="table-responsive mb-3">
+                                <table class="table report-table table-hover align-middle mb-0 invoice-list">
+                                    <thead><tr><th>Date</th><th>Invoice</th><th class="num">Amount</th><th>Status</th><th class="text-end"><span class="visually-hidden">Open</span></th></tr></thead>
+                                    <tbody>
+                                        @foreach ($invoices as $invoice)
+                                            <tr>
+                                                <td class="text-nowrap">{{ $invoice->date()->format('M j, Y') }}</td>
+                                                <td class="text-nowrap">{{ $invoice->number ?? '—' }}</td>
+                                                <td class="num">{{ $invoice->total() }}</td>
+                                                <td>
+                                                    <span @class(['badge rounded-pill', 'text-bg-success' => $invoice->isPaid(), 'text-bg-warning' => ! $invoice->isPaid()])>
+                                                        {{ $invoice->isPaid() ? 'Paid' : ucfirst((string) $invoice->status) }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-end text-nowrap">
+                                                    <a href="{{ route('billing.invoice', $invoice->id) }}" class="btn btn-sm btn-light border">View</a>
+                                                    <a href="{{ route('billing.invoice', [$invoice->id, 'print' => 1]) }}" target="_blank" rel="noopener" class="btn btn-sm btn-light border" title="Print or save as PDF"><i class="bi bi-printer"></i><span class="visually-hidden">Print</span></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+
+                        <div class="d-flex flex-wrap gap-2 mt-3">
                             <a href="{{ route('reports.index') }}" class="btn btn-light border">Browse add-on reports</a>
+                            @if ($subscription?->valid() && ! $subscription->onGracePeriod())
+                                <form method="POST" action="{{ route('billing.cancel') }}" class="ms-auto"
+                                      data-confirm="Your plan and add-ons stay open until the end of the month you already paid for. After that you will not be charged again. You can keep your plan any time before that date."
+                                      data-confirm-title="Cancel your plan?" data-confirm-button="Cancel plan" data-confirm-tone="danger">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link text-danger">Cancel plan</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </section>
+
+                @if ($stripeKey)
+                    {{-- Change card: Stripe's card field inside our own window (the card goes straight to Stripe) --}}
+                    <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <form class="modal-content addon-modal" data-card-form data-js-submit data-key="{{ $stripeKey }}"
+                                  data-intent="{{ route('billing.card.intent') }}" data-save="{{ route('billing.card.update') }}" data-return="{{ route('profile.show') }}">
+                                @csrf
+                                <div class="modal-header border-0 pb-0">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="addon-modal-icon"><i class="bi bi-credit-card"></i></span>
+                                        <div>
+                                            <h2 class="modal-title h5 mb-0" id="cardModalTitle">{{ $company->pm_last_four ? 'Change card' : 'Add a card' }}</h2>
+                                            <div class="small text-secondary">Used for your plan and every add-on</div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div data-card-element class="pay-element"></div>
+                                    <div class="alert alert-danger small mt-3 mb-0 d-none" role="alert" data-card-message></div>
+                                </div>
+                                <div class="modal-footer border-0 pt-0">
+                                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" data-card-button disabled>
+                                        <span class="spinner-border spinner-border-sm me-1 d-none" aria-hidden="true" data-card-spinner></span>Save card
+                                    </button>
+                                </div>
+                                <div class="addon-modal-foot small text-secondary"><i class="bi bi-shield-lock me-1"></i>Card details go straight to Stripe and are never stored on our servers.</div>
+                            </form>
+                        </div>
+                    </div>
+                    <script src="https://js.stripe.com/v3/"></script>
+                    <script src="{{ asset('js/billing.js') }}?v={{ @filemtime(public_path('js/billing.js')) ?: '1' }}" defer></script>
+                @endif
             @endif
         </div>
     </div>

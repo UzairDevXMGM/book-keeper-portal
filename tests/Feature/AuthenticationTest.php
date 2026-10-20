@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Mail\Welcome;
 use App\Models\User;
 use App\Services\CompanyProvisioner;
 use Database\Seeders\AccountTemplateSeeder;
@@ -10,6 +11,7 @@ use Database\Seeders\ReportSeeder;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -103,6 +105,28 @@ class AuthenticationTest extends TestCase
         $this->get(route('billing.checkout'))->assertRedirect(route('billing.show'));
         $this->get(route('billing.show'))->assertOk()->assertSee('Basic')->assertSee('$25')
             ->assertSee('Online payment is not set up yet')->assertDontSee('js.stripe.com');
+    }
+
+    public function test_a_new_account_gets_the_welcome_email(): void
+    {
+        Mail::fake();
+
+        $this->post('/register', $this->registration());
+
+        Mail::assertSent(Welcome::class, fn (Welcome $mail) => $mail->hasTo('owner@acme.test'));
+    }
+
+    public function test_billing_pages_stay_on_our_site(): void
+    {
+        $user = $this->customer();
+        $user->company->subscriptions()->create([
+            'type' => 'default', 'stripe_id' => 'sub_test', 'stripe_status' => 'active', 'stripe_price' => 'price_test',
+        ]);
+
+        // The old "Manage billing" link opens our own billing section, never Stripe
+        $this->actingAs($user)->get(route('billing.portal'))->assertRedirect(route('profile.show').'#billing');
+        $this->get(route('profile.show'))->assertOk()->assertSee('Invoices')->assertSee('Cancel plan')
+            ->assertDontSee('billing.stripe.com')->assertDontSee('Managed in Stripe');
     }
 
     public function test_subscribing_without_stripe_keys_is_refused_without_charging(): void

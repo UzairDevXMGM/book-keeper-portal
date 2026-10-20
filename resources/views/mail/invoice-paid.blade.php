@@ -20,9 +20,9 @@ We received your payment of **{{ $amount }}** for **{{ $companyName }}**.
 </x-mail::table>
 
 @if ($hasPdf)
-Your invoice is attached as a PDF. You can also view or download it online any time:
+Your invoice is attached as a PDF. You can also open it in your BookKeepingLLC portal any time:
 @else
-You can view and download your invoice online:
+You can open your invoice in your BookKeepingLLC portal:
 @endif
 
 @if ($invoiceUrl)

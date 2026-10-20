@@ -31,21 +31,22 @@
         return;
     }
 
+    const dark = document.documentElement.dataset.bsTheme === 'dark';
     const stripe = Stripe(form.dataset.key);
     const elements = stripe.elements({
         clientSecret: form.dataset.secret,
         fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap' }],
         appearance: {
-            theme: 'stripe',
+            theme: dark ? 'night' : 'stripe',
             variables: {
                 colorPrimary: '#8cbc43',
-                colorText: '#202426',
+                ...(dark ? {} : { colorText: '#202426' }),
                 colorDanger: '#b3261e',
                 fontFamily: 'Roboto, system-ui, sans-serif',
                 borderRadius: '8px',
                 spacingUnit: '4px',
             },
-            rules: {
+            rules: dark ? {} : {
                 '.Input': { borderColor: '#dfe5d8', boxShadow: 'none' },
                 '.Input:focus': { borderColor: '#8cbc43', boxShadow: '0 0 0 3px rgba(140, 188, 67, 0.2)' },
                 '.Label': { fontWeight: '500', color: '#3e4a40' },
@@ -150,5 +151,128 @@
             showError(problem.message);
             if (cardSaved) readyLabel.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Try again';
         }
+    });
+})();
+
+// Shared by the two windows below: post JSON to our server with the page's CSRF token
+const billingPost = async (form, url, body) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value,
+        },
+        body: JSON.stringify(body),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok && !data.message) data.message = 'Something went wrong. Please try again in a moment.';
+    return data;
+};
+
+const stripeAppearance = {
+    theme: document.documentElement.dataset.bsTheme === 'dark' ? 'night' : 'stripe',
+    variables: { colorPrimary: '#8cbc43', fontFamily: 'Roboto, system-ui, sans-serif', borderRadius: '8px' },
+};
+
+// My profile → Change card: Stripe's card field inside our window, loaded when the window opens
+(() => {
+    const form = document.querySelector('[data-card-form]');
+    if (!form || typeof Stripe === 'undefined') return;
+
+    const modal = form.closest('.modal');
+    const button = form.querySelector('[data-card-button]');
+    const spinner = form.querySelector('[data-card-spinner]');
+    const message = form.querySelector('[data-card-message]');
+    const stripe = Stripe(form.dataset.key);
+    let elements = null;
+    let card = null;
+
+    const busy = (on) => {
+        button.disabled = on;
+        spinner.classList.toggle('d-none', !on);
+    };
+    const fail = (text) => {
+        busy(false);
+        message.textContent = text;
+        message.classList.remove('d-none');
+    };
+
+    modal.addEventListener('shown.bs.modal', async () => {
+        if (card) return;
+        busy(true);
+        const data = await billingPost(form, form.dataset.intent, {});
+        if (!data.secret) return fail(data.message || 'The card form could not load. Please try again.');
+        elements = stripe.elements({ clientSecret: data.secret, appearance: stripeAppearance });
+        card = elements.create('payment', { layout: 'tabs', terms: { card: 'never' } });
+        card.on('ready', () => busy(false));
+        card.mount(form.querySelector('[data-card-element]'));
+    });
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!card || button.disabled) return;
+        message.classList.add('d-none');
+        busy(true);
+        const { error, setupIntent } = await stripe.confirmSetup({
+            elements,
+            redirect: 'if_required',
+            confirmParams: { return_url: form.dataset.return },
+        });
+        if (error) return fail(error.message);
+
+        const data = await billingPost(form, form.dataset.save, { payment_method: setupIntent.payment_method });
+        if (data.redirect) {
+            window.location.assign(data.redirect);
+            window.location.reload();
+            return;
+        }
+        // A card Stripe already checked cannot be checked again: a fresh form loads on the next try
+        card.destroy();
+        card = null;
+        fail(data.message || 'The card could not be saved. Please try again.');
+        modal.dispatchEvent(new Event('shown.bs.modal'));
+    });
+})();
+
+// Add-on purchase window: pays on our page; a bank approval (3-D Secure) opens right here
+(() => {
+    const form = document.querySelector('[data-addon-form]');
+    if (!form) return;
+
+    const button = form.querySelector('[data-addon-button]');
+    const spinner = form.querySelector('[data-addon-spinner]');
+    const message = form.querySelector('[data-addon-message]');
+    const stripe = typeof Stripe !== 'undefined' && form.dataset.key ? Stripe(form.dataset.key) : null;
+
+    const busy = (on) => {
+        button.disabled = on;
+        spinner.classList.toggle('d-none', !on);
+    };
+    const fail = (text) => {
+        busy(false);
+        message.textContent = text;
+        message.classList.remove('d-none');
+    };
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (button.disabled) return;
+        message.classList.add('d-none');
+        busy(true);
+
+        let data = await billingPost(form, form.action, {});
+        if (data.confirm) {
+            if (!stripe) return fail('Your bank wants to approve this payment, but the secure window could not load. Please turn off any ad blocker and try again.');
+            const { error } = await stripe.handleNextAction({ clientSecret: data.confirm });
+            // Either way the server checks the payment itself and takes the add-on back off when it was not paid
+            data = await billingPost(form, form.dataset.confirmUrl, { payment: data.payment });
+            if (error && !data.redirect) return fail(error.message || data.message);
+        }
+        if (data.redirect) {
+            window.location.assign(data.redirect);
+            return;
+        }
+        fail(data.message || 'The payment did not go through. Please try again.');
     });
 })();

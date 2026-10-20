@@ -32,6 +32,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/confirm', 'confirm')->middleware('throttle:10,1')->name('confirm');
         Route::get('/success', 'success')->name('success');
         Route::get('/portal', 'portal')->name('portal');
+        Route::get('/invoices/{invoice}', 'invoice')->name('invoice');
+        Route::post('/card/intent', 'cardIntent')->middleware('throttle:20,1')->name('card.intent');
+        Route::post('/card', 'updateCard')->middleware('throttle:10,1')->name('card.update');
+        Route::post('/cancel', 'cancel')->name('cancel');
+        Route::post('/resume', 'resume')->name('resume');
     });
 
     Route::middleware('subscribed')->group(function () {
@@ -51,6 +56,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/reports/{report:code}', [ReportController::class, 'show'])->name('reports.show');
             Route::get('/ledger', [ReportController::class, 'ledger'])->name('ledger');
             Route::post('/reports/{report:code}/add', [AddonController::class, 'store'])->name('addons.store');
+            Route::post('/reports/{report:code}/add/confirm', [AddonController::class, 'confirm'])->middleware('throttle:10,1')->name('addons.confirm');
             Route::delete('/addons/{addon}', [AddonController::class, 'destroy'])->name('addons.destroy');
 
             Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

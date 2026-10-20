@@ -151,7 +151,8 @@
         {{-- Order confirmation --}}
         <div class="modal fade" id="buyAddonModal" tabindex="-1" aria-labelledby="buyAddonTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <form method="POST" action="{{ route('addons.store', $report->code) }}" class="modal-content addon-modal">
+                <form method="POST" action="{{ route('addons.store', $report->code) }}" class="modal-content addon-modal"
+                      data-addon-form data-js-submit data-key="{{ config('cashier.key') }}" data-confirm-url="{{ route('addons.confirm', $report->code) }}">
                     @csrf
                     <div class="modal-header border-0 pb-0">
                         <div class="d-flex align-items-center gap-3">
@@ -175,11 +176,12 @@
                             Today you pay only for the days left in this billing month{{ $quote['next_billing'] ? ' (until '.$quote['next_billing']->format('M j').')' : '' }}.
                             From then on it is {{ money($quote['price']) }} a month with your plan. Remove it any time; unused days are credited.
                         </div>
+                        <div class="alert alert-danger small mt-3 mb-0 d-none" role="alert" data-addon-message></div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
                         <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Not now</button>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="spinner-border spinner-border-sm me-1 d-none" aria-hidden="true"></span>
+                        <button type="submit" class="btn btn-primary" data-addon-button>
+                            <span class="spinner-border spinner-border-sm me-1 d-none" aria-hidden="true" data-addon-spinner></span>
                             {{ $quote['due_today'] !== null ? 'Confirm and pay '.money($quote['due_today']) : 'Confirm and add' }}
                         </button>
                     </div>
@@ -187,5 +189,7 @@
                 </form>
             </div>
         </div>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="{{ asset('js/billing.js') }}?v={{ @filemtime(public_path('js/billing.js')) ?: '1' }}" defer></script>
     @endif
 @endsection

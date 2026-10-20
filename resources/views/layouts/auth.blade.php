@@ -30,6 +30,7 @@
         </aside>
 
         <section class="auth-main">
+            <div class="auth-theme">@include('partials.theme-toggle')</div>
             <div @class(['auth-card', 'auth-card-wide' => $wide ?? false])>
                 <a href="{{ config('bookkeeper.website_url') }}" class="d-inline-block d-lg-none mb-4">
                     <img src="{{ asset('images/logo.png') }}" alt="BookKeepingLLC" class="auth-logo">

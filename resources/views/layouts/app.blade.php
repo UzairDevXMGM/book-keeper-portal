@@ -42,6 +42,7 @@
                 @endif
 
                 <div class="ms-auto d-flex align-items-center gap-1 gap-sm-2">
+                    @include('partials.theme-toggle')
                     @if ($layoutCompany)
                         <div class="dropdown">
                             <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -85,7 +86,7 @@
                             @if ($layoutCompany)
                                 <a class="dropdown-item" href="{{ route('profile.show') }}#business"><i class="bi bi-building"></i>Business details</a>
                                 @if ($layoutCompany->hasStripeId())
-                                    <a class="dropdown-item" href="{{ route('billing.portal') }}"><i class="bi bi-credit-card"></i>Billing &amp; invoices</a>
+                                    <a class="dropdown-item" href="{{ route('profile.show') }}#billing"><i class="bi bi-credit-card"></i>Billing &amp; invoices</a>
                                 @endif
                             @endif
                             <a class="dropdown-item" href="{{ $websiteUrl }}/contact.html" target="_blank" rel="noopener"><i class="bi bi-life-preserver"></i>Help &amp; support</a>

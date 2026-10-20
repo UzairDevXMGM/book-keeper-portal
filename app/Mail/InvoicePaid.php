@@ -45,7 +45,8 @@ class InvoicePaid extends Mailable
                 'description' => $line?->description,
                 'period' => $line ? Carbon::createFromTimestamp($line->period->start)->format('M j, Y').' - '.Carbon::createFromTimestamp($line->period->end)->format('M j, Y') : null,
                 'amount' => self::money($this->invoice->amount_paid, $this->invoice->currency),
-                'invoiceUrl' => $this->invoice->hosted_invoice_url,
+                // Our own invoice page (sign-in needed), so the customer never has to leave the portal
+                'invoiceUrl' => route('billing.invoice', $this->invoice->id),
                 'hasPdf' => $this->pdf !== null,
             ],
         );

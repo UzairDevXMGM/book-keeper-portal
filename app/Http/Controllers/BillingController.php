@@ -184,13 +184,118 @@ class BillingController extends Controller
             ->with('error', 'We have not received the payment confirmation yet. If you were charged, refresh this page in a minute.');
     }
 
-    /** Stripe's hosted page to update the card, download invoices or cancel. */
-    public function portal(Request $request): RedirectResponse
+    /** Billing lives on My profile → Plan & billing now; old links land there. */
+    public function portal(): RedirectResponse
+    {
+        return redirect()->to(route('profile.show').'#billing');
+    }
+
+    /** One invoice on our own page (print it or save it as PDF from the browser). */
+    public function invoice(Request $request, string $invoice): View
     {
         $company = $this->company($request);
-        abort_unless($company->hasStripeId(), 404);
+        abort_unless($company->hasStripeId() && $this->stripeReady() && preg_match('/^in_[A-Za-z0-9]+$/', $invoice), 404);
 
-        return $company->redirectToBillingPortal(route('dashboard'));
+        try {
+            $found = $company->findInvoiceOrFail($invoice);   // 403 when the invoice belongs to another customer
+        } catch (ApiErrorException $e) {
+            Log::error('Invoice lookup failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+            abort(503, 'The invoice could not be loaded right now. Please try again in a moment.');
+        }
+
+        return view('billing.invoice', [
+            'company' => $company,
+            'invoice' => $found,
+            'stripeInvoice' => $found->asStripeInvoice(),
+            'lines' => $found->invoiceLineItems(),
+            'printing' => $request->boolean('print'),
+        ]);
+    }
+
+    /** A fresh SetupIntent for the "Change card" window on My profile. */
+    public function cardIntent(Request $request): JsonResponse
+    {
+        $company = $this->company($request);
+        if (! $this->stripeReady() || ! $company->hasStripeId()) {
+            return response()->json(['message' => 'Online payment is not set up yet.'], 503);
+        }
+
+        try {
+            $intent = $company->createSetupIntent(['payment_method_types' => ['card'], 'usage' => 'off_session']);
+        } catch (ApiErrorException $e) {
+            Log::error('Card setup intent failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'We could not reach the payment provider. Please try again in a moment.'], 502);
+        }
+
+        return response()->json(['secret' => $intent->client_secret]);
+    }
+
+    /** Saves the card the customer just entered as the card for the plan and every add-on. */
+    public function updateCard(Request $request): JsonResponse
+    {
+        $company = $this->company($request);
+        $data = $request->validate(['payment_method' => ['required', 'string', 'max:100', 'regex:/^pm_[A-Za-z0-9]+$/']]);
+        if (! $this->stripeReady() || ! $company->hasStripeId()) {
+            return response()->json(['message' => 'Online payment is not set up yet.'], 503);
+        }
+
+        try {
+            $company->updateDefaultPaymentMethod($data['payment_method']);
+            // A subscription can carry its own card, which would win over the customer's default: point it at the new one
+            foreach ($company->subscriptions()->whereNotIn('stripe_status', ['canceled', 'incomplete_expired'])->get() as $subscription) {
+                $company->stripe()->subscriptions->update($subscription->stripe_id, ['default_payment_method' => $data['payment_method']]);
+            }
+            $company->updateDefaultPaymentMethodFromStripe();
+        } catch (ApiErrorException $e) {
+            Log::error('Card update failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'The card could not be saved. Please try again or use another card.'], 422);
+        }
+
+        Audit::log('billing.card_updated', $company, ['card' => $company->pm_type.' '.$company->pm_last_four]);
+        session()->flash('status', 'Card updated. Your next invoices will be charged to '.ucfirst((string) $company->pm_type).' •••• '.$company->pm_last_four.'.');
+
+        return response()->json(['redirect' => route('profile.show').'#billing']);
+    }
+
+    /** Cancels the plan at the end of the period already paid for; everything stays open until then. */
+    public function cancel(Request $request): RedirectResponse
+    {
+        $company = $this->company($request);
+        $subscription = $company->subscription(Company::SUBSCRIPTION);
+        abort_unless($subscription?->valid() && ! $subscription->onGracePeriod(), 404);
+
+        try {
+            $subscription->cancel();
+        } catch (ApiErrorException $e) {
+            Log::error('Plan cancel failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', 'The plan could not be cancelled right now. Please try again in a moment.');
+        }
+        Audit::log('billing.cancelled', $company, ['ends_at' => $subscription->ends_at?->toDateString()]);
+
+        return redirect()->to(route('profile.show').'#billing')
+            ->with('status', 'Your plan is cancelled. You keep full access until '.$subscription->ends_at->format('M j, Y').' and will not be charged again.');
+    }
+
+    /** Undoes a cancellation while the paid period is still running. */
+    public function resume(Request $request): RedirectResponse
+    {
+        $company = $this->company($request);
+        $subscription = $company->subscription(Company::SUBSCRIPTION);
+        abort_unless($subscription?->onGracePeriod(), 404);
+
+        try {
+            $subscription->resume();
+        } catch (ApiErrorException $e) {
+            Log::error('Plan resume failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+
+            return back()->with('error', 'The plan could not be restarted right now. Please try again in a moment.');
+        }
+        Audit::log('billing.resumed', $company);
+
+        return redirect()->to(route('profile.show').'#billing')->with('status', 'Welcome back. Your plan continues as before.');
     }
 
     /** The plan is paid: log it, keep the city, email the first invoice and greet the customer on the dashboard. */
@@ -215,10 +320,10 @@ class BillingController extends Controller
         session()->flash('status', 'Payment received. Your invoice is on its way to '.$company->owner->email.'.');
     }
 
-    /** Drops a subscription attempt that never got paid (declined card or a closed bank window). */
+    /** Drops a plan that never got paid: a declined card, a closed bank window, or a lapsed plan being restarted. */
     private function cancelIncomplete(Company $company): void
     {
-        $company->subscriptions()->where('type', Company::SUBSCRIPTION)->where('stripe_status', 'incomplete')->get()
+        $company->subscriptions()->where('type', Company::SUBSCRIPTION)->whereIn('stripe_status', ['incomplete', 'past_due', 'unpaid'])->get()
             ->each(function (Subscription $subscription) {
                 try {
                     $subscription->cancelNow();

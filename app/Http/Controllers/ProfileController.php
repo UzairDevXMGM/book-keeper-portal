@@ -25,12 +25,28 @@ class ProfileController extends Controller
         $user = $request->user();
         $company = $user->company;
 
+        // Invoices come from Stripe; the page still opens (without the list) when Stripe cannot be reached
+        $stripeReady = filled(config('cashier.key')) && filled(config('cashier.secret'));
+        $invoices = collect();
+        $invoicesFailed = false;
+        if ($company?->hasStripeId() && $stripeReady) {
+            try {
+                $invoices = $company->invoices();
+            } catch (Throwable $e) {
+                Log::warning('Invoice list failed', ['company_id' => $company->id, 'error' => $e->getMessage()]);
+                $invoicesFailed = true;
+            }
+        }
+
         return view('profile.show', [
             'user' => $user,
             'company' => $company,
             'plan' => $company ? ReportAccess::planFor($company) : null,
             'subscription' => $company?->subscription(Company::SUBSCRIPTION),
             'addons' => $company ? $company->addons()->where('status', 'active')->with('report')->latest()->get() : collect(),
+            'invoices' => $invoices,
+            'invoicesFailed' => $invoicesFailed,
+            'stripeKey' => $stripeReady && $company?->hasStripeId() ? config('cashier.key') : null,
         ]);
     }
 

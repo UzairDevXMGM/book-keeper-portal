@@ -18,6 +18,37 @@ const loadChart = () => new Promise((resolve, reject) => {
 
 const money = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
+// Light / dark mode: <button data-theme-toggle>. The head script already set the theme before the page drew;
+// this keeps the icon in step, saves the choice in this browser and tells charts to redraw.
+const themeButtons = document.querySelectorAll('[data-theme-toggle]');
+const showTheme = () => {
+    const dark = document.documentElement.dataset.bsTheme === 'dark';
+    themeButtons.forEach((button) => {
+        const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+        button.setAttribute('aria-label', label);
+        button.title = label;
+        button.querySelector('[data-theme-icon]').className = `bi ${dark ? 'bi-sun' : 'bi-moon-stars'} fs-5`;
+    });
+};
+const setTheme = (theme, remember) => {
+    document.documentElement.dataset.bsTheme = theme;
+    if (remember) {
+        try { localStorage.setItem('theme', theme); } catch (e) { /* private window: the choice lasts for this page only */ }
+    }
+    showTheme();
+    document.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
+};
+themeButtons.forEach((button) => button.addEventListener('click', () => {
+    setTheme(document.documentElement.dataset.bsTheme === 'dark' ? 'light' : 'dark', true);
+}));
+showTheme();
+// No saved choice: follow the device when it switches (e.g. dark mode at night)
+window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener?.('change', (event) => {
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) { /* ignore */ }
+    if (saved !== 'light' && saved !== 'dark') setTheme(event.matches ? 'dark' : 'light', false);
+});
+
 // Show / hide password: <button data-password-toggle="#password">
 document.addEventListener('click', (event) => {
     const button = event.target.closest('[data-password-toggle]');
@@ -269,25 +300,31 @@ if (journal) {
 // Dashboard trend chart. Chart.js is loaded only on pages that have a chart.
 const trendCanvas = document.querySelector('[data-trend-chart]');
 if (trendCanvas) {
-    loadChart().then((Chart) => {
+    let trendChart = null;
+    const drawTrend = (Chart) => {
+        trendChart?.destroy();
         const data = JSON.parse(trendCanvas.dataset.trendChart);
-        const ink = '#5f6b62';
-        // Validated palette (dataviz validator, light surface): revenue green, costs violet, net income blue
+        const dark = document.documentElement.dataset.bsTheme === 'dark';
+        // Validated palettes (dataviz validator) for the light and the dark card: revenue green, costs violet, net income blue
+        const c = dark
+            ? { ink: '#aab4ac', grid: '#2b312a', surface: '#1a1e1a', revenue: '#8cbc43', costs: '#9387f2', net: '#5aa2f0' }
+            : { ink: '#5f6b62', grid: '#eef1ea', surface: '#ffffff', revenue: '#6f9a35', costs: '#4a3aa7', net: '#2a78d6' };
+        const ink = c.ink;
         const bar = (label, values, color) => ({
-            type: 'bar', label, data: values, backgroundColor: color, borderColor: '#ffffff',
+            type: 'bar', label, data: values, backgroundColor: color, borderColor: c.surface,
             borderWidth: { left: 1, right: 1, top: 0, bottom: 0 }, borderRadius: 4, borderSkipped: 'start',
             categoryPercentage: 0.72, barPercentage: 0.9, order: 2,
         });
 
-        new Chart(trendCanvas, {
+        trendChart = new Chart(trendCanvas, {
             data: {
                 labels: data.labels,
                 datasets: [
-                    bar('Revenue', data.revenue, '#6f9a35'),
-                    bar('Costs', data.costs, '#4a3aa7'),
+                    bar('Revenue', data.revenue, c.revenue),
+                    bar('Costs', data.costs, c.costs),
                     {
-                        type: 'line', label: 'Net income', data: data.net, borderColor: '#2a78d6', backgroundColor: '#2a78d6',
-                        borderWidth: 2, pointRadius: 4, pointHoverRadius: 6, pointBorderColor: '#ffffff', pointBorderWidth: 2,
+                        type: 'line', label: 'Net income', data: data.net, borderColor: c.net, backgroundColor: c.net,
+                        borderWidth: 2, pointRadius: 4, pointHoverRadius: 6, pointBorderColor: c.surface, pointBorderWidth: 2,
                         tension: 0.25, order: 1,
                     },
                 ],
@@ -306,12 +343,16 @@ if (trendCanvas) {
                 scales: {
                     x: { grid: { display: false }, ticks: { color: ink } },
                     y: {
-                        grid: { color: '#eef1ea' }, border: { display: false },
+                        grid: { color: c.grid }, border: { display: false },
                         ticks: { color: ink, callback: (v) => `$${Math.abs(v) >= 1000 ? `${v / 1000}k` : v}` },
                     },
                 },
             },
         });
+    };
+    loadChart().then((Chart) => {
+        drawTrend(Chart);
+        document.addEventListener('themechange', () => drawTrend(Chart));
     });
 }
 
