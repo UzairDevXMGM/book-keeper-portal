@@ -9,6 +9,7 @@
         'plans' => ['Plans & prices', 'box-seam'],
         'catalog' => ['Report catalog', 'journal-richtext'],
         'categories' => ['Categories', 'tags'],
+        'business-types' => ['Business types', 'shop'],
         'users' => ['Users', 'person-gear'],
         'audit' => ['Audit log', 'clock-history'],
         'settings' => ['Settings', 'gear'],
@@ -86,6 +87,19 @@
                         <li><b>Posts to</b>: the account a category uses. <b>Industry accounts</b> send it to an industry's own account (Trucking: Fuel → 5215 Fuel - Trucks).</li>
                         <li><b>Add category</b> creates a new one; switching one off stops using it.</li>
                         <li>Changes apply to statements uploaded from now on. Customers' own “Always” rules always win over these.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="business-types" class="card mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-2"><i class="bi bi-shop me-2"></i>Business types</h2>
+                    <p class="small">The kinds of business recognised from words in a merchant's name: “Eppies <b>Restaurant</b>” → Restaurant → Meals &amp; Entertainment, “ABC <b>Roofing</b> Corp” → Roofing contractor → Repairs &amp; Maintenance, “Gold Coast <b>Heavy Hauling</b>” → Trucking company.</p>
+                    <ul class="small mb-0">
+                        <li>Named merchants (Walmart, Shell, Pilot…) are still found by their own rules first; a business type decides when only a generic word or nothing matched.</li>
+                        <li>The type is shown next to the merchant on Transactions and Check categories.</li>
+                        <li><b>Try a merchant name</b> shows what a name would be recognised as. If it is not recognised, add a word to the right type or <b>Add business type</b>.</li>
+                        <li><b>How sure</b> below the review threshold ({{ $threshold }}%) means a match is suggested but always checked, as for doctors and salons, which can be business or personal.</li>
                     </ul>
                 </div>
             </section>

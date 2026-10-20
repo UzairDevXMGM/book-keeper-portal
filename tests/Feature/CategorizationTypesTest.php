@@ -9,6 +9,7 @@ use App\Models\Upload;
 use App\Models\User;
 use App\Services\CompanyProvisioner;
 use Database\Seeders\AccountTemplateSeeder;
+use Database\Seeders\BusinessTypeSeeder;
 use Database\Seeders\CategorizationRuleSeeder;
 use Database\Seeders\PlanSeeder;
 use Database\Seeders\ReportSeeder;
@@ -27,7 +28,7 @@ class CategorizationTypesTest extends TestCase
     {
         parent::setUp();
         Storage::fake('local');
-        $this->seed([ReportSeeder::class, PlanSeeder::class, AccountTemplateSeeder::class, CategorizationRuleSeeder::class]);
+        $this->seed([ReportSeeder::class, PlanSeeder::class, AccountTemplateSeeder::class, CategorizationRuleSeeder::class, BusinessTypeSeeder::class]);
     }
 
     public function test_merchants_are_categorized_by_type_on_the_master_chart(): void

@@ -156,7 +156,7 @@ class LedgerAndReportsTest extends TestCase
         $entry = $this->post2(now()->toDateString(), '6200', '100', '1030');
         $this->actingAs($this->owner);
 
-        foreach ([route('dashboard'), route('reports.index'), route('transactions.index'), route('accounts.index'),
+        foreach ([route('dashboard'), route('reports.index'), route('transactions.index', ['preset' => 'all']), route('accounts.index'),
             route('journal.create'), route('journal.show', $entry), route('alerts.index'),
             route('uploads.index'), route('review.index'), route('reconcile.index')] as $url) {
             $this->get($url)->assertOk();
@@ -188,14 +188,14 @@ class LedgerAndReportsTest extends TestCase
         $bank = $this->company->accounts()->whereKey($this->accountId('1030'))->value('name');
 
         // Simple view: one row per transaction with its category, the bank it went through and money out
-        $this->get(route('transactions.index', ['per_page' => 25]))->assertOk()
+        $this->get(route('transactions.index', ['preset' => 'all', 'per_page' => 25]))->assertOk()
             ->assertSee('of <strong>30</strong> transactions', false)
             ->assertSee(['Category', 'Money out', $category, $bank, '−$10.00', '$300.00']);
-        $this->get(route('transactions.index', ['per_page' => 25, 'page' => 2]))->assertOk()->assertSee('26–30', false);
+        $this->get(route('transactions.index', ['preset' => 'all', 'per_page' => 25, 'page' => 2]))->assertOk()->assertSee('26–30', false);
         // Accountant view: every debit and credit line
-        $this->get(route('transactions.index', ['view' => 'accountant', 'per_page' => 25]))->assertOk()
+        $this->get(route('transactions.index', ['preset' => 'all', 'view' => 'accountant', 'per_page' => 25]))->assertOk()
             ->assertSee('of <strong>60</strong> lines', false)->assertSee('Total debits');
-        $this->get(route('transactions.index', ['per_page' => 999]))->assertSessionHasErrors('per_page');
+        $this->get(route('transactions.index', ['preset' => 'all', 'per_page' => 999]))->assertSessionHasErrors('per_page');
     }
 
     public function test_long_general_ledger_is_paged_on_screen_but_printed_in_full(): void

@@ -50,7 +50,7 @@
                 </form>
             @endif
             @if (! ($counts['posted'] ?? 0))
-                <form method="POST" action="{{ route('uploads.destroy', $upload) }}" data-confirm="Delete this upload and everything read from it?">
+                <form method="POST" action="{{ route('uploads.destroy', $upload) }}" data-confirm="The file and the lines read from it are deleted. Nothing in your books changes." data-confirm-title="Delete this upload?" data-confirm-button="Delete upload" data-confirm-tone="danger">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash me-1"></i>Delete</button>
@@ -132,7 +132,16 @@
                             <tr>
                                 <td class="text-nowrap">{{ $row->txn_date?->format('M j, Y') ?? '—' }}</td>
                                 <td>
-                                    {{ $row->description ?? '—' }}
+                                    @php $merchant = $row->description ? \App\Support\MerchantName::for($row) : null; @endphp
+                                    @if ($merchant)
+                                        <span class="fw-semibold">{{ $merchant }}</span>
+                                        @if ($row->business_type) <span class="business-type">{{ $row->business_type }}</span> @endif
+                                        @if (\App\Services\Import\Categorizer::normalize($merchant) !== \App\Services\Import\Categorizer::normalize((string) $row->description))
+                                            <div class="small text-secondary">{{ $row->description }}</div>
+                                        @endif
+                                    @else
+                                        {{ $row->description ?? '—' }}
+                                    @endif
                                     @if ($row->error_message)
                                         <div class="small text-secondary">{{ $row->error_message }}</div>
                                     @endif

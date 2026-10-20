@@ -29,21 +29,39 @@
         </div>
     </div>
 
+    @if (! $datesPicked)
+        @include('partials.date-first', [
+            'action' => route('transactions.index'),
+            'keep' => ['view' => $simple ? null : 'accountant', 'account' => $filters['account'] ?? null, 'source' => $filters['source'] ?? null],
+            'presets' => $presets,
+            'what' => 'transactions',
+        ])
+    @else
     <form method="GET" class="card card-body report-toolbar mb-3 d-flex flex-row flex-wrap align-items-end gap-2">
         @unless ($simple)
             <input type="hidden" name="view" value="accountant">
         @endunless
+        @php($currentPreset = $filters['preset'] ?? (filled($filters['start'] ?? null) || filled($filters['end'] ?? null) ? 'custom' : 'all'))
         <div>
-            <label for="q" class="form-label small mb-1">Search</label>
-            <input id="q" type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="Merchant, description..." class="form-control form-control-sm">
+            <label for="preset" class="form-label small mb-1">Dates</label>
+            <select id="preset" name="preset" class="form-select form-select-sm" data-preset-select>
+                @foreach ($presets as $value => $label)
+                    <option value="{{ $value }}" @selected($currentPreset === $value)>{{ $label }}</option>
+                @endforeach
+                <option value="custom" @selected($currentPreset === 'custom')>Custom dates</option>
+            </select>
         </div>
-        <div>
+        <div data-custom-dates>
             <label for="start" class="form-label small mb-1">From</label>
             <input id="start" type="date" name="start" value="{{ $filters['start'] ?? '' }}" class="form-control form-control-sm">
         </div>
-        <div>
+        <div data-custom-dates>
             <label for="end" class="form-label small mb-1">To</label>
             <input id="end" type="date" name="end" value="{{ $filters['end'] ?? '' }}" class="form-control form-control-sm">
+        </div>
+        <div>
+            <label for="q" class="form-label small mb-1">Search</label>
+            <input id="q" type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="Merchant, description..." class="form-control form-control-sm">
         </div>
         <div>
             <label for="account" class="form-label small mb-1">{{ $simple ? 'Account or category' : 'Account' }}</label>
@@ -84,14 +102,14 @@
 
     @if ($simple)
         <div class="row row-cols-1 row-cols-sm-3 g-2 g-md-3 mb-3">
-            <div class="col"><x-kpi label="Transactions" :value="number_format($totals['count'])" /></div>
-            <div class="col"><x-kpi label="Money in" :value="money($totals['in'])" sub="Into your bank and cards (transfers left out)" /></div>
-            <div class="col"><x-kpi label="Money out" :value="money($totals['out'])" sub="Spent from your bank and cards (transfers left out)" /></div>
+            <div class="col"><x-kpi label="Transactions" icon="list-ul" :value="number_format($totals['count'])" /></div>
+            <div class="col"><x-kpi label="Money in" icon="arrow-down-left" :value="money($totals['in'])" sub="Into your bank and cards (transfers left out)" /></div>
+            <div class="col"><x-kpi label="Money out" icon="arrow-up-right" :value="money($totals['out'])" sub="Spent from your bank and cards (transfers left out)" /></div>
         </div>
 
-        <div class="card">
+        <div class="card txn-card">
             <div class="table-responsive">
-                <table class="table report-table table-hover align-middle mb-0">
+                <table class="table report-table txn-table table-hover align-middle mb-0">
                     <thead>
                         <tr>
                             <th>Date</th><th style="min-width: 200px">Description</th><th>Category</th><th style="min-width: 140px">Bank / card</th>
@@ -101,13 +119,37 @@
                     <tbody>
                         @forelse ($rows as $row)
                             @php($entry = $row['entry'])
+                            @php($flow = $row['note'] ? 'move' : ($row['in'] > 0 ? 'in' : 'out'))
                             <tr>
-                                <td class="text-nowrap small">{{ $entry->entry_date->format('M j, Y') }}</td>
+                                <td class="text-nowrap">
+                                    <div class="txn-date">
+                                        <span class="txn-date-day">{{ $entry->entry_date->format('M j') }}</span>
+                                        <span class="txn-date-year">{{ $entry->entry_date->format('Y') }}</span>
+                                    </div>
+                                </td>
                                 <td>
-                                    <a href="{{ route('journal.show', $entry) }}" class="text-body">{{ \Illuminate\Support\Str::limit($entry->description, 90) }}</a>
+                                    <div class="d-flex align-items-start gap-2">
+                                    <span class="txn-icon is-{{ $flow }}" title="{{ ['in' => 'Money in', 'out' => 'Money out', 'move' => 'Transfer'][$flow] }}">
+                                        <i class="bi bi-{{ ['in' => 'arrow-down-left', 'out' => 'arrow-up-right', 'move' => 'arrow-left-right'][$flow] }}"></i>
+                                    </span>
+                                    <div class="min-w-0">
+                                    {{-- Who was paid, and what kind of business it is --}}
+                                    @if ($row['merchant'] ?? null)
+                                        <a href="{{ route('journal.show', $entry) }}" class="text-body fw-semibold">{{ $row['merchant'] }}</a>
+                                        @if ($row['businessType'] ?? null)
+                                            <span class="business-type">{{ $row['businessType'] }}</span>
+                                        @endif
+                                        @if (\App\Services\Import\Categorizer::normalize($row['merchant']) !== \App\Services\Import\Categorizer::normalize((string) $entry->description))
+                                            <div class="small text-secondary">{{ \Illuminate\Support\Str::limit($entry->description, 90) }}</div>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('journal.show', $entry) }}" class="text-body">{{ \Illuminate\Support\Str::limit($entry->description, 90) }}</a>
+                                    @endif
                                     @if ($entry->source !== 'upload' && ($sources[$entry->source] ?? '') !== $entry->description)
                                         <div class="small text-secondary">{{ $sources[$entry->source] ?? $entry->source }}</div>
                                     @endif
+                                    </div>
+                                    </div>
                                 </td>
                                 <td>
                                     @if ($row['categoryLineId'] ?? null)
@@ -120,17 +162,26 @@
                                             {{ $row['category'] ?? 'Needs a category' }} <i class="bi bi-pencil"></i>
                                         </button>
                                     @elseif ($row['category'])
-                                        <span class="category-badge">{{ $row['category'] }}</span>
+                                        {{-- Split over several categories: every one is shown --}}
+                                        <div class="d-flex flex-wrap gap-1">
+                                            @foreach ($row['categories'] ?? [$row['category']] as $label)
+                                                <span class="category-badge">{{ $label }}</span>
+                                            @endforeach
+                                        </div>
                                     @else
                                         <a href="{{ route('review.index') }}" class="category-badge is-missing">Needs a category</a>
                                     @endif
                                 </td>
-                                <td class="small">{{ $row['through'] ?? '' }}</td>
+                                <td class="small">
+                                    @if ($row['through'] ?? null)
+                                        <span class="txn-through"><i class="bi bi-{{ \Illuminate\Support\Str::contains(strtolower($row['through']), ['card', 'visa', 'amex', 'mastercard']) ? 'credit-card' : 'bank' }}"></i>{{ $row['through'] }}</span>
+                                    @endif
+                                </td>
                                 @if ($row['note'])
                                     <td colspan="2" class="num small text-secondary">{{ money($row['amount']) }} {{ $row['note'] }}</td>
                                 @else
-                                    <td class="num text-success">{{ $row['in'] > 0 ? '+'.money($row['in']) : '' }}</td>
-                                    <td class="num">{{ $row['out'] > 0 ? '−'.money($row['out']) : '' }}</td>
+                                    <td class="num">@if ($row['in'] > 0)<span class="amount-in">+{{ money($row['in']) }}</span>@endif</td>
+                                    <td class="num">@if ($row['out'] > 0)<span class="amount-out">−{{ money($row['out']) }}</span>@endif</td>
                                 @endif
                             </tr>
                         @empty
@@ -192,17 +243,17 @@
     @else
         <div class="row row-cols-1 row-cols-sm-3 g-2 g-md-3 mb-3">
             <div class="col"><x-kpi label="Lines" :value="number_format($totals->n ?? 0)" /></div>
-            <div class="col"><x-kpi label="Total debits" :value="money($totals->debit ?? 0)" /></div>
-            <div class="col"><x-kpi label="Total credits" :value="money($totals->credit ?? 0)" /></div>
+            <div class="col"><x-kpi label="Total debits" class="kpi-debit" :value="money($totals->debit ?? 0)" /></div>
+            <div class="col"><x-kpi label="Total credits" class="kpi-credit" :value="money($totals->credit ?? 0)" /></div>
         </div>
 
         <div class="card">
             <div class="table-responsive">
-                <table class="table report-table table-hover mb-0">
+                <table class="table report-table is-drcr table-hover mb-0">
                     <thead>
                         <tr>
-                            <th>Date</th><th>Entry</th><th>Description</th><th>Account</th>
-                            <th class="num">Debit</th><th class="num">Credit</th><th>Source</th>
+                            <th>Date</th><th>Entry</th><th style="min-width: 200px">Description</th><th>Account</th>
+                            <th class="num col-debit">Debit</th><th class="num col-credit">Credit</th><th>Source</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -212,8 +263,8 @@
                                 <td><a href="{{ route('journal.show', $line->journal_entry_id) }}">#{{ $line->journalEntry->entry_number }}</a></td>
                                 <td>{{ $line->description ?: $line->journalEntry->description }}</td>
                                 <td class="text-nowrap">{{ $line->account->code }} · {{ $line->account->name }}</td>
-                                <td class="num">{{ $line->debit > 0 ? money($line->debit) : '' }}</td>
-                                <td class="num">{{ $line->credit > 0 ? money($line->credit) : '' }}</td>
+                                <td class="num col-debit">{{ $line->debit > 0 ? money($line->debit) : '' }}</td>
+                                <td class="num col-credit">{{ $line->credit > 0 ? money($line->credit) : '' }}</td>
                                 <td><span class="badge text-bg-light border">{{ $sources[$line->journalEntry->source] ?? $line->journalEntry->source }}</span></td>
                             </tr>
                         @empty
@@ -225,5 +276,6 @@
         </div>
 
         @include('partials.pagination', ['paginator' => $rows, 'label' => 'lines', 'perPageOptions' => $perPageOptions])
+    @endif
     @endif
 @endsection

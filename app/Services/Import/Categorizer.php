@@ -2,6 +2,7 @@
 
 namespace App\Services\Import;
 
+use App\Models\BusinessType;
 use App\Models\CategorizationRule;
 use App\Models\CategoryType;
 use App\Models\Company;
@@ -74,6 +75,7 @@ class Categorizer
             $activeTypes->mapWithKeys(fn (CategoryType $t) => [$t->slug => $types[$t->id]])->all(),
             $history,
             $types->map(fn ($t) => $t['name'])->all(),
+            self::businessTypes(),
         );
 
         foreach (CategorizationRule::where('is_active', true)
@@ -101,6 +103,8 @@ class Categorizer
                 'priority' => $rule->company_id ? self::USER_RULE_PRIORITY : $rule->priority,
                 'confidence' => $rule->confidence,
                 'needs_review' => $rule->needs_review || ($type['needs_review'] ?? false),
+                // A one-word "Local restaurant (RESTAURANT)" pattern from the vendor library rather than a named merchant
+                'generic' => $rule->source === 'vendor' && $rule->company_id === null && str_starts_with((string) $rule->name, 'Local '),
             ];
         }
 
@@ -109,9 +113,24 @@ class Categorizer
 
     /**
      * @param  string  $kind  'bank' or 'credit_card' (the statement account's kind)
-     * @return array{account_id: ?int, rule_id: ?int, category_type_id: ?int, type: ?string, method: string, confidence: int, needs_review: bool}
+     * @return array{account_id: ?int, rule_id: ?int, category_type_id: ?int, type: ?string, method: string, confidence: int, needs_review: bool, business_type: ?string}
      */
     public function suggest(string $description, string $direction, string $kind, ?string $bankCategory, int $statementAccountId): array
+    {
+        // Whatever gave the category, say what kind of business the merchant is ("Shell" → Gas station)
+        return $this->categorize($description, $direction, $kind, $bankCategory, $statementAccountId)
+            + ['business_type' => $this->smart->businessType($description, $direction)['name'] ?? null];
+    }
+
+    /** @return list<array{name: string, category_type_id: ?int, direction: string, confidence: int, keywords: list<string>}> the active business types */
+    public static function businessTypes(): array
+    {
+        return BusinessType::where('is_active', true)->orderBy('sort_order')->get()
+            ->map(fn (BusinessType $t) => ['name' => $t->name, 'category_type_id' => $t->category_type_id, 'direction' => $t->direction,
+                'confidence' => $t->confidence, 'keywords' => $t->keywordList()])->all();
+    }
+
+    private function categorize(string $description, string $direction, string $kind, ?string $bankCategory, int $statementAccountId): array
     {
         $text = ' '.mb_strtoupper(preg_replace('/\s+/', ' ', $description)).' ';
         $words = ' '.self::normalize($description).' ';
@@ -133,6 +152,12 @@ class Categorizer
             $accountId = $rule['account_id'] === $statementAccountId ? $this->transfers : $rule['account_id'];
             if (! $accountId) {
                 continue;
+            }
+
+            // A generic one-word pattern gives way to this business's own past choices, or to the kind of business
+            // the merchant's name shows ("Allied Waste Services" is trash pickup, not the "Local utility" pattern)
+            if ($rule['generic'] && ($better = $this->smart->beforeGeneric($description, $direction, $statementAccountId))) {
+                return array_merge(['rule_id' => null], $better, ['needs_review' => $better['needs_review'] || $better['confidence'] < $this->threshold]);
             }
 
             return [

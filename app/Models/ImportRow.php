@@ -43,6 +43,7 @@ class ImportRow extends Model
         'suggested_account_id',
         'account_id',
         'category_type_id',
+        'business_type',
         'rule_id',
         'match_method',
         'confidence',

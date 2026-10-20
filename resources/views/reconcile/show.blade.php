@@ -20,7 +20,7 @@
             </div>
         </div>
         @if ($open)
-            <form method="POST" action="{{ route('reconcile.destroy', $reconciliation) }}" data-confirm="Discard this reconciliation? Your ticks are cleared.">
+            <form method="POST" action="{{ route('reconcile.destroy', $reconciliation) }}" data-confirm="Your ticks are cleared. Your books are not changed." data-confirm-title="Discard this reconciliation?" data-confirm-button="Discard" data-confirm-tone="danger">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-outline-danger">Discard</button>

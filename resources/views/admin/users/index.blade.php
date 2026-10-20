@@ -48,13 +48,13 @@
                             <td class="small text-nowrap">{{ $user->last_login_at?->diffForHumans() ?? 'Never' }}</td>
                             <td><span class="badge {{ $user->is_active ? 'text-bg-primary' : 'text-bg-secondary' }}">{{ $user->is_active ? 'Active' : 'Disabled' }}</span></td>
                             <td class="text-end text-nowrap">
-                                <form method="POST" action="{{ route('admin.users.reset', $user) }}" class="d-inline" data-confirm="Email a password reset link to {{ $user->email }}?">
+                                <form method="POST" action="{{ route('admin.users.reset', $user) }}" class="d-inline" data-confirm="We email {{ $user->email }} a link to choose a new password." data-confirm-title="Send a password reset link?" data-confirm-button="Send link">
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-link">Send reset link</button>
                                 </form>
                                 @unless ($user->is(auth()->user()))
                                     <form method="POST" action="{{ route('admin.users.toggle', $user) }}" class="d-inline"
-                                          data-confirm="{{ $user->is_active ? 'Disable' : 'Enable' }} the login for {{ $user->email }}?">
+                                          data-confirm="{{ $user->is_active ? $user->email.' is signed out and cannot log in until enabled again.' : $user->email.' can log in again.' }}" data-confirm-title="{{ $user->is_active ? 'Disable this login?' : 'Enable this login?' }}" data-confirm-button="{{ $user->is_active ? 'Disable' : 'Enable' }}" @if ($user->is_active) data-confirm-tone="danger" @endif>
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-link {{ $user->is_active ? 'text-danger' : '' }}">{{ $user->is_active ? 'Disable' : 'Enable' }}</button>
                                     </form>

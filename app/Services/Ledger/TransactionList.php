@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Company;
 use App\Models\JournalEntry;
 use App\Models\JournalLine;
+use App\Support\MerchantName;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +18,8 @@ class TransactionList
     /** Relations describe() needs; eager-load them on the entries query. */
     public const WITH = [
         'lines.account:id,code,name,type,is_credit_card,system_key',
-        'importRow:id,journal_entry_id,category_type_id,account_id',
+        'importRow:id,journal_entry_id,category_type_id,account_id,business_type,description,rule_id',
+        'importRow.rule:id,name,source,company_id',
         'importRow.categoryType:id,name',
         'importRow.account:id,name,system_key',
     ];
@@ -69,7 +71,8 @@ class TransactionList
             $to = $onStatement->first(fn ($l) => $l->debit > 0);
 
             return ['entry' => $entry, 'category' => 'Transfer between your accounts', 'through' => $from && $to ? "{$from->account->name} → {$to->account->name}" : null,
-                'in' => 0.0, 'out' => 0.0, 'amount' => (float) $onStatement->sum('debit'), 'note' => 'moved between your accounts', 'categoryLineId' => null];
+                'in' => 0.0, 'out' => 0.0, 'amount' => (float) $onStatement->sum('debit'), 'note' => 'moved between your accounts', 'categoryLineId' => null,
+                'categories' => ['Transfer between your accounts'], 'merchant' => null, 'businessType' => null];
         }
 
         $statementLine = $onStatement->first();
@@ -84,7 +87,14 @@ class TransactionList
         $categoryLine = $statementLine && $single ? $single : null;
         $moved = $categoryLine ? ($movedTo[$categoryLine->id] ?? null) : ($suspenseLine ? ($movedTo[$suspenseLine->id] ?? null) : null);
 
-        // Category: a later correction, the one the upload gave it, else the other account; several = biggest + n more
+        // An entry split over several categories (payroll: wages + taxes; a loan payment: interest + principal) shows
+        // every one of them, biggest first
+        $categories = $categoryLine || $main || $other->count() < 2 || $moved !== null || $entry->importRow
+            ? []
+            : $other->sortByDesc(fn ($l) => max($l->debit, $l->credit))
+                ->map(fn ($l) => self::accountLabel($l->account))->unique()->values()->all();
+
+        // Category: a later correction, the one the upload gave it, else the other account
         $category = match (true) {
             // An uploaded line that was changed keeps the category name it was given ("Fuel" rather than the account)
             $moved !== null => $entry->importRow && $entry->importRow->account_id === $moved->id && $entry->importRow->categoryLabel()
@@ -92,8 +102,7 @@ class TransactionList
             $suspenseLine !== null => null,   // still needs a category
             $entry->importRow !== null => $entry->importRow->categoryLabel(),
             $main !== null => self::accountLabel($main->account),
-            $other->count() > 1 => self::accountLabel($other->sortByDesc(fn ($l) => max($l->debit, $l->credit))->first()->account)
-                .' + '.($other->count() - 1).' more',
+            $categories !== [] => implode(' · ', $categories),
             default => null,
         };
         if (str_starts_with((string) $entry->reference, 'reclass:') && $other->count() === 2) {
@@ -105,6 +114,10 @@ class TransactionList
         return [
             'entry' => $entry,
             'category' => $category,
+            'categories' => $categories !== [] ? $categories : array_filter([$category]),
+            // Who was paid and what kind of business it is ("ABC Roofing Corp · Roofing contractor"), for uploaded lines
+            'merchant' => $entry->importRow ? MerchantName::for($entry->importRow) : null,
+            'businessType' => $entry->importRow?->business_type,
             'through' => $statementLine?->account->name,
             'in' => (float) ($statementLine?->debit ?? 0),
             'out' => (float) ($statementLine?->credit ?? 0),

@@ -33,6 +33,48 @@ class ReportController extends Controller
         ]);
     }
 
+    /** Reports that ask for the dates before showing anything (long lists of transactions). */
+    public const DATES_FIRST = ['ACC-22', 'BKT-07'];
+
+    /**
+     * The page for an add-on the business does not have yet: what it shows (with a blurred preview built from their
+     * own books), the price, what changes on their bill, and other add-ons in the same group.
+     */
+    private function addonPage($company, Report $report): View
+    {
+        $preview = null;
+        if (ReportRunner::supports($report->code)) {
+            try {
+                $document = ReportRunner::run($company, $report, Period::resolve($company, ['preset' => 'ytd']));
+                $table = $document->tables[0] ?? null;
+                $preview = [
+                    'kpis' => array_slice($document->kpis, 0, 4),
+                    'columns' => $table ? array_slice($table['columns'], 0, 5) : [],
+                    'rows' => $table ? array_slice(array_values(array_filter($table['rows'], fn ($r) => $r['style'] !== 'heading')), 0, 6) : [],
+                ];
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+        $all = ReportAccess::for($company);
+
+        return view('reports.locked', [
+            'company' => $company,
+            'report' => $report,
+            'quote' => \App\Services\Billing\AddonQuote::for($company, $report),
+            'preview' => $preview,
+            'related' => $all->filter(fn ($r) => ! $r['has_access'] && ! $r['report']->is($report) && $r['report']->category === $report->category)
+                ->pluck('report')->take(3),
+            'includedCount' => $all->where('included', true)->count(),
+        ]);
+    }
+
+    /** The General Ledger, from its own place in the menu. */
+    public function ledger(Request $request): View|StreamedResponse
+    {
+        return $this->show($request, Report::where('code', 'ACC-22')->firstOrFail());
+    }
+
     public function show(Request $request, Report $report): View|StreamedResponse
     {
         $company = $this->company($request);
@@ -40,10 +82,20 @@ class ReportController extends Controller
         abort_if($access === null, 404);
 
         if (! $access['has_access']) {
-            return view('reports.locked', ['report' => $report, 'company' => $company]);
+            return $this->addonPage($company, $report);
         }
         if (! $access['ready']) {
             return view('reports.coming-soon', ['report' => $report, 'company' => $company]);
+        }
+        // The ledger lists every transaction: first ask which dates, then show them
+        if (in_array($report->code, self::DATES_FIRST, true) && ! $request->hasAny(['preset', 'start', 'end'])) {
+            return view('reports.pick-dates', [
+                'company' => $company,
+                'report' => $report,
+                'action' => $request->routeIs('ledger') ? route('ledger') : route('reports.show', $report->code),
+                'keep' => $request->only(['account', 'through', 'q']),
+                'presets' => TransactionController::DATE_PRESETS,
+            ]);
         }
 
         $query = $request->only(['preset', 'start', 'end', 'compare']);

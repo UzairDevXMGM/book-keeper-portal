@@ -19,7 +19,7 @@
                 </div>
             </div>
             <form method="POST" action="{{ route('admin.customers.access', $company) }}"
-                  data-confirm="{{ $company->owner?->is_active ? 'Stop '.$company->owner?->email.' from logging in?' : 'Let '.$company->owner?->email.' log in again?' }}">
+                  data-confirm="{{ $company->owner?->is_active ? $company->owner?->email.' is signed out and cannot log in. Their books are kept.' : $company->owner?->email.' can log in again.' }}" data-confirm-title="{{ $company->owner?->is_active ? 'Block this login?' : 'Allow this login?' }}" data-confirm-button="{{ $company->owner?->is_active ? 'Block login' : 'Allow login' }}" @if ($company->owner?->is_active) data-confirm-tone="danger" @endif>
                 @csrf
                 @if ($company->owner?->is_active)
                     <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-person-slash me-1"></i>Disable login</button>
@@ -90,7 +90,7 @@
                                     <td><span class="badge {{ $addon->status === 'active' ? 'text-bg-primary' : 'text-bg-light border' }}">{{ ucfirst($addon->status) }}</span></td>
                                     <td class="text-end">
                                         @if ($addon->status === 'active' && ! $addon->stripe_subscription_item_id)
-                                            <form method="POST" action="{{ route('admin.customers.revoke', [$company, $addon]) }}" data-confirm="Remove {{ $addon->report->name }}?">
+                                            <form method="POST" action="{{ route('admin.customers.revoke', [$company, $addon]) }}" data-confirm="The business loses access to {{ $addon->report->name }} now." data-confirm-title="Remove this add-on?" data-confirm-button="Remove add-on" data-confirm-tone="danger">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-link text-danger p-0">Remove</button>

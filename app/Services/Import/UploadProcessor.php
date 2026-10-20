@@ -97,6 +97,7 @@ class UploadProcessor
                     'suggested_account_id' => $suggestion['account_id'],
                     'account_id' => $suggestion['account_id'],
                     'category_type_id' => $suggestion['category_type_id'],
+                    'business_type' => $suggestion['business_type'] ?? null,
                     'rule_id' => $suggestion['rule_id'],
                     'match_method' => $suggestion['method'],
                     'confidence' => $suggestion['confidence'],

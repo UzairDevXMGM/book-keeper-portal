@@ -91,7 +91,7 @@
                                         {{ $link->industry }}
                                         <span class="text-secondary">→ {{ $link->account_code }} · {{ $industryNames["{$link->industry}|{$link->account_code}"]->name ?? 'account' }}</span>
                                     </span>
-                                    <form method="POST" action="{{ route('admin.categories.industries.destroy', [$type, $link]) }}" data-confirm="Use the default account for {{ $link->industry }}?">
+                                    <form method="POST" action="{{ route('admin.categories.industries.destroy', [$type, $link]) }}" data-confirm="{{ $link->industry }} will use the category's default account again." data-confirm-title="Remove industry account?" data-confirm-button="Remove" data-confirm-tone="danger">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-link text-danger p-0" aria-label="Remove {{ $link->industry }}"><i class="bi bi-x-lg"></i></button>
@@ -172,7 +172,7 @@
                                     <td class="small text-secondary">{{ $rule->source === 'bank_category' ? 'Bank category' : ($matchTypes[$rule->match_type] ?? $rule->match_type) }}</td>
                                     <td class="small text-secondary">{{ $appliesTo[$rule->applies_to] ?? $rule->applies_to }}</td>
                                     <td class="text-end">
-                                        <form method="POST" action="{{ route('admin.categories.keywords.destroy', [$type, $rule]) }}" data-confirm="Remove {{ $rule->keyword }} from {{ $type->name }}?">
+                                        <form method="POST" action="{{ route('admin.categories.keywords.destroy', [$type, $rule]) }}" data-confirm="New uploads with “{{ $rule->keyword }}” will no longer be put in {{ $type->name }}." data-confirm-title="Remove this keyword?" data-confirm-button="Remove keyword" data-confirm-tone="danger">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-link text-danger" aria-label="Remove {{ $rule->keyword }}"><i class="bi bi-trash"></i></button>

@@ -10,6 +10,7 @@ use App\Models\Upload;
 use App\Models\User;
 use App\Services\CompanyProvisioner;
 use Database\Seeders\AccountTemplateSeeder;
+use Database\Seeders\BusinessTypeSeeder;
 use Database\Seeders\CategorizationRuleSeeder;
 use Database\Seeders\PlanSeeder;
 use Database\Seeders\ReportSeeder;
@@ -30,7 +31,7 @@ class SmartCategoriesTest extends TestCase
     {
         parent::setUp();
         Storage::fake('local');
-        $this->seed([ReportSeeder::class, PlanSeeder::class, AccountTemplateSeeder::class, CategorizationRuleSeeder::class]);
+        $this->seed([ReportSeeder::class, PlanSeeder::class, AccountTemplateSeeder::class, CategorizationRuleSeeder::class, BusinessTypeSeeder::class]);
         $this->owner = User::factory()->create(['email' => 'owner@maple.test']);
         $this->company = app(CompanyProvisioner::class)->create($this->owner, ['name' => 'Maple Test Co', 'industry' => 'General Business']);
         $this->company->subscriptions()->create(['type' => 'default', 'stripe_id' => 'sub_maple', 'stripe_status' => 'active', 'stripe_price' => 'price_test']);
@@ -106,11 +107,11 @@ class SmartCategoriesTest extends TestCase
         // The category is written next to every line on the results and transactions pages
         $this->actingAs($this->owner)->get(route('uploads.show', $upload))->assertOk()
             ->assertSee(['Meals &amp; Entertainment', 'Fuel', 'Smart Assist', 'Needs a category'], false);
-        $this->get(route('transactions.index'))->assertOk()
+        $this->get(route('transactions.index', ['preset' => 'all']))->assertOk()
             ->assertSee(['data-current="Meals &amp; Entertainment"', 'data-current="Fuel"'], false);
         $fuelType = CategoryType::where('slug', 'fuel')->value('id');
-        $this->get(route('transactions.index', ['account' => "type:{$fuelType}"]))->assertOk()->assertSee('KESTREL')->assertDontSee('MAPLEWOOD');
-        $this->get(route('transactions.index', ['account' => 'nonsense']))->assertSessionHasErrors('account');
+        $this->get(route('transactions.index', ['preset' => 'all', 'account' => "type:{$fuelType}"]))->assertOk()->assertSee('KESTREL')->assertDontSee('MAPLEWOOD');
+        $this->get(route('transactions.index', ['preset' => 'all', 'account' => 'nonsense']))->assertSessionHasErrors('account');
         $this->get(route('review.index'))->assertOk()->assertSee('Our guess')->assertSee('BRIGHTPATH');
     }
 
@@ -166,7 +167,7 @@ class SmartCategoriesTest extends TestCase
         $this->assertSame('2026-03-03', $correction->entry_date->toDateString());
         $this->assertEquals(0.0, (float) $this->company->journalLines()->where('account_id', $fuelAccount)->selectRaw('SUM(debit) - SUM(credit) AS n')->value('n'));
         $this->assertSame($supplies->id, $row->fresh()->category_type_id);
-        $this->get(route('transactions.index'))->assertOk()->assertSee('data-current="Shopping &amp; Supplies"', false)->assertSee('Category set:');
+        $this->get(route('transactions.index', ['preset' => 'all']))->assertOk()->assertSee('data-current="Shopping &amp; Supplies"', false)->assertSee('Category set:');
         $this->assertDatabaseHas('categorization_rules', ['company_id' => $this->company->id, 'source' => 'user', 'category_type_id' => $supplies->id]);
 
         // Changing it again moves it from the current category, not from the original one
@@ -174,7 +175,7 @@ class SmartCategoriesTest extends TestCase
         $this->post(route('transactions.recategorize', $line), ['category' => "type:{$meals->id}"])->assertSessionHas('status');
         $suppliesAccount = $this->company->accounts()->where('code', '6500')->value('id');
         $this->assertEquals(0.0, (float) $this->company->journalLines()->where('account_id', $suppliesAccount)->selectRaw('COALESCE(SUM(debit) - SUM(credit), 0) AS n')->value('n'));
-        $this->get(route('transactions.index'))->assertSee('data-current="Meals &amp; Entertainment"', false);
+        $this->get(route('transactions.index', ['preset' => 'all']))->assertSee('data-current="Meals &amp; Entertainment"', false);
 
         // Not for the bank line, nor for another company
         $bankLine = $row->journalEntry->lines->firstWhere('account_id', $bank);
@@ -214,6 +215,86 @@ class SmartCategoriesTest extends TestCase
             $this->assertSame([ImportRow::STATUS_NEEDS_REVIEW, 'smart'], [$row->status, $row->match_method], $row->description);
             $this->assertNotNull($row->categoryType);
         }
+    }
+
+    // ---------------------------------------------------------------- business names
+
+    public function test_the_kind_of_business_in_the_merchant_name_gives_the_category(): void
+    {
+        $csv = "Date,Description,Amount\n"
+            ."03/02/2026,Fondue Chinoise,-80.00\n"
+            ."03/03/2026,Eppies Restaurant,-42.00\n"
+            ."03/04/2026,ABC Roofing Corp,-1200.00\n"
+            ."03/05/2026,\"Eleonore Zetrenne, M D , Inc\",-150.00\n"
+            ."03/06/2026,Bonum Home Health Service,-300.00\n"
+            ."03/07/2026,\"Gold Coast Heavy Hauling, Inc.\",-900.00\n"
+            ."03/08/2026,Crossroads of Ivanhoe,-55.00";
+        $upload = $this->upload('names.csv', $csv, 2026);
+        $row = fn (string $text) => $upload->rows()->with('categoryType')->where('description', 'like', "%{$text}%")->firstOrFail();
+
+        $expect = [
+            'Fondue' => ['Restaurant', 'meals', ImportRow::STATUS_POSTED],
+            'Eppies' => ['Restaurant', 'meals', ImportRow::STATUS_POSTED],
+            'Roofing' => ['Roofing contractor', 'repairs', ImportRow::STATUS_POSTED],
+            'Hauling' => ['Trucking company', 'shipping', ImportRow::STATUS_POSTED],
+            // Could be the business's or the owner's: suggested, and checked by a person
+            'Zetrenne' => ['Medical practice', 'personal', ImportRow::STATUS_NEEDS_REVIEW],
+            'Bonum' => ['Home health care', 'personal', ImportRow::STATUS_NEEDS_REVIEW],
+        ];
+        foreach ($expect as $text => [$business, $slug, $status]) {
+            $line = $row($text);
+            $this->assertSame([$business, $slug, $status], [$line->business_type, $line->categoryType?->slug, $line->status], $text);
+        }
+        // Nothing in the name says what it is: it waits on Check categories
+        $this->assertSame(ImportRow::STATUS_NEEDS_REVIEW, $row('Crossroads')->status);
+        $this->assertNull($row('Crossroads')->categoryLabel());
+
+        // Shown next to the merchant on Transactions
+        $this->actingAs($this->owner)->get(route('transactions.index', ['preset' => 'all']))->assertOk()
+            ->assertSee(['ABC Roofing Corp', 'Roofing contractor', 'Gold Coast Heavy Hauling', 'Trucking company']);
+    }
+
+    public function test_a_business_type_beats_a_generic_one_word_pattern_but_not_a_named_merchant(): void
+    {
+        $upload = $this->upload('w.csv', "Date,Description,Amount\n03/02/2026,Allied Waste Services,-90.00\n03/03/2026,SHELL OIL 57444,-40.00", 2026);
+        $waste = $upload->rows()->with('categoryType')->where('description', 'like', 'Allied%')->firstOrFail();
+        $shell = $upload->rows()->with('categoryType')->where('description', 'like', 'SHELL%')->firstOrFail();
+
+        $this->assertSame(['trash', 'Trash & recycling'], [$waste->categoryType?->slug, $waste->business_type]);
+        $this->assertSame(['fuel', 'vendor', 'Gas station'], [$shell->categoryType?->slug, $shell->match_method, $shell->business_type]);
+    }
+
+    // ---------------------------------------------------------------- dates first, every category
+
+    public function test_transactions_and_the_general_ledger_ask_for_the_dates_first(): void
+    {
+        $this->upload('d.csv', "Date,Description,Amount\n03/02/2026,Eppies Restaurant,-42.00", 2026);
+        $this->actingAs($this->owner);
+
+        $this->get(route('transactions.index'))->assertOk()->assertSee('Which dates do you want to see?')->assertDontSee('Eppies');
+        $this->get(route('transactions.index', ['preset' => 'all']))->assertOk()->assertSee('Eppies');
+        $this->get(route('transactions.index', ['preset' => 'custom', 'start' => '2026-03-01', 'end' => '2026-03-31']))->assertOk()->assertSee('Eppies');
+        $this->get(route('transactions.index', ['preset' => 'custom', 'start' => '2026-04-01', 'end' => '2026-04-30']))->assertOk()->assertDontSee('Eppies');
+        // A search from the top bar looks through every date
+        $this->get(route('transactions.index', ['q' => 'Eppies']))->assertOk()->assertSee('Eppies Restaurant');
+
+        $this->get(route('ledger'))->assertOk()->assertSee('Which dates do you want to see?')->assertDontSee('Opening balance');
+        $this->get(route('ledger', ['preset' => 'all']))->assertOk()->assertSee('Opening balance')->assertSee('Eppies Restaurant');
+        $this->get(route('reports.show', 'ACC-22'))->assertOk()->assertSee('Which dates do you want to see?');
+    }
+
+    public function test_a_transaction_split_over_several_categories_shows_all_of_them(): void
+    {
+        $id = fn (string $code) => $this->company->accounts()->where('code', $code)->value('id');
+        app(\App\Services\Ledger\LedgerService::class)->post($this->company, ['entry_date' => '2026-03-15', 'description' => 'Payroll run', 'source' => 'manual'], [
+            ['account_id' => $id('6010'), 'debit' => '4000'],
+            ['account_id' => $id('6080'), 'debit' => '306'],
+            ['account_id' => $id('1030'), 'credit' => '4306'],
+        ], $this->owner);
+
+        $this->actingAs($this->owner)->get(route('transactions.index', ['preset' => 'all']))->assertOk()
+            ->assertSee([$this->company->accounts()->where('code', '6010')->value('name'), $this->company->accounts()->where('code', '6080')->value('name')])
+            ->assertDontSee('1 more');
     }
 
     // ---------------------------------------------------------------- getting started

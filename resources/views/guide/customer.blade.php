@@ -10,6 +10,7 @@
         'review' => ['Check categories', 'check2-square'],
         'rules' => ['My rules', 'magic'],
         'transactions' => ['Transactions', 'list-ul'],
+        'ledger' => ['General Ledger', 'journal-text'],
         'reports' => ['Reports', 'file-earmark-bar-graph'],
         'accounts' => ['Chart of accounts', 'diagram-3'],
         'journal' => ['Journal entry', 'journal-plus'],
@@ -52,7 +53,7 @@
                     <p class="text-secondary small">Your books are built from your bank and card statements. Four steps:</p>
                     <ol class="list-unstyled help-steps mb-0">
                         <li><div><div class="fw-semibold">Dump your data</div><div class="small text-secondary">Upload a bank or credit card statement. Pick its year and the account it is from.</div></div></li>
-                        <li><div><div class="fw-semibold">We categorize every transaction</div><div class="small text-secondary">Walmart becomes Meals, a gas station Fuel, a payroll company Wages, and so on. What we are sure about goes straight into your books.</div></div></li>
+                        <li><div><div class="fw-semibold">We categorize every transaction</div><div class="small text-secondary">Walmart becomes Meals, a gas station Fuel, a payroll company Wages. We also read the kind of business in the name: “Eppies Restaurant” is a restaurant, “ABC Roofing Corp” a roofer. What we are sure about goes straight into your books.</div></div></li>
                         <li><div><div class="fw-semibold">Check the ones we were not sure about</div><div class="small text-secondary">They wait on Check categories with our best guess already picked. Approve or change it.</div></div></li>
                         <li><div><div class="fw-semibold">Read your reports</div><div class="small text-secondary">Profit &amp; Loss, Balance Sheet and the rest update by themselves.</div></div></li>
                     </ol>
@@ -118,11 +119,19 @@
                 <div class="card-body p-4">
                     <h2 class="h5 mb-2"><i class="bi bi-list-ul me-2"></i>Transactions</h2>
                     <ul class="small mb-0">
-                        <li><b>Simple</b> view: one row per transaction with its <b>category</b>, the <b>bank or card</b> and <b>money in / out</b>. Transfers between your own accounts and starting balances are not counted as money in or out.</li>
+                        <li><b>Pick the dates first</b> (this month, last quarter, this year, custom…), then the list loads.</li>
+                        <li><b>Simple</b> view: one row per transaction with the <b>merchant</b> and the kind of business it is, its <b>category</b> (every category when a payment is split, like wages and payroll taxes), the <b>bank or card</b> and <b>money in / out</b>. Transfers between your own accounts and starting balances are not counted as money in or out.</li>
                         <li><b>Wrong category?</b> Click the category, pick the right one and press <b>Save category</b>. Your books stay correct: a small correcting entry is added on the same date.</li>
                         <li>Search, dates, “Account or category” and “Came from” filter the list. The search box at the top of every page searches here too.</li>
                         <li><b>Accountant view</b> shows every debit and credit line, for your accountant.</li>
                     </ul>
+                </div>
+            </section>
+
+            <section id="ledger" class="card mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-2"><i class="bi bi-journal-text me-2"></i>General Ledger</h2>
+                    <p class="small mb-0">Every account with every transaction in it, its opening balance, a running balance and the closing balance. Pick the dates first. Filter by one account, by bank or card, or search a description. Your accountant will ask for it at year end: use <b>CSV</b> or <b>Print / PDF</b>.</p>
                 </div>
             </section>
 

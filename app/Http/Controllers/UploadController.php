@@ -146,7 +146,7 @@ class UploadController extends Controller
         return view('uploads.show', [
             'company' => $company,
             'upload' => $upload->load('account', 'user'),
-            'rows' => $upload->rows()->with(['account:id,code,name,system_key', 'categoryType:id,name', 'rule:id,name,keyword'])
+            'rows' => $upload->rows()->with(['account:id,code,name,system_key', 'categoryType:id,name', 'rule:id,name,keyword,source,company_id'])
                 ->when($filter !== 'all', fn ($q) => $q->where('status', $filter))
                 ->orderBy('row_number')->paginate(50)->withQueryString(),
             'filter' => $filter,

@@ -42,7 +42,7 @@ class ReviewController extends Controller
         return view('review.index', [
             'company' => $company,
             'rows' => $waiting
-                ->with(['upload:id,original_name,account_id', 'upload.account:id,code,name', 'rule:id,name,keyword', 'categoryType:id,name'])
+                ->with(['upload:id,original_name,account_id', 'upload.account:id,code,name', 'rule:id,name,keyword,source,company_id', 'categoryType:id,name'])
                 ->when($byMerchant, fn ($q) => $q->orderBy('description'))
                 ->orderBy('txn_date')->orderBy('id')
                 ->paginate(20, ['*'], 'page')->withQueryString(),

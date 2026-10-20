@@ -92,6 +92,28 @@ class AddonReportsTest extends TestCase
         $this->assertSame(0, $this->company->addons()->count());
     }
 
+    public function test_the_add_on_page_previews_the_report_without_giving_away_its_numbers(): void
+    {
+        $this->sampleBooks();
+        $this->actingAs($this->owner);
+        $report = Report::where('code', 'ACC-28')->firstOrFail();
+        $report->update(['stripe_price_id' => 'price_cash_flow']);
+
+        $page = $this->get(route('reports.show', 'ACC-28'))->assertOk()
+            ->assertSee(['Preview with your books', 'New monthly total', 'Add to my plan', 'Confirm your add-on', 'Secure payment by Stripe'])
+            ->assertSee(money($report->addon_price).'/month', false);
+
+        // None of the report's own figures are in the page source
+        $document = ReportRunner::run($this->company, $report, Period::resolve($this->company, ['preset' => 'ytd']));
+        foreach ($document->kpis as $kpi) {
+            if ($kpi['format'] === 'money' && abs((float) $kpi['value']) >= 1) {
+                $page->assertDontSee(money($kpi['value']), false);
+            }
+        }
+        // Buying goes through the app's own dialog, not the browser's confirm box
+        $page->assertDontSee('data-confirm="Add', false);
+    }
+
     public function test_removing_an_add_on_locks_the_report_again(): void
     {
         $addon = $this->grant('ACC-31', 'si_existing');
@@ -101,7 +123,7 @@ class AddonReportsTest extends TestCase
 
         $this->assertSame(['si_existing'], $this->billing->removed);
         $this->assertSame(CompanyAddon::STATUS_CANCELLED, $addon->fresh()->status);
-        $this->get(route('reports.show', 'ACC-31'))->assertOk()->assertSee('added to your current plan')->assertDontSee('Working capital');
+        $this->get(route('reports.show', 'ACC-31'))->assertOk()->assertSee(['New monthly total', 'not on sale yet'])->assertDontSee('Open report');
     }
 
     public function test_another_companys_add_on_cannot_be_removed(): void

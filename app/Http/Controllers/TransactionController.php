@@ -9,6 +9,7 @@ use App\Services\Import\Categorizer;
 use App\Services\Ledger\LedgerException;
 use App\Services\Ledger\LedgerService;
 use App\Services\Ledger\TransactionList;
+use App\Services\Reports\Period;
 use App\Support\Audit;
 use App\Support\CategoryChoice;
 use Carbon\CarbonImmutable;
@@ -27,6 +28,18 @@ use Illuminate\View\View;
 class TransactionController extends Controller
 {
     public const PER_PAGE = [25, 50, 100];
+
+    /** The quick date choices offered before anything is shown (keys of Period::PRESETS). */
+    public const DATE_PRESETS = [
+        'this_month' => 'This month',
+        'last_month' => 'Last month',
+        'this_quarter' => 'This quarter',
+        'last_quarter' => 'Last quarter',
+        'ytd' => 'This year',
+        'last_fy' => 'Last year',
+        'ttm' => 'Last 12 months',
+        'all' => 'All dates',
+    ];
 
     /**
      * "Change category" on a plain bank / card transaction: a correcting entry on the transaction's date moves the
@@ -103,11 +116,22 @@ class TransactionController extends Controller
             'account' => ['nullable', 'regex:/^(type:)?\d{1,10}$/'],   // an account id or a category ("type:12")
             'source' => ['nullable', 'in:upload,manual,opening_balance,adjustment,reversal'],
             'q' => ['nullable', 'string', 'max:100'],
+            'preset' => ['nullable', 'in:'.implode(',', array_keys(Period::PRESETS))],
             'per_page' => ['nullable', 'integer', 'in:'.implode(',', self::PER_PAGE)],
         ]);
         $perPage = (int) ($filters['per_page'] ?? 50);
         $view = $filters['view'] ?? 'simple';
         unset($filters['per_page'], $filters['view']);
+
+        // Dates come first: a quick choice (this month, last quarter, ...) or From / To. Until they are picked the page
+        // only asks for them. A search from the top bar looks through every date.
+        $preset = $filters['preset'] ?? null;
+        if ($preset && $preset !== 'custom') {
+            $period = Period::resolve($company, ['preset' => $preset]);
+            $filters['start'] = $preset === 'all' ? null : $period->start->toDateString();
+            $filters['end'] = $preset === 'all' ? null : $period->end->toDateString();
+        }
+        $datesPicked = $preset !== null || filled($filters['start'] ?? null) || filled($filters['end'] ?? null) || filled($filters['q'] ?? null);
 
         // A category filters on the account it uses for this company
         $categories = collect((new Categorizer($company))->categoryChoices())->sortBy('name');
@@ -129,7 +153,12 @@ class TransactionController extends Controller
             'statementAccounts' => $accounts->filter(fn ($a) => $a->is_bank_account || $a->is_credit_card),
             'categories' => $categories,
             'latest' => $latest ? CarbonImmutable::parse($latest) : null,
+            'datesPicked' => $datesPicked,
+            'presets' => self::DATE_PRESETS,
         ];
+        if (! $datesPicked) {
+            return view('transactions.index', $shared + ['rows' => null, 'totals' => null]);
+        }
 
         return $view === 'accountant'
             ? view('transactions.index', $shared + $this->accountantView($company, $filters, $perPage))

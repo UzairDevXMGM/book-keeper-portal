@@ -54,7 +54,7 @@
                                 @endif
                             </td>
                             <td class="text-end">
-                                <form method="POST" action="{{ route('rules.destroy', $rule) }}" data-confirm="Delete the rule for “{{ $rule->keyword }}”? Transactions already in your books keep their category.">
+                                <form method="POST" action="{{ route('rules.destroy', $rule) }}" data-confirm="Transactions already in your books keep their category; new uploads are categorized as usual." data-confirm-title="Delete the rule for “{{ $rule->keyword }}”?" data-confirm-button="Delete rule" data-confirm-tone="danger">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-link text-danger">Delete</button>

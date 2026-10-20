@@ -46,13 +46,49 @@ document.addEventListener('change', (event) => {
     if (event.target.matches('[data-autosubmit]')) event.target.form.requestSubmit();
 });
 
-// <form data-confirm="Question?"> asks first; then the submit button is disabled to prevent double submits
+// <form data-confirm="Question?"> asks first in the app's own dialog (partials/confirm-modal), then submits;
+// the submit button is then disabled to prevent double submits
+const confirmModal = document.getElementById('confirmModal');
+let pendingConfirm = null;
+const askToConfirm = (form, submitter) => {
+    const danger = form.dataset.confirmTone === 'danger';
+    confirmModal.querySelector('[data-confirm-title]').textContent = form.dataset.confirmTitle || 'Please confirm';
+    confirmModal.querySelector('[data-confirm-message]').textContent = form.dataset.confirm;
+    const ok = confirmModal.querySelector('[data-confirm-ok]');
+    ok.textContent = form.dataset.confirmButton || 'Yes, continue';
+    ok.className = `btn ${danger ? 'btn-danger' : 'btn-primary'}`;
+    const icon = confirmModal.querySelector('[data-confirm-icon]');
+    icon.classList.toggle('is-danger', danger);
+    icon.innerHTML = `<i class="bi ${danger ? 'bi-exclamation-triangle' : 'bi-question-lg'}"></i>`;
+    pendingConfirm = { form, submitter };
+    bootstrap.Modal.getOrCreateInstance(confirmModal).show();
+};
+if (confirmModal) {
+    confirmModal.querySelector('[data-confirm-ok]').addEventListener('click', () => {
+        if (!pendingConfirm) return;
+        const { form, submitter } = pendingConfirm;
+        pendingConfirm = null;
+        form.dataset.confirmed = '1';
+        bootstrap.Modal.getOrCreateInstance(confirmModal).hide();
+        // Keep the clicked button's name/value (e.g. action=approve)
+        submitter && submitter.form === form ? form.requestSubmit(submitter) : form.requestSubmit();
+    });
+    confirmModal.addEventListener('shown.bs.modal', () => confirmModal.querySelector('[data-confirm-ok]').focus());
+}
 document.addEventListener('submit', (event) => {
     const form = event.target;
-    if (form.dataset.confirm && !window.confirm(form.dataset.confirm)) {
+    if (form.hasAttribute('data-js-submit')) return;   // the form sends itself with fetch (e.g. the payment page)
+    if (form.dataset.confirm && !form.dataset.confirmed) {
         event.preventDefault();
+        if (confirmModal) {
+            askToConfirm(form, event.submitter);
+        } else if (window.confirm(form.dataset.confirm)) {
+            form.dataset.confirmed = '1';
+            form.requestSubmit(event.submitter || undefined);
+        }
         return;
     }
+    delete form.dataset.confirmed;
     // Disable after the browser has read the clicked button's name/value (e.g. finish=1)
     const button = event.submitter ?? form.querySelector('[type="submit"]');
     if (button) {

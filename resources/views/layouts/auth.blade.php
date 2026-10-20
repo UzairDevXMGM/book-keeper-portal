@@ -39,5 +39,6 @@
             </div>
         </section>
     </main>
+    @include('partials.confirm-modal')
 </body>
 </html>

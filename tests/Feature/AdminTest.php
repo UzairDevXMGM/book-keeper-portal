@@ -128,6 +128,32 @@ class AdminTest extends TestCase
             ->assertViewHas('mrr', round((float) $plan->price + 10, 2));
     }
 
+    public function test_business_types_can_be_tried_added_and_edited(): void
+    {
+        $this->seed([\Database\Seeders\CategoryTypeSeeder::class, \Database\Seeders\BusinessTypeSeeder::class]);
+        $this->actingAs($this->admin);
+
+        $this->get(route('admin.business-types.index', ['test' => 'Gold Coast Heavy Hauling, Inc.']))->assertOk()
+            ->assertSee('Trucking company')->assertSee('HEAVY HAULING');
+        $this->get(route('admin.business-types.index', ['test' => 'Crossroads of Ivanhoe']))->assertOk()->assertSee('No business type recognised');
+
+        $meals = \App\Models\CategoryType::where('slug', 'meals')->value('id');
+        $this->post(route('admin.business-types.store'), [
+            'name' => 'Supper club', 'group' => 'Food & drink', 'keywords' => "ivanhoe\ncrossroads of", 'category_type_id' => $meals,
+            'direction' => 'out', 'confidence' => 72, 'is_active' => 1,
+        ])->assertRedirect();
+        $type = \App\Models\BusinessType::where('name', 'Supper club')->firstOrFail();
+        $this->assertSame("IVANHOE\nCROSSROADS OF", $type->keywords);
+        $this->get(route('admin.business-types.index', ['test' => 'Crossroads of Ivanhoe']))->assertSee('Supper club');
+
+        $this->get(route('admin.business-types.edit', $type))->assertOk();
+        $this->patch(route('admin.business-types.update', $type), ['name' => 'Supper club', 'keywords' => 'IVANHOE', 'direction' => 'out', 'confidence' => 50, 'is_active' => 0])
+            ->assertRedirect(route('admin.business-types.index'));
+        $this->assertSame([50, false], [$type->fresh()->confidence, $type->fresh()->is_active]);
+
+        $this->actingAs($this->owner)->get(route('admin.business-types.index'))->assertForbidden();
+    }
+
     public function test_report_catalog_entries_can_be_edited(): void
     {
         $report = Report::where('code', 'ACC-30')->first();

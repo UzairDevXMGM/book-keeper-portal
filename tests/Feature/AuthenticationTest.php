@@ -28,7 +28,7 @@ class AuthenticationTest extends TestCase
 
     public function test_registration_creates_the_user_their_company_and_its_chart_of_accounts(): void
     {
-        $this->post('/register', $this->registration())->assertRedirect(route('billing.checkout'));
+        $this->post('/register', $this->registration())->assertRedirect(route('billing.show'));
 
         $this->assertAuthenticated();
         $user = User::where('email', 'owner@acme.test')->firstOrFail();
@@ -99,8 +99,31 @@ class AuthenticationTest extends TestCase
     {
         $this->post('/register', $this->registration());
 
-        $this->get(route('billing.checkout'))->assertRedirect(route('billing.show'))->assertSessionHas('error');
-        $this->get(route('billing.show'))->assertOk()->assertSee('Basic')->assertSee('$25');
+        // The old hosted-checkout link now opens our own payment page
+        $this->get(route('billing.checkout'))->assertRedirect(route('billing.show'));
+        $this->get(route('billing.show'))->assertOk()->assertSee('Basic')->assertSee('$25')
+            ->assertSee('Online payment is not set up yet')->assertDontSee('js.stripe.com');
+    }
+
+    public function test_subscribing_without_stripe_keys_is_refused_without_charging(): void
+    {
+        $this->post('/register', $this->registration());
+
+        $this->postJson(route('billing.subscribe'), ['payment_method' => 'pm_card_visa'])
+            ->assertStatus(503)->assertJsonStructure(['message']);
+        $this->assertDatabaseCount('subscriptions', 0);
+    }
+
+    public function test_a_paying_customer_posting_to_subscribe_is_sent_to_the_dashboard(): void
+    {
+        $user = $this->customer();
+        $user->company->subscriptions()->create([
+            'type' => 'default', 'stripe_id' => 'sub_test', 'stripe_status' => 'active', 'stripe_price' => 'price_test',
+        ]);
+
+        $this->actingAs($user)->postJson(route('billing.subscribe'), [])
+            ->assertOk()->assertJson(['redirect' => route('dashboard')]);
+        $this->assertDatabaseCount('subscriptions', 1);
     }
 
     public function test_a_customer_without_a_paid_plan_is_sent_to_the_plan_page(): void

@@ -25,3 +25,5 @@ Thumbs.db
 
 # Deploy packages (may contain .env)
 *.zip
+
+/live-update-*.sql

@@ -18,7 +18,7 @@
             </div>
         </div>
         @if ($entry->source !== 'reversal' && ! $reversedBy)
-            <form method="POST" action="{{ route('journal.reverse', $entry) }}" data-confirm="Post a reversing entry dated today that cancels entry #{{ $entry->entry_number }}?">
+            <form method="POST" action="{{ route('journal.reverse', $entry) }}" data-confirm="A reversing entry dated today cancels entry #{{ $entry->entry_number }}. The original stays in your books for the record." data-confirm-title="Reverse this entry?" data-confirm-button="Reverse entry" data-confirm-tone="danger">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-arrow-counterclockwise me-1"></i>Reverse entry</button>
             </form>
@@ -37,21 +37,21 @@
             <p class="mb-3">{{ $entry->description }}</p>
         </div>
         <div class="table-responsive">
-            <table class="table report-table mb-0">
-                <thead><tr><th>Account</th><th>Description</th><th class="num">Debit</th><th class="num">Credit</th></tr></thead>
+            <table class="table report-table is-drcr mb-0">
+                <thead><tr><th>Account</th><th>Description</th><th class="num col-debit">Debit</th><th class="num col-credit">Credit</th></tr></thead>
                 <tbody>
                     @foreach ($entry->lines as $line)
                         <tr>
                             <td><a href="{{ route('reports.show', ['report' => 'ACC-22', 'account' => $line->account_id]) }}">{{ $line->account->code }} · {{ $line->account->name }}</a></td>
                             <td>{{ $line->description }}</td>
-                            <td class="num">{{ $line->debit > 0 ? money($line->debit) : '' }}</td>
-                            <td class="num">{{ $line->credit > 0 ? money($line->credit) : '' }}</td>
+                            <td class="num col-debit">{{ $line->debit > 0 ? money($line->debit) : '' }}</td>
+                            <td class="num col-credit">{{ $line->credit > 0 ? money($line->credit) : '' }}</td>
                         </tr>
                     @endforeach
                     <tr class="row-grand">
                         <td colspan="2">Total</td>
-                        <td class="num">{{ money($entry->lines->sum('debit')) }}</td>
-                        <td class="num">{{ money($entry->lines->sum('credit')) }}</td>
+                        <td class="num col-debit">{{ money($entry->lines->sum('debit')) }}</td>
+                        <td class="num col-credit">{{ money($entry->lines->sum('credit')) }}</td>
                     </tr>
                 </tbody>
             </table>

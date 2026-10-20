@@ -21,7 +21,7 @@
                         <input id="photo" type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="visually-hidden" data-autosubmit>
                     </form>
                     @if ($user->avatar_path)
-                        <form method="POST" action="{{ route('profile.photo.destroy') }}" data-confirm="Remove your profile picture?">
+                        <form method="POST" action="{{ route('profile.photo.destroy') }}" data-confirm="Your initials are shown instead." data-confirm-title="Remove your picture?" data-confirm-button="Remove" data-confirm-tone="danger">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Remove</button>
@@ -290,7 +290,7 @@
                                         <a href="{{ route('reports.show', $addon->report->code) }}" class="me-auto">{{ $addon->report->name }}</a>
                                         <span class="small text-secondary">{{ $addon->price > 0 ? money($addon->price).'/mo' : 'Free' }}</span>
                                         @if ($addon->price > 0 || $addon->stripe_subscription_item_id)
-                                            <form method="POST" action="{{ route('addons.destroy', $addon) }}" data-confirm="Remove {{ $addon->report->name }}? You lose access now; unused time is credited.">
+                                            <form method="POST" action="{{ route('addons.destroy', $addon) }}" data-confirm="You lose access to {{ $addon->report->name }} now. Unused time is credited on your next invoice." data-confirm-title="Remove this add-on?" data-confirm-button="Remove add-on" data-confirm-tone="danger">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-link text-danger p-0 ms-2">Remove</button>

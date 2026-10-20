@@ -96,8 +96,70 @@ class SmartAssist
      * @param  array<string, array{id: int, name: string, account_id: ?int, needs_review: bool}>  $types  by slug, for this company
      * @param  array<string, array<int, array{n: int, category_type_id: ?int}>>  $history  "KEYWORD|direction" => account id => times chosen
      */
-    public function __construct(private array $types, private array $history, private array $typeNames = [])
+    /** @var array<int, array> category types by id (the same entries as $types) */
+    private array $typesById;
+
+    /**
+     * @param  list<array{name: string, category_type_id: ?int, direction: string, confidence: int, keywords: list<string>}>  $businessTypes
+     *         kinds of business recognised from the merchant's name (Admin → Business types)
+     */
+    public function __construct(private array $types, private array $history, private array $typeNames = [], private array $businessTypes = [])
     {
+        $this->typesById = collect($types)->keyBy('id')->all();
+    }
+
+    /**
+     * The kind of business the merchant is, from words in its name: "Eppies Restaurant" → Restaurant, "ABC Roofing Corp"
+     * → Roofing contractor, "Gold Coast Heavy Hauling" → Trucking company. The longest matching phrase wins.
+     *
+     * @return array{name: string, category_type_id: ?int, confidence: int, phrase: string}|null
+     */
+    public function businessType(string $description, string $direction): ?array
+    {
+        $words = ' '.Categorizer::normalize(self::merchantPart($description)).' ';
+        $best = null;
+        foreach ($this->businessTypes as $type) {
+            if ($type['direction'] !== 'any' && $type['direction'] !== $direction) {
+                continue;
+            }
+            foreach ($type['keywords'] as $phrase) {
+                if ($phrase !== '' && str_contains($words, ' '.$phrase.' ') && (! $best || strlen($phrase) > strlen($best['phrase']))) {
+                    $best = ['name' => $type['name'], 'category_type_id' => $type['category_type_id'], 'confidence' => $type['confidence'], 'phrase' => $phrase];
+                }
+            }
+        }
+
+        return $best;
+    }
+
+    /**
+     * Asked when only a generic one-word pattern matched: this business's past choices, else the category of the kind
+     * of business named in the description. Null keeps the pattern.
+     */
+    public function beforeGeneric(string $description, string $direction, int $statementAccountId): ?array
+    {
+        if ($history = $this->fromHistory($description, $direction, $statementAccountId)) {
+            return $history;
+        }
+        $business = $this->businessType($description, $direction);
+        $type = $business && $business['category_type_id'] ? ($this->typesById[$business['category_type_id']] ?? null) : null;
+        if (! $type || ! $type['account_id'] || $type['account_id'] === $statementAccountId) {
+            return null;
+        }
+
+        return ['account_id' => $type['account_id'], 'category_type_id' => $type['id'], 'type' => $type['name'],
+            'method' => 'smart', 'confidence' => $business['confidence'], 'needs_review' => $type['needs_review']];
+    }
+
+    /** The description without bank wording around the merchant ("Purchase authorized on 05/31 …", card numbers). */
+    private static function merchantPart(string $description): string
+    {
+        return preg_replace([
+            '/^(recurring payment|purchase return|purchase|atm withdrawal|money transfer|cash advance)\s+authorized on\s+\d{1,2}\/\d{1,2}\s*/i',
+            '/^business to business ach (debit|credit)\s*-\s*/i',
+            '/\b[PSF]\d{6,}\b.*$/i',          // Wells Fargo reference and everything after it ("P0000… Card 0000")
+            '/\bcard\s*\d{4}\b.*$/i',
+        ], '', $description);
     }
 
     /** @return array{account_id: int, category_type_id: ?int, type: ?string, method: string, confidence: int, needs_review: bool}|null */
@@ -148,11 +210,18 @@ class SmartAssist
                 }
             }
         }
-        if (! $best) {
+        // The kind of business named in the description competes too: a longer phrase is the better clue
+        $business = $this->businessType($description, $direction);
+        if ($business && $business['category_type_id'] && isset($this->typesById[$business['category_type_id']])
+            && (! $best || strlen($business['phrase']) >= strlen($best['phrase']))) {
+            $type = $this->typesById[$business['category_type_id']];
+            $confidence = $business['confidence'];
+        } elseif ($best) {
+            $type = $this->types[$best['slug']];
+            $confidence = $best['confidence'];
+        } else {
             return null;
         }
-
-        $type = $this->types[$best['slug']];
         if (! $type['account_id'] || $type['account_id'] === $statementAccountId) {
             return null;
         }
@@ -162,7 +231,7 @@ class SmartAssist
             'category_type_id' => $type['id'],
             'type' => $type['name'],
             'method' => 'smart',
-            'confidence' => $best['confidence'],
+            'confidence' => $confidence,
             'needs_review' => $type['needs_review'],
         ];
     }

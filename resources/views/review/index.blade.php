@@ -112,7 +112,7 @@
                                 <div class="small text-secondary">
                                     {{ $row->upload?->account?->name }} ·
                                     @if ($guess)
-                                        Our guess: <strong>{{ $guess }}</strong> ({{ $methodLabels[$row->match_method] ?? 'rule' }}, {{ $row->confidence }}% sure)
+                                        Our guess: <strong>{{ $guess }}</strong> ({{ $row->business_type ? $row->business_type." · " : "" }}{{ $methodLabels[$row->match_method] ?? 'rule' }}, {{ $row->confidence }}% sure)
                                     @else
                                         We could not tell. Please pick a category.
                                     @endif

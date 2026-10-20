@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('billing')->name('billing.')->controller(BillingController::class)->group(function () {
         Route::get('/', 'show')->name('show');
         Route::get('/checkout', 'checkout')->name('checkout');
+        // The payment page posts here after Stripe accepted the card (JSON in, JSON out)
+        Route::post('/subscribe', 'subscribe')->middleware('throttle:10,1')->name('subscribe');
+        Route::post('/confirm', 'confirm')->middleware('throttle:10,1')->name('confirm');
         Route::get('/success', 'success')->name('success');
         Route::get('/portal', 'portal')->name('portal');
     });
@@ -46,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/{report:code}', [ReportController::class, 'show'])->name('reports.show');
+            Route::get('/ledger', [ReportController::class, 'ledger'])->name('ledger');
             Route::post('/reports/{report:code}/add', [AddonController::class, 'store'])->name('addons.store');
             Route::delete('/addons/{addon}', [AddonController::class, 'destroy'])->name('addons.destroy');
 
@@ -104,6 +108,11 @@ Route::middleware('auth')->group(function () {
             Route::post('/plans/sync-stripe', [Admin\PlanController::class, 'syncStripe'])->name('plans.sync');
             Route::get('/plans/{plan}/edit', [Admin\PlanController::class, 'edit'])->name('plans.edit');
             Route::patch('/plans/{plan}', [Admin\PlanController::class, 'update'])->name('plans.update');
+
+            Route::get('/business-types', [Admin\BusinessTypeController::class, 'index'])->name('business-types.index');
+            Route::post('/business-types', [Admin\BusinessTypeController::class, 'store'])->name('business-types.store');
+            Route::get('/business-types/{businessType}/edit', [Admin\BusinessTypeController::class, 'edit'])->name('business-types.edit');
+            Route::patch('/business-types/{businessType}', [Admin\BusinessTypeController::class, 'update'])->name('business-types.update');
 
             Route::get('/categories', [Admin\CategoryTypeController::class, 'index'])->name('categories.index');
             Route::post('/categories', [Admin\CategoryTypeController::class, 'store'])->name('categories.store');

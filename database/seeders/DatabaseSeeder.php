@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AccountTemplateSeeder::class,
             CategoryTypeSeeder::class,
             CategorizationRuleSeeder::class,
+            BusinessTypeSeeder::class,
         ]);
 
         $this->seedAdmin();
