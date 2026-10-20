@@ -22,7 +22,8 @@ class AppLayoutComposer
             'layoutCompany' => $company,
             'layoutPlan' => $company ? ReportAccess::planFor($company) : null,
             'layoutPlanStatus' => $subscription?->stripe_status,
-            'layoutAlertCount' => $company ? AlertCenter::countFor($company) : 0,
+            'layoutAlerts' => $alerts = ($company ? AlertCenter::listFor($company) : []),
+            'layoutAlertCount' => count($alerts),
             'layoutReviewCount' => $company ? ImportRow::where('company_id', $company->id)->where('status', ImportRow::STATUS_NEEDS_REVIEW)->count() : 0,
             'websiteUrl' => config('bookkeeper.website_url'),
         ]);

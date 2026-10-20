@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -30,6 +31,18 @@ class CompanyAddon extends Model
             'ends_at' => 'datetime',
             'cancelled_at' => 'datetime',
         ];
+    }
+
+    /** Add-ons whose report is open right now (a removed one stays open until the end of the month already paid). */
+    public function scopeOpen(Builder $query): void
+    {
+        $query->where('status', self::STATUS_ACTIVE)->where(fn ($q) => $q->whereNull('ends_at')->orWhere('ends_at', '>', now()));
+    }
+
+    /** Add-ons that will be charged again next month (not removed). */
+    public function scopeRenewing(Builder $query): void
+    {
+        $query->where('status', self::STATUS_ACTIVE)->whereNull('ends_at');
     }
 
     public function company(): BelongsTo

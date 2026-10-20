@@ -297,6 +297,63 @@
                                 </form>
                             </div>
                         @endif
+
+                        @if ($subscription?->valid() && $plan)
+                            {{-- What the next monthly payment is made of --}}
+                            @php
+                                $renewing = $addons->whereNull('ends_at')->where('price', '>', 0);
+                                $ending = $addons->whereNotNull('ends_at');
+                                $nextTotal = ($subscription->onGracePeriod() ? 0 : (float) $plan->price) + ($subscription->onGracePeriod() ? 0 : (float) $renewing->sum('price'));
+                            @endphp
+                            <h3 class="h6 mt-2">Your monthly charges</h3>
+                            <div class="table-responsive mb-2">
+                                <table class="table report-table align-middle mb-0 billing-breakdown">
+                                    <thead><tr><th>Item</th><th>Status</th><th class="num">Per month</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="bi bi-box-seam me-1 text-secondary"></i>{{ $plan->name }} plan</td>
+                                            <td>
+                                                @if ($subscription->onGracePeriod())
+                                                    <span class="badge rounded-pill text-bg-warning">Ends {{ $subscription->ends_at->format('M j, Y') }}</span>
+                                                @else
+                                                    <span class="badge rounded-pill text-bg-success">Renews monthly</span>
+                                                @endif
+                                            </td>
+                                            <td class="num">{{ money($plan->price) }}</td>
+                                        </tr>
+                                        @foreach ($renewing as $addon)
+                                            <tr>
+                                                <td><i class="bi bi-file-earmark-bar-graph me-1 text-secondary"></i>{{ $addon->report->name }} <span class="small text-secondary">add-on</span></td>
+                                                <td><span class="badge rounded-pill text-bg-success">Renews monthly</span></td>
+                                                <td class="num">{{ money($addon->price) }}</td>
+                                            </tr>
+                                        @endforeach
+                                        @foreach ($ending as $addon)
+                                            <tr class="text-secondary">
+                                                <td><i class="bi bi-file-earmark-bar-graph me-1"></i>{{ $addon->report->name }} <span class="small">add-on</span></td>
+                                                <td><span class="badge rounded-pill text-bg-light border">Removed · open until {{ $addon->ends_at->format('M j, Y') }}</span></td>
+                                                <td class="num">{{ money(0) }}</td>
+                                            </tr>
+                                        @endforeach
+                                        <tr class="row-total">
+                                            <td colspan="2">
+                                                Next payment
+                                                @if ($nextBilling && ! $subscription->onGracePeriod())
+                                                    <span class="fw-normal text-secondary">· {{ $nextBilling->format('M j, Y') }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="num">{{ money($nextTotal) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="small text-secondary mb-3">
+                                <i class="bi bi-info-circle me-1"></i><b>All payments are non-refundable.</b>
+                                Removing an add-on or cancelling the plan stops the next charges only; what you already paid stays open until the end of that month.
+                                Taxes, if any, are shown on each invoice.
+                            </p>
+                        @endif
+
                         <h3 class="h6 mt-2">Add-on reports</h3>
                         @if ($addons->isNotEmpty())
                             <ul class="list-group mb-3">
@@ -305,8 +362,10 @@
                                         <i class="bi bi-file-earmark-bar-graph text-secondary"></i>
                                         <a href="{{ route('reports.show', $addon->report->code) }}" class="me-auto">{{ $addon->report->name }}</a>
                                         <span class="small text-secondary">{{ $addon->price > 0 ? money($addon->price).'/mo' : 'Free' }}</span>
-                                        @if ($addon->price > 0 || $addon->stripe_subscription_item_id)
-                                            <form method="POST" action="{{ route('addons.destroy', $addon) }}" data-confirm="You lose access to {{ $addon->report->name }} now. Unused time is credited on your next invoice." data-confirm-title="Remove this add-on?" data-confirm-button="Remove add-on" data-confirm-tone="danger">
+                                        @if ($addon->ends_at)
+                                            <span class="badge rounded-pill text-bg-light border fw-normal ms-2">Open until {{ $addon->ends_at->format('M j, Y') }} · not renewing</span>
+                                        @elseif ($addon->price > 0 || $addon->stripe_subscription_item_id)
+                                            <form method="POST" action="{{ route('addons.destroy', $addon) }}" data-confirm="{{ $addon->report->name }} stops renewing. It stays open until the end of the month you already paid for. Payments are non-refundable, so there is no refund or credit." data-confirm-title="Remove this add-on?" data-confirm-button="Remove add-on" data-confirm-tone="danger">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-link text-danger p-0 ms-2">Remove</button>
@@ -353,7 +412,7 @@
                             <a href="{{ route('reports.index') }}" class="btn btn-light border">Browse add-on reports</a>
                             @if ($subscription?->valid() && ! $subscription->onGracePeriod())
                                 <form method="POST" action="{{ route('billing.cancel') }}" class="ms-auto"
-                                      data-confirm="Your plan and add-ons stay open until the end of the month you already paid for. After that you will not be charged again. You can keep your plan any time before that date."
+                                      data-confirm="Your plan and add-ons stay open until the end of the month you already paid for. After that you will not be charged again. Payments are non-refundable. You can keep your plan any time before that date."
                                       data-confirm-title="Cancel your plan?" data-confirm-button="Cancel plan" data-confirm-tone="danger">
                                     @csrf
                                     <button type="submit" class="btn btn-link text-danger">Cancel plan</button>

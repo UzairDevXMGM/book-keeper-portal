@@ -21,6 +21,16 @@ class AlertCenter
      */
     public static function countFor(Company $company): int
     {
+        return count(self::listFor($company));
+    }
+
+    /**
+     * The open alerts for the header bell and its drop-down, cached the same way as the count.
+     *
+     * @return list<array{severity: string, title: string, message: string, action: ?array{label: string, url: string}}>
+     */
+    public static function listFor(Company $company): array
+    {
         $version = md5(implode('|', [
             $company->journalEntries()->max('id'),
             ImportRow::where('company_id', $company->id)->max('updated_at'),
@@ -29,8 +39,8 @@ class AlertCenter
 
         $ratios = ReportAccess::hasAny($company, ReportAccess::RATIOS);
 
-        return Cache::remember("alerts-count:{$company->id}:{$version}:".(int) $ratios, 3600, fn () => count(
-            self::from(Metrics::compute($company, Period::resolve($company, ['preset' => 'ytd'])), $ratios)
+        return Cache::remember("alerts-list:{$company->id}:{$version}:".(int) $ratios, 3600, fn () => self::from(
+            Metrics::compute($company, Period::resolve($company, ['preset' => 'ytd'])), $ratios
         ));
     }
 

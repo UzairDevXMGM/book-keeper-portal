@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\Billing\AddonQuote;
 use App\Services\Reports\ReportAccess;
 use App\Support\Audit;
 use Illuminate\Http\RedirectResponse;
@@ -24,6 +25,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $company = $user->company;
+        $subscription = $company?->subscription(Company::SUBSCRIPTION);
 
         // Invoices come from Stripe; the page still opens (without the list) when Stripe cannot be reached
         $stripeReady = filled(config('cashier.key')) && filled(config('cashier.secret'));
@@ -42,11 +44,13 @@ class ProfileController extends Controller
             'user' => $user,
             'company' => $company,
             'plan' => $company ? ReportAccess::planFor($company) : null,
-            'subscription' => $company?->subscription(Company::SUBSCRIPTION),
-            'addons' => $company ? $company->addons()->where('status', 'active')->with('report')->latest()->get() : collect(),
+            'subscription' => $subscription,
+            'addons' => $company ? $company->addons()->open()->with('report')->latest()->get() : collect(),
             'invoices' => $invoices,
             'invoicesFailed' => $invoicesFailed,
             'stripeKey' => $stripeReady && $company?->hasStripeId() ? config('cashier.key') : null,
+            // End of the month already paid = date of the next charge (null when Stripe cannot tell)
+            'nextBilling' => $company && $subscription?->valid() && ! $subscription->onGracePeriod() ? AddonQuote::billingPeriod($company)[1] : null,
         ]);
     }
 

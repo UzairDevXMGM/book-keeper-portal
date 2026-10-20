@@ -19,7 +19,7 @@ class OverviewController extends Controller
         $paying = Company::whereHas('subscriptions', fn ($q) => $q->where('type', Company::SUBSCRIPTION)->whereIn('stripe_status', ['active', 'trialing']))
             ->with('subscriptions.items')->get();
         $planRevenue = $paying->sum(fn (Company $company) => (float) (ReportAccess::planFor($company)?->price ?? 0));
-        $addonRevenue = (float) CompanyAddon::where('status', CompanyAddon::STATUS_ACTIVE)->whereIn('company_id', $paying->pluck('id'))->sum('price');
+        $addonRevenue = (float) CompanyAddon::renewing()->whereIn('company_id', $paying->pluck('id'))->sum('price');
 
         return view('admin.overview', [
             'customers' => User::where('role', User::ROLE_CUSTOMER)->count(),

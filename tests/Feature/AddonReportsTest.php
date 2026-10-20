@@ -52,9 +52,13 @@ class AddonReportsTest extends TestCase
                 return 'si_'.strtolower(str_replace('-', '', $report->code));
             }
 
-            public function remove(Company $company, CompanyAddon $addon): void
+            public ?\Carbon\CarbonImmutable $paidUntil = null;
+
+            public function remove(Company $company, CompanyAddon $addon): ?\Carbon\CarbonImmutable
             {
                 $this->removed[] = $addon->stripe_subscription_item_id;
+
+                return $this->paidUntil;
             }
         };
         $this->app->instance(AddonBilling::class, $this->billing);
@@ -124,6 +128,25 @@ class AddonReportsTest extends TestCase
         $this->assertSame(['si_existing'], $this->billing->removed);
         $this->assertSame(CompanyAddon::STATUS_CANCELLED, $addon->fresh()->status);
         $this->get(route('reports.show', 'ACC-31'))->assertOk()->assertSee(['New monthly total', 'not on sale yet'])->assertDontSee('Open report');
+    }
+
+    public function test_a_removed_add_on_stays_open_until_the_paid_month_ends_without_a_refund(): void
+    {
+        $addon = $this->grant('ACC-31', 'si_existing');
+        $this->billing->paidUntil = \Carbon\CarbonImmutable::now()->addDays(12);
+
+        $this->actingAs($this->owner)->delete(route('addons.destroy', $addon))
+            ->assertSessionHas('status', fn ($s) => str_contains($s, 'non-refundable') && str_contains($s, 'stays open until'));
+
+        // Still open for the month already paid, no longer renewing (and it cannot be removed twice)
+        $this->get(route('reports.show', 'ACC-31'))->assertOk()->assertDontSee('Add to my plan');
+        $this->assertNotNull($addon->fresh()->ends_at);
+        $this->assertSame(0, $this->company->addons()->renewing()->count());
+        $this->delete(route('addons.destroy', $addon))->assertNotFound();
+
+        // Once the month is over the report locks again
+        $this->travel(13)->days();
+        $this->get(route('reports.show', 'ACC-31'))->assertOk()->assertSee('New monthly total');
     }
 
     public function test_another_companys_add_on_cannot_be_removed(): void

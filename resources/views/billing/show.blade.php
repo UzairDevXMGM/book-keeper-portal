@@ -65,6 +65,7 @@
                 <div class="pay-trust small text-secondary mt-3">
                     <span><i class="bi bi-shield-lock"></i>Card details go straight to Stripe and are never stored on our servers</span>
                     <span><i class="bi bi-arrow-repeat"></i>{{ money($plan->price) }} every {{ $plan->billing_interval }} until you cancel</span>
+                    <span><i class="bi bi-info-circle"></i><b>All payments are non-refundable.</b> Cancelling stops the next charges; the month already paid stays open.</span>
                 </div>
             </div>
             <div class="pay-powered small text-secondary"><i class="bi bi-lock-fill me-1"></i>Secure payment powered by <b>Stripe</b></div>

@@ -160,7 +160,8 @@
                 I agree to the
                 <a href="{{ config('bookkeeper.website_url') }}/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a>
                 and
-                <a href="{{ config('bookkeeper.website_url') }}/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+                <a href="{{ config('bookkeeper.website_url') }}/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>,
+                and I understand that <b>all payments are non-refundable</b>.
             </label>
             @error('terms') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
@@ -169,7 +170,7 @@
             <i class="bi bi-lock-fill me-1"></i>{{ $plan ? 'Pay '.money($plan->price).' and create my account' : 'Create my account' }}
         </button>
         @if ($plan)
-            <p class="small text-secondary text-center mt-2 mb-0">{{ money($plan->price) }} today, then every {{ $plan->billing_interval }} until you cancel.</p>
+            <p class="small text-secondary text-center mt-2 mb-0">{{ money($plan->price) }} today, then every {{ $plan->billing_interval }} until you cancel. <b>All payments are non-refundable.</b></p>
         @endif
     </form>
 

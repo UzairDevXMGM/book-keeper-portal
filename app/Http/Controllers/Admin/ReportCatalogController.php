@@ -21,7 +21,7 @@ class ReportCatalogController extends Controller
 
         return view('admin.reports.index', [
             'reports' => Report::with('plans:id,name')
-                ->withCount(['companyAddons as active_addons_count' => fn ($q) => $q->where('status', CompanyAddon::STATUS_ACTIVE)])
+                ->withCount(['companyAddons as active_addons_count' => fn ($q) => $q->renewing()])
                 ->when($search !== '', fn ($q) => $q->where(fn ($w) => $w->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%")))
                 ->orderBy('sort_order')->paginate(20)->withQueryString(),
             'search' => $search,

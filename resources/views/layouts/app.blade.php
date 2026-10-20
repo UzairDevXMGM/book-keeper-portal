@@ -55,13 +55,48 @@
                             </ul>
                         </div>
 
-                        <a href="{{ route('alerts.index') }}" class="btn btn-icon position-relative"
-                           aria-label="Alerts{{ $layoutAlertCount ? " ({$layoutAlertCount} open)" : '' }}">
-                            <i class="bi bi-bell fs-5"></i>
-                            @if ($layoutAlertCount)
-                                <span class="topbar-badge">{{ $layoutAlertCount > 9 ? '9+' : $layoutAlertCount }}</span>
-                            @endif
-                        </a>
+                        {{-- Notifications: the bell opens a short list; "See all" goes to the Alerts page --}}
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-icon position-relative" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+                                    aria-label="Notifications{{ $layoutAlertCount ? " ({$layoutAlertCount} open)" : '' }}">
+                                <i class="bi bi-bell fs-5"></i>
+                                @if ($layoutAlertCount)
+                                    <span class="topbar-badge">{{ $layoutAlertCount > 9 ? '9+' : $layoutAlertCount }}</span>
+                                @endif
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end notify-menu p-0">
+                                <div class="notify-head">
+                                    <span class="fw-semibold">Notifications</span>
+                                    @if ($layoutAlertCount)
+                                        <span class="badge rounded-pill text-bg-light border fw-normal">{{ $layoutAlertCount }} open</span>
+                                    @endif
+                                </div>
+                                @forelse (array_slice($layoutAlerts, 0, 5) as $alert)
+                                    @php
+                                        $icon = ['high' => 'exclamation-octagon', 'warning' => 'exclamation-triangle', 'info' => 'info-circle'][$alert['severity']] ?? 'bell';
+                                    @endphp
+                                    <a href="{{ $alert['action']['url'] ?? route('alerts.index') }}" class="notify-item">
+                                        <span class="notify-icon is-{{ $alert['severity'] }}"><i class="bi bi-{{ $icon }}"></i></span>
+                                        <span class="min-w-0">
+                                            <span class="d-block fw-semibold small">{{ $alert['title'] }}</span>
+                                            <span class="d-block small text-secondary notify-text">{{ $alert['message'] }}</span>
+                                            @if ($alert['action'])
+                                                <span class="d-block small notify-action">{{ $alert['action']['label'] }} <i class="bi bi-arrow-right"></i></span>
+                                            @endif
+                                        </span>
+                                    </a>
+                                @empty
+                                    <div class="notify-empty">
+                                        <i class="bi bi-check2-circle"></i>
+                                        <div class="fw-semibold small">You're all caught up</div>
+                                        <div class="small text-secondary">No alerts about your books right now.</div>
+                                    </div>
+                                @endforelse
+                                <a href="{{ route('alerts.index') }}" class="notify-foot">
+                                    {{ $layoutAlertCount > 5 ? 'See all '.$layoutAlertCount.' alerts' : 'Open the alerts page' }}
+                                </a>
+                            </div>
+                        </div>
                     @endif
 
                     <div class="dropdown">

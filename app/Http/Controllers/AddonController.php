@@ -67,7 +67,7 @@ class AddonController extends Controller
         $company = $this->company($request);
         $data = $request->validate(['payment' => ['required', 'string', 'max:100', 'regex:/^pi_[A-Za-z0-9]+$/']]);
 
-        if ($company->addons()->where('report_id', $report->id)->where('status', CompanyAddon::STATUS_ACTIVE)->exists()) {
+        if ($company->addons()->where('report_id', $report->id)->open()->exists()) {
             return response()->json(['redirect' => route('reports.show', $report->code)]);
         }
         $subscription = $company->subscription(Company::SUBSCRIPTION);
@@ -101,22 +101,31 @@ class AddonController extends Controller
     public function destroy(Request $request, CompanyAddon $addon, AddonBilling $billing): RedirectResponse
     {
         $company = $this->authorizeCompany($request, $addon->company_id);
-        abort_unless($addon->status === CompanyAddon::STATUS_ACTIVE, 404);
+        // Only an add-on that still renews can be removed (a removed one just runs out at the end of its month)
+        abort_unless($addon->status === CompanyAddon::STATUS_ACTIVE && $addon->ends_at === null, 404);
 
+        $paidUntil = null;
         if ($addon->stripe_subscription_item_id) {
             try {
-                $billing->remove($company, $addon);
+                $paidUntil = $billing->remove($company, $addon);
             } catch (Throwable $e) {
                 Log::error('Add-on cancel failed', ['addon' => $addon->id, 'error' => $e->getMessage()]);
 
                 return back()->with('error', 'The add-on could not be removed right now. Please try again.');
             }
         }
+        Audit::log('addon.cancelled', $addon, ['report' => $addon->report->code, 'open_until' => $paidUntil?->toDateString()]);
+
+        // Payments are non-refundable: what was paid for this month stays usable until the month ends
+        if ($paidUntil?->isFuture()) {
+            $addon->update(['cancelled_at' => now(), 'ends_at' => $paidUntil]);
+
+            return back()->with('status', "{$addon->report->name} will not renew. It stays open until {$paidUntil->format('M j, Y')}. Payments are non-refundable.");
+        }
 
         $addon->update(['status' => CompanyAddon::STATUS_CANCELLED, 'cancelled_at' => now(), 'ends_at' => now()]);
-        Audit::log('addon.cancelled', $addon, ['report' => $addon->report->code]);
 
-        return back()->with('status', "{$addon->report->name} removed. Unused time is credited on your next invoice.");
+        return back()->with('status', "{$addon->report->name} removed. It will not be charged again. Payments are non-refundable.");
     }
 
     private function activate(Company $company, Report $report, string $itemId): void

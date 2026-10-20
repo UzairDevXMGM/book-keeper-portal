@@ -23,7 +23,7 @@ class AddonQuote
     {
         $plan = ReportAccess::planFor($company);
         $price = (float) $report->addon_price;
-        $addons = (float) $company->addons()->where('status', 'active')->sum('price');
+        $addons = (float) $company->addons()->renewing()->sum('price');
         [$start, $end] = self::billingPeriod($company);
 
         $dueToday = null;
@@ -45,7 +45,8 @@ class AddonQuote
     }
 
     /** @return array{0: ?CarbonImmutable, 1: ?CarbonImmutable} the current billing period from Stripe, or nulls */
-    private static function billingPeriod(Company $company): array
+    /** Start and end of the billing month the company is in now (nulls when Stripe cannot tell). */
+    public static function billingPeriod(Company $company): array
     {
         $subscription = $company->subscription(Company::SUBSCRIPTION);
         if (! $subscription || blank(config('cashier.secret')) || ! str_starts_with((string) $subscription->stripe_id, 'sub_')) {

@@ -85,7 +85,7 @@
                         <div class="col d-flex gap-2"><i class="bi bi-arrow-repeat text-primary"></i><div><b>Always up to date.</b> Built from your books every time you open it.</div></div>
                         <div class="col d-flex gap-2"><i class="bi bi-calendar3 text-primary"></i><div><b>Any dates.</b> This month, last quarter, last year or your own dates.</div></div>
                         <div class="col d-flex gap-2"><i class="bi bi-printer text-primary"></i><div><b>Print, PDF and CSV.</b> Ready for your accountant, bank or investors.</div></div>
-                        <div class="col d-flex gap-2"><i class="bi bi-x-circle text-primary"></i><div><b>No contract.</b> Remove it any time from My profile → Plan &amp; billing.</div></div>
+                        <div class="col d-flex gap-2"><i class="bi bi-x-circle text-primary"></i><div><b>No contract.</b> Remove it any time from My profile → Plan &amp; billing. Payments are non-refundable.</div></div>
                     </div>
                 </div>
             </div>
@@ -137,6 +137,7 @@
                             <li><i class="bi bi-lightning-charge"></i>Opens straight away</li>
                             <li><i class="bi bi-credit-card"></i>{{ $quote['card'] ? 'Charged to '.$quote['card'] : 'Charged to the card on your plan' }}</li>
                             <li><i class="bi bi-shield-lock"></i>Payment handled securely by Stripe</li>
+                            <li><i class="bi bi-info-circle"></i>Non-refundable · remove it any time to stop future charges</li>
                         </ul>
                     @else
                         <div class="alert alert-secondary small mb-0">This add-on is not on sale yet. Please check back soon.</div>
@@ -174,7 +175,8 @@
                         <div class="addon-note small">
                             <i class="bi bi-info-circle me-1"></i>
                             Today you pay only for the days left in this billing month{{ $quote['next_billing'] ? ' (until '.$quote['next_billing']->format('M j').')' : '' }}.
-                            From then on it is {{ money($quote['price']) }} a month with your plan. Remove it any time; unused days are credited.
+                            From then on it is {{ money($quote['price']) }} a month with your plan.
+                            <b>Payments are non-refundable.</b> If you remove it later, it stops renewing and stays open until the end of the month already paid.
                         </div>
                         <div class="alert alert-danger small mt-3 mb-0 d-none" role="alert" data-addon-message></div>
                     </div>
