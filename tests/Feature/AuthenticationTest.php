@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Mail\Welcome;
+use App\Models\Plan;
 use App\Models\User;
+use App\Services\Billing\SignupBilling;
 use App\Services\CompanyProvisioner;
 use Database\Seeders\AccountTemplateSeeder;
 use Database\Seeders\PlanSeeder;
@@ -21,19 +23,73 @@ class AuthenticationTest extends TestCase
 
     private const PASSWORD = 'Ledger2026check';
 
+    /** What the fake Stripe answers next: paid, action (bank approval) or declined. */
+    private string $stripeAnswer = 'paid';
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->seed([ReportSeeder::class, PlanSeeder::class, AccountTemplateSeeder::class]);
+
+        // Sign-up pays before the account exists; a fake stands in for Stripe so tests never call it
+        config(['cashier.key' => 'pk_test_fake', 'cashier.secret' => 'sk_test_fake']);
+        Plan::default()->update(['stripe_price_id' => 'price_basic_test']);
+        $test = $this;
+        $this->app->instance(SignupBilling::class, new class($test) extends SignupBilling
+        {
+            public array $abandoned = [];
+
+            public function __construct(private AuthenticationTest $test)
+            {
+            }
+
+            public function start(string $priceId, string $paymentMethod, array $customer): array
+            {
+                return $this->answer($this->test->nextStripeAnswer());
+            }
+
+            public function check(string $subscriptionId, string $paymentMethod): array
+            {
+                return $this->answer($this->test->nextStripeAnswer());
+            }
+
+            public function abandon(?string $subscriptionId, ?string $customerId): void
+            {
+                $this->abandoned[] = $subscriptionId;
+            }
+
+            private function answer(string $status): array
+            {
+                return [
+                    'status' => $status, 'sub_status' => $status === 'paid' ? 'active' : 'incomplete',
+                    'customer' => 'cus_fake', 'subscription' => 'sub_fake', 'invoice' => null,
+                    'secret' => $status === 'action' ? 'pi_fake_secret_x' : null,
+                    'message' => $status === 'declined' ? 'Your card was declined.' : null,
+                    'card' => ['brand' => 'visa', 'last4' => '4242'],
+                    'items' => [['id' => 'si_fake', 'product' => 'prod_fake', 'price' => 'price_basic_test', 'quantity' => 1]],
+                ];
+            }
+        });
+    }
+
+    public function nextStripeAnswer(): string
+    {
+        return $this->stripeAnswer;
     }
 
     public function test_registration_creates_the_user_their_company_and_its_chart_of_accounts(): void
     {
-        $this->post('/register', $this->registration())->assertRedirect(route('billing.show'));
+        $this->postJson('/register', $this->registration())->assertOk()->assertJson(['redirect' => route('dashboard')]);
 
         $this->assertAuthenticated();
         $user = User::where('email', 'owner@acme.test')->firstOrFail();
+        // Paid before the account was made: it is the Stripe customer, with an active plan and the card on file
+        $this->assertSame('cus_fake', $user->company->stripe_id);
+        $this->assertSame('4242', $user->company->pm_last_four);
+        $this->assertSame('Houston', $user->company->city);
+        $this->assertTrue($user->company->hasActivePlan());
+        $this->get('/dashboard')->assertOk();
         $this->assertSame(User::ROLE_CUSTOMER, $user->role);
         $this->assertSame('Acme Supplies LLC', $user->company->name);
         $this->assertSame('single_member_llc', $user->company->business_type);
@@ -97,12 +153,50 @@ class AuthenticationTest extends TestCase
         $this->assertDatabaseCount('users', 0);
     }
 
-    public function test_checkout_without_stripe_keys_returns_to_the_plan_page(): void
+    public function test_a_declined_card_leaves_no_account_behind(): void
     {
-        $this->post('/register', $this->registration());
+        $this->stripeAnswer = 'declined';
+
+        $this->postJson('/register', $this->registration())->assertStatus(422)->assertJson(['message' => 'Your card was declined.']);
+
+        $this->assertGuest();
+        $this->assertDatabaseCount('users', 0);
+        $this->assertDatabaseCount('companies', 0);
+        $this->assertSame(['sub_fake'], app(SignupBilling::class)->abandoned);
+    }
+
+    public function test_a_bank_approval_finishes_the_sign_up_only_once_paid(): void
+    {
+        $this->stripeAnswer = 'action';
+        $this->postJson('/register', $this->registration())->assertOk()->assertJson(['confirm' => 'pi_fake_secret_x']);
+        $this->assertDatabaseCount('users', 0);   // waiting for the bank: still no account
+
+        $this->stripeAnswer = 'paid';
+        $this->postJson(route('register.complete'))->assertOk()->assertJson(['redirect' => route('dashboard')]);
+
+        $this->assertAuthenticated();
+        $this->assertTrue(User::where('email', 'owner@acme.test')->firstOrFail()->company->hasActivePlan());
+        // The password was kept only as a hash while waiting, and still logs in
+        auth()->logout();
+        $this->post('/login', ['email' => 'owner@acme.test', 'password' => self::PASSWORD])->assertRedirect();
+        $this->assertAuthenticated();
+    }
+
+    public function test_sign_up_is_paused_without_stripe_keys(): void
+    {
+        config(['cashier.key' => '', 'cashier.secret' => '']);
+
+        $this->get('/register')->assertOk()->assertSee('new sign-ups are paused')->assertDontSee('js.stripe.com');
+        $this->postJson('/register', $this->registration())->assertStatus(503);
+        $this->assertDatabaseCount('users', 0);
+    }
+
+    public function test_an_unpaid_customer_sees_our_payment_page(): void
+    {
+        config(['cashier.key' => '', 'cashier.secret' => '']);
 
         // The old hosted-checkout link now opens our own payment page
-        $this->get(route('billing.checkout'))->assertRedirect(route('billing.show'));
+        $this->actingAs($this->customer())->get(route('billing.checkout'))->assertRedirect(route('billing.show'));
         $this->get(route('billing.show'))->assertOk()->assertSee('Basic')->assertSee('$25')
             ->assertSee('Online payment is not set up yet')->assertDontSee('js.stripe.com');
     }
@@ -110,8 +204,9 @@ class AuthenticationTest extends TestCase
     public function test_a_new_account_gets_the_welcome_email(): void
     {
         Mail::fake();
+        $this->withoutDefer();   // the email normally goes out after the page answered
 
-        $this->post('/register', $this->registration());
+        $this->postJson('/register', $this->registration())->assertOk();
 
         Mail::assertSent(Welcome::class, fn (Welcome $mail) => $mail->hasTo('owner@acme.test'));
     }
@@ -131,9 +226,9 @@ class AuthenticationTest extends TestCase
 
     public function test_subscribing_without_stripe_keys_is_refused_without_charging(): void
     {
-        $this->post('/register', $this->registration());
+        config(['cashier.key' => '', 'cashier.secret' => '']);
 
-        $this->postJson(route('billing.subscribe'), ['payment_method' => 'pm_card_visa'])
+        $this->actingAs($this->customer())->postJson(route('billing.subscribe'), ['payment_method' => 'pm_card_visa'])
             ->assertStatus(503)->assertJsonStructure(['message']);
         $this->assertDatabaseCount('subscriptions', 0);
     }
@@ -251,6 +346,10 @@ class AuthenticationTest extends TestCase
             'state' => 'TX',
             'fiscal_year_start_month' => '7',
             'terms' => '1',
+            'payment_method' => 'pm_card_visa',
+            'billing' => ['name' => 'Acme Supplies LLC', 'address' => [
+                'line1' => '100 Main St', 'city' => 'Houston', 'state' => 'TX', 'postal_code' => '77002', 'country' => 'US',
+            ]],
         ], $overrides);
     }
 

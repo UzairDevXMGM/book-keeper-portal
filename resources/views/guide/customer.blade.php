@@ -201,7 +201,7 @@
                         <li><b>Personal information</b>: your name and the email you log in with.</li>
                         <li><b>Business details</b>: business name (shown on reports and invoices), type, industry, state, the month your fiscal year starts, cash or accrual.</li>
                         <li><b>Password</b>: type the current one and the new one twice.</li>
-                        <li><b>Plan &amp; billing</b>: your plan, add-ons and card. “Manage billing &amp; invoices” opens Stripe to download invoices, change the card or cancel.</li>
+                        <li><b>Plan &amp; billing</b>: your plan, add-ons, card and every invoice. Open or print an invoice, change your card, or cancel the plan right here.</li>
                     </ul>
                 </div>
             </section>

@@ -3,22 +3,31 @@
 @section('title', 'Create account')
 
 @section('content')
-    <div class="auth-steps" aria-label="Sign-up steps">
-        <span class="active">1. Your account</span>
-        <span>2. Payment</span>
-    </div>
-
     <h1 class="h3 mb-1">Create your account</h1>
-    <p class="text-secondary small mb-0">
-        @if ($plan)
-            {{ $plan->name }} plan, ${{ number_format($plan->price, 2) }}/{{ $plan->billing_interval }}. You'll pay securely with Stripe on the next step.
-        @else
-            You'll choose how to pay on the next step.
-        @endif
-    </p>
+    <p class="text-secondary small mb-3">One page: your details and your card. Your account opens as soon as the payment goes through.</p>
 
-    <form method="POST" action="{{ route('register') }}" novalidate>
+    @if ($plan)
+        <div class="card pay-plan mb-2">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-center gap-3">
+                    <div>
+                        <div class="fw-semibold">{{ $plan->name }} plan</div>
+                        <div class="small text-secondary">Billed every {{ $plan->billing_interval }} · cancel any time</div>
+                    </div>
+                    <div class="text-end text-nowrap">
+                        <span class="plan-price" style="font-size: 1.9rem">{{ money($plan->price) }}</span>
+                        <span class="text-secondary small">/{{ $plan->billing_interval }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('register.store') }}" novalidate data-signup-form data-js-submit
+          data-key="{{ $stripeKey }}" data-amount="{{ $plan ? (int) round($plan->price * 100) : 0 }}"
+          data-complete="{{ route('register.complete') }}">
         @csrf
+        <div class="alert alert-danger small d-none" role="alert" data-signup-message></div>
 
         <div class="form-section">Your details</div>
         <div class="row g-2">
@@ -133,6 +142,18 @@
             </div>
         </div>
 
+        @if ($stripeKey && $plan)
+            {{-- Stripe's own address and card fields inside our form: the card goes straight to Stripe --}}
+            <div class="form-section">Billing address</div>
+            <div data-address-element class="pay-element"></div>
+
+            <div class="form-section">Card details</div>
+            <div data-payment-element class="pay-element"></div>
+            <div class="small text-secondary mt-2"><i class="bi bi-shield-lock me-1"></i>Card details go straight to Stripe and are never stored on our servers.</div>
+        @else
+            <div class="alert alert-secondary small mt-3 mb-0">Online payment is not set up yet, so new sign-ups are paused. Please check back soon.</div>
+        @endif
+
         <div class="form-check small mt-3 mb-3">
             <input class="form-check-input @error('terms') is-invalid @enderror" type="checkbox" name="terms" id="terms" value="1" @checked(old('terms'))>
             <label class="form-check-label" for="terms">
@@ -144,13 +165,42 @@
             @error('terms') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">
-            <span class="spinner-border spinner-border-sm me-1 d-none" aria-hidden="true"></span>
-            Continue to payment
+        <button type="submit" class="btn btn-primary btn-lg w-100" data-signup-button @disabled(! $stripeKey || ! $plan)>
+            <i class="bi bi-lock-fill me-1"></i>{{ $plan ? 'Pay '.money($plan->price).' and create my account' : 'Create my account' }}
         </button>
+        @if ($plan)
+            <p class="small text-secondary text-center mt-2 mb-0">{{ money($plan->price) }} today, then every {{ $plan->billing_interval }} until you cancel.</p>
+        @endif
     </form>
 
     <p class="text-center text-secondary small mt-3 mb-0">
         Already have an account? <a href="{{ route('login') }}">Log in</a>
     </p>
+
+    {{-- Progress while the account is being created --}}
+    <div class="signup-progress d-none" data-signup-progress role="dialog" aria-modal="true" aria-labelledby="signupProgressTitle" aria-live="polite">
+        <div class="signup-progress-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="spinner-border text-primary" aria-hidden="true"></span>
+                <div>
+                    <div class="fw-semibold" id="signupProgressTitle" data-progress-title>Creating your account…</div>
+                    <div class="small text-secondary">Please keep this page open.</div>
+                </div>
+            </div>
+            <div class="progress mb-3" role="progressbar" aria-label="Sign-up progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-progress-wrap>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%" data-progress-bar></div>
+            </div>
+            <ol class="signup-progress-steps list-unstyled small mb-0">
+                <li data-progress-step="check"><i class="bi bi-circle"></i>Checking your details</li>
+                <li data-progress-step="card"><i class="bi bi-circle"></i>Securing your card</li>
+                <li data-progress-step="pay"><i class="bi bi-circle"></i>Taking the first payment</li>
+                <li data-progress-step="books"><i class="bi bi-circle"></i>Setting up your books</li>
+            </ol>
+        </div>
+    </div>
+
+    @if ($stripeKey && $plan)
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="{{ asset('js/signup.js') }}?v={{ @filemtime(public_path('js/signup.js')) ?: '1' }}" defer></script>
+    @endif
 @endsection

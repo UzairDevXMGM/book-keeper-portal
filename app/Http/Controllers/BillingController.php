@@ -73,7 +73,7 @@ class BillingController extends Controller
         }
 
         $data = $request->validate([
-            'payment_method' => ['required', 'string', 'max:100', 'regex:/^pm_[A-Za-z0-9]+$/'],
+            'payment_method' => ['required', 'string', 'max:100', 'regex:/^pm_[A-Za-z0-9_]+$/'],
             'name' => ['required', 'string', 'max:200'],
             'address.line1' => ['required', 'string', 'max:200'],
             'address.line2' => ['nullable', 'string', 'max:200'],
@@ -235,7 +235,7 @@ class BillingController extends Controller
     public function updateCard(Request $request): JsonResponse
     {
         $company = $this->company($request);
-        $data = $request->validate(['payment_method' => ['required', 'string', 'max:100', 'regex:/^pm_[A-Za-z0-9]+$/']]);
+        $data = $request->validate(['payment_method' => ['required', 'string', 'max:100', 'regex:/^pm_[A-Za-z0-9_]+$/']]);
         if (! $this->stripeReady() || ! $company->hasStripeId()) {
             return response()->json(['message' => 'Online payment is not set up yet.'], 503);
         }

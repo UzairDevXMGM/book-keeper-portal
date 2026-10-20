@@ -1649,6 +1649,50 @@ html[data-bs-theme="dark"] .tone-expense { --coa-accent: #a35656; --coa-soft: #3
   [data-bs-theme="dark"] body { background: #fff !important; color: #000 !important; }
 }
 
+
+
+/* ---- Sign-up progress window ---- */
+.signup-progress {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(16, 20, 16, 0.55);
+  backdrop-filter: blur(2px);
+}
+.signup-progress-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--bs-body-bg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+.signup-progress .progress {
+  height: 0.6rem;
+}
+.signup-progress .progress-bar {
+  background-color: #8cbc43;
+  transition: width 0.25s ease;
+}
+.signup-progress-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0;
+  color: var(--bs-secondary-color);
+}
+.signup-progress-steps li.is-current {
+  color: var(--bs-body-color);
+  font-weight: 600;
+}
+.signup-progress-steps li.is-done .bi {
+  color: #8cbc43;
+}
+
 /* ==== DARK-AUTO start (generated, do not edit by hand) ==== */
 [data-bs-theme="dark"] .auth-points .bi {
   color: #a8ca74;
@@ -2073,5 +2117,8 @@ html[data-bs-theme="dark"] .tone-expense { --coa-accent: #a35656; --coa-soft: #3
 [data-bs-theme="dark"] .pay-powered {
   border-top: 1px solid #3c4135;
   background: #1f2618;
+}
+[data-bs-theme="dark"] .signup-progress-steps li.is-done .bi {
+  color: #a8ca74;
 }
 /* ==== DARK-AUTO end ==== */

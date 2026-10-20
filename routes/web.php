@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReconcileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RuleController;
+use App\Http\Controllers\SignupController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
@@ -22,6 +23,13 @@ use Illuminate\Support\Facades\Route;
 // The Stripe webhook (POST /stripe/webhook) comes from Cashier.
 
 Route::get('/', fn () => redirect()->route(auth()->check() ? 'dashboard' : 'login'));
+
+// One-page sign-up: details and card together; the account is created only after the payment went through.
+// This POST /register replaces Fortify's (registered later, so it wins), so no unpaid account can be made.
+Route::middleware(['guest', 'throttle:12,1'])->group(function () {
+    Route::post('/register', [SignupController::class, 'start'])->name('register.store');
+    Route::post('/register/complete', [SignupController::class, 'complete'])->name('register.complete');
+});
 
 Route::middleware('auth')->group(function () {
     Route::prefix('billing')->name('billing.')->controller(BillingController::class)->group(function () {

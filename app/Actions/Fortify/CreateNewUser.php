@@ -13,6 +13,10 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
+/**
+ * Sign-up rules and account creation. The sign-up page (SignupController) checks the details first, takes the
+ * payment, and only then creates the user and the business, so nobody ends up with an account they never paid for.
+ */
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
@@ -22,14 +26,14 @@ class CreateNewUser implements CreatesNewUsers
     }
 
     /**
-     * Validate and create a newly registered user together with their business and its chart of accounts.
-     * Payment happens next, on Stripe Checkout (see RegisterResponse).
+     * Checks the sign-up details and returns them cleaned up.
      *
-     * @param  array<string, string>  $input
+     * @param  array<string, mixed>  $input
+     * @return array<string, mixed>
      *
      * @throws ValidationException
      */
-    public function create(array $input): User
+    public function validate(array $input): array
     {
         if (! Settings::get('registration_open')) {
             throw ValidationException::withMessages(['email' => 'New sign-ups are paused right now. Please try again later.']);
@@ -38,15 +42,9 @@ class CreateNewUser implements CreatesNewUsers
         // Emails are stored lower-case so login (which lower-cases what is typed) always finds them
         $input['email'] = Str::lower(trim((string) ($input['email'] ?? '')));
 
-        Validator::make($input, [
+        return Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)],
             'password' => $this->passwordRules(),
             'company_name' => ['required', 'string', 'max:200'],
             'phone' => ['nullable', 'string', 'max:30', 'regex:/^[0-9+().\-\s]{7,30}$/'],
@@ -58,28 +56,52 @@ class CreateNewUser implements CreatesNewUsers
         ], [
             'terms.accepted' => 'Please accept the Terms of Service and Privacy Policy.',
             'phone.regex' => 'Please enter a valid phone number.',
+            'email.unique' => 'An account with this email already exists. Please log in instead.',
         ], [
             'company_name' => 'business name',
             'business_type' => 'business type',
             'fiscal_year_start_month' => 'fiscal year start',
         ])->validate();
+    }
 
-        return DB::transaction(function () use ($input) {
+    /**
+     * Fortify's interface: checks the details and creates the account straight away (used by tests and tools only;
+     * the sign-up page goes through validate() + createFromValidated() around the payment).
+     *
+     * @param  array<string, string>  $input
+     */
+    public function create(array $input): User
+    {
+        $data = $this->validate($input);
+
+        return $this->createFromValidated($data + ['password_hash' => Hash::make($data['password'])]);
+    }
+
+    /**
+     * Creates the user, the business and its chart of accounts from details that already passed validate().
+     * Takes the password as a hash, so the plain password never has to be kept between requests.
+     *
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $company  extra business fields (Stripe customer, card, city)
+     */
+    public function createFromValidated(array $data, array $company = []): User
+    {
+        return DB::transaction(function () use ($data, $company) {
             // role / is_active are not mass assignable and keep their defaults (customer, active)
             $user = User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password_hash'],
             ]);
 
             $this->provisioner->create($user, [
-                'name' => $input['company_name'],
-                'phone' => $input['phone'] ?? null,
-                'business_type' => $input['business_type'],
-                'industry' => $input['industry'],
-                'state' => $input['state'],
-                'fiscal_year_start_month' => (int) $input['fiscal_year_start_month'],
-            ]);
+                'name' => $data['company_name'],
+                'phone' => $data['phone'] ?? null,
+                'business_type' => $data['business_type'],
+                'industry' => $data['industry'],
+                'state' => $data['state'],
+                'fiscal_year_start_month' => (int) $data['fiscal_year_start_month'],
+            ] + $company);
 
             return $user;
         });

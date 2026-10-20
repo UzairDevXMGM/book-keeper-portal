@@ -31,7 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // After sign-up the user goes straight to Stripe Checkout for the plan
+        // Sign-ups go through SignupController now (pay first, then the account); this stays for Fortify's interface
         $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
 
         // Forgot password answers the same for known and unknown emails
@@ -52,7 +52,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::loginView(fn () => view('auth.login'));
         Fortify::registerView(fn () => Settings::get('registration_open')
-            ? view('auth.register', ['plan' => Plan::default()])
+            ? view('auth.register', ['plan' => Plan::default(), 'stripeKey' => filled(config('cashier.secret')) ? config('cashier.key') : null])
             : view('auth.registration-closed'));
         Fortify::requestPasswordResetLinkView(fn () => view('auth.forgot-password'));
         Fortify::resetPasswordView(fn (Request $request) => view('auth.reset-password', ['request' => $request]));
